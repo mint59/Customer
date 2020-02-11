@@ -34,7 +34,7 @@ export default function AvailableInFullVersionScreen(props) {
       />
 
       <View style={styles.textContainer}>
-        <Text style={styles.availableText}>Available</Text>
+        <Text style={styles.availableText}>Availaddkdkdkdkdkdkble</Text>
         <Text style={styles.availableText}>in</Text>
         <Text style={styles.availableText}>Full Version</Text>
       </View>

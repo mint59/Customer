@@ -36,8 +36,8 @@ class CalendarScreen extends React.Component {
       ));
 
     return (
-      <View style={styles.item}>
-        <View>
+      <View style={styles.item} >
+        <View onPress={() => props.navigation.navigate({ routeName: 'Profile' })}>
           <Text
             style={{
               color: '#48506B',
@@ -46,6 +46,9 @@ class CalendarScreen extends React.Component {
             }}
           >
             {item.name}
+          </Text>
+          <Text style={{ color: '#48506B', fontFamily: fonts.primaryRegular }}>
+            {item.type}
           </Text>
           <Text style={{ color: '#9B9B9B', fontFamily: fonts.primaryRegular }}>
             {item.time}

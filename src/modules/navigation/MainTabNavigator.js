@@ -59,52 +59,52 @@ const styles = StyleSheet.create({
 
 export default createBottomTabNavigator(
   {
-    Home: {
+    หน้าหลัก: {
       screen: HomeScreen,
       navigationOptions: {
         header: null,
       },
     },
-    Calendar: {
+    งาน: {
       screen: CalendarScreen,
       navigationOptions: {
         header: (
           <View style={styles.headerContainer}>
             <Image style={styles.headerImage} source={hederBackground} />
-            <Text style={styles.headerCaption}>Calendar</Text>
+            <Text style={styles.headerCaption}>งาน</Text>
           </View>
         ),
       },
     },
-    Grids: {
+    งานที่ทำ: {
       screen: GridsScreen,
       navigationOptions: {
         header: (
           <View style={styles.headerContainer}>
             <Image style={styles.headerImage} source={hederBackground} />
-            <Text style={styles.headerCaption}>Grids</Text>
+            <Text style={styles.headerCaption}>งานที่ทำ</Text>
           </View>
         ),
       },
     },
-    Pages: {
-      screen: PagesScreen,
-      navigationOptions: {
-        header: (
-          <View style={styles.headerContainer}>
-            <Image style={styles.headerImage} source={hederBackground} />
-            <Text style={styles.headerCaption}>Pages</Text>
-          </View>
-        ),
-      },
-    },
-    Components: {
+    คลัง: {
       screen: ComponentsScreen,
       navigationOptions: {
         header: (
           <View style={styles.headerContainer}>
             <Image style={styles.headerImage} source={hederBackground} />
-            <Text style={styles.headerCaption}>Components</Text>
+            <Text style={styles.headerCaption}>คลัง</Text>
+          </View>
+        ),
+      },
+    },
+    ฉัน: {
+      screen: PagesScreen,
+      navigationOptions: {
+        header: (
+          <View style={styles.headerContainer}>
+            <Image style={styles.headerImage} source={hederBackground} />
+            <Text style={styles.headerCaption}>ฉัน</Text>
           </View>
         ),
       },
@@ -117,19 +117,19 @@ export default createBottomTabNavigator(
         const { routeName } = navigation.state;
         let iconSource;
         switch (routeName) {
-          case 'Home':
+          case 'หน้าหลัก':
             iconSource = iconHome;
             break;
-          case 'Calendar':
+          case 'งาน':
             iconSource = iconCalendar;
             break;
-          case 'Grids':
+          case 'งานที่ทำ':
             iconSource = iconGrids;
             break;
-          case 'Pages':
+          case 'คลัง':
             iconSource = iconPages;
             break;
-          case 'Components':
+          case 'ฉัน':
             iconSource = iconComponents;
             break;
           default:

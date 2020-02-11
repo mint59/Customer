@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, TouchableOpacity, Dimensions } from 'react-native';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
+// import moduleName from 'module'
 
 import MainTabNavigator from './MainTabNavigator';
 
@@ -26,7 +27,7 @@ const stackNavigator = createStackNavigator(
     Main: {
       screen: MainTabNavigator,
       navigationOptions: () => ({
-        title: 'React Native Starter',
+        title: 'Customer Service',
         headerLeft: null,
         headerBackground: (
           <Image

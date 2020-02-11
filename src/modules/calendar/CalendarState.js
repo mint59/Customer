@@ -8,9 +8,11 @@ function itemsLoaded(items) {
 }
 
 const names = ['Max', 'Philip', 'Alex', 'Irina', 'Vovan'];
+const lasts = ['Max', 'Philip', 'Alex', 'Irina', 'Vovan'];
 const randomNumber = (min, max) =>
   Math.floor(Math.random() * (max - min + 1) + min);
 const labels = ['Urgent', 'Interview'];
+const type = ['ระบบไฟ', 'ระบบน้ำ', 'เบ็ตเตล็ด'];
 
 export function loadItems(day) {
   // Do items loading here
@@ -27,9 +29,10 @@ export function loadItems(day) {
         const numItems = randomNumber(0, 5);
         for (let j = 0; j < numItems; j += 1) {
           items[strTime].push({
-            name: `Meeting with ${names[randomNumber(0, 4)]}`,
+            name: `ลูกค้าชื่อ-นามสกุล ${names[randomNumber(0, 4)]} ${lasts[randomNumber(0, 4)]}`,
+            type: `ประเภทการซ่อม ${type[randomNumber(0, 4)]}`,
             time: `${randomNumber(0, 24)}:${randomNumber(0, 60)}`,
-            labels: randomNumber(0, 1) ? [labels[randomNumber(0, 1)]] : [],
+            labels: randomNumber(0, 1) ? [labels[randomNumber(0, 1)]] : []
           });
         }
       }
