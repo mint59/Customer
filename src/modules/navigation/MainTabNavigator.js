@@ -9,6 +9,7 @@ import HomeScreen from '../home/HomeViewContainer';
 import CalendarScreen from '../calendar/CalendarViewContainer';
 import GridsScreen from '../grids/GridsViewContainer';
 import PagesScreen from '../pages/PagesViewContainer';
+import StoreScreen from '../store/StoreViewContainer'
 import ComponentsScreen from '../components/ComponentsViewContainer';
 
 const iconHome = require('../../../assets/images/tabbar/home.png');
@@ -88,7 +89,7 @@ export default createBottomTabNavigator(
       },
     },
     คลัง: {
-      screen: ComponentsScreen,
+      screen: StoreScreen,
       navigationOptions: {
         header: (
           <View style={styles.headerContainer}>
