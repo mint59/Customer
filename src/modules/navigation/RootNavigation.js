@@ -8,7 +8,7 @@ import MainTabNavigator from './MainTabNavigator';
 import GalleryScreen from '../gallery/GalleryViewContainer';
 
 // To use this screens please see the full version at https://reactnativestarter.com
-// import ProfileScreen from '../containers/ProfileScreen';
+import ProfileScreen from '../Profile/ProfileView';
 // import ArticleScreen from '../containers/ArticleScreen';
 // import ChatScreen from '../containers/chat/ChatScreen';
 // import MessagesScreen from '../containers/chat/MessagesScreen';
@@ -42,7 +42,7 @@ const stackNavigator = createStackNavigator(
       }),
     },
     Profile: {
-      screen: AvailableInFullVersion,
+      screen: ProfileScreen,
       navigationOptions: {
         header: null,
       },
