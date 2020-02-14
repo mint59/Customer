@@ -7,10 +7,11 @@ import { colors, fonts } from '../../styles';
 
 import HomeScreen from '../home/HomeViewContainer';
 import CalendarScreen from '../calendar/CalendarViewContainer';
-import GridsScreen from '../grids/GridsViewContainer';
+import ListScreen from '../List/ListViewContainer';
 import PagesScreen from '../pages/PagesViewContainer';
-import StoreScreen from '../store/StoreViewContainer'
+import GridScreen from '../grid/GridViewContainer'
 import ComponentsScreen from '../components/ComponentsViewContainer';
+// import Icons from ''
 
 const iconHome = require('../../../assets/images/tabbar/home.png');
 const iconCalendar = require('../../../assets/images/tabbar/calendar.png');
@@ -67,7 +68,7 @@ export default createBottomTabNavigator(
       },
     },
     งาน: {
-      screen: CalendarScreen,
+      screen: ListScreen,
       navigationOptions: {
         header: (
           <View style={styles.headerContainer}>
@@ -78,7 +79,7 @@ export default createBottomTabNavigator(
       },
     },
     งานที่ทำ: {
-      screen: GridsScreen,
+      screen: GridScreen,
       navigationOptions: {
         header: (
           <View style={styles.headerContainer}>
@@ -89,7 +90,7 @@ export default createBottomTabNavigator(
       },
     },
     คลัง: {
-      screen: StoreScreen,
+      screen: CalendarScreen,
       navigationOptions: {
         header: (
           <View style={styles.headerContainer}>

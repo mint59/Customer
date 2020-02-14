@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, TouchableOpacity, Dimensions } from 'react-native';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
+// import Icons from 'react-native-vector-icons'
 // import moduleName from 'module'
 
 import MainTabNavigator from './MainTabNavigator';
@@ -10,9 +11,9 @@ import GalleryScreen from '../gallery/GalleryViewContainer';
 // To use this screens please see the full version at https://reactnativestarter.com
 import ProfileScreen from '../Profile/ProfileView';
 // import ArticleScreen from '../containers/ArticleScreen';
-// import ChatScreen from '../containers/chat/ChatScreen';
+import DetailStoreScreen from '../Detail/DetailStore';
 // import MessagesScreen from '../containers/chat/MessagesScreen';
-// import ChartsScreen from '../containers/ChartsScreen';
+import DetailListScreen from '../Detail/DetailList';
 
 import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVersionViewContainer';
 
@@ -21,6 +22,7 @@ import { colors, fonts } from '../../styles';
 const { width } = Dimensions.get('window');
 
 const headerBackground = require('../../../assets/images/topBarBg.png');
+// const back = require('../../../assets/images/icons/arrow-back.png');
 
 const stackNavigator = createStackNavigator(
   {
@@ -59,14 +61,29 @@ const stackNavigator = createStackNavigator(
         header: null,
       },
     },
-    Chat: {
-      screen: AvailableInFullVersion,
+    DetailStore: {
+      screen:DetailStoreScreen,
       navigationOptions: {
         header: null,
       },
     },
-    Messages: {
-      screen: AvailableInFullVersion,
+    DetailList: {
+      screen: DetailListScreen,
+      // navigationOptions: {
+      //   headerLeft: null,
+      //   title: 'รายละเอียด',
+      //   headerBackground: (
+      //     <Image
+      //       style={{
+      //         flex: 1,
+      //         width,
+      //       }}
+      //       bac
+      //       source={headerBackground}
+      //       resizeMode="cover"
+      //     />
+      //   ),
+      // },
       navigationOptions: {
         header: null,
       },
