@@ -38,7 +38,6 @@ export default function ProfileScreen(props) {
         <Text style={styles.availableText}>เบอร์ : 0222222222</Text>
         <Text style={styles.availableText}>Email : mm@email.com</Text>
       </View>
-
       <View style={styles.buttonsContainer}>
         <Button
           large
@@ -72,11 +71,12 @@ const styles = StyleSheet.create({
     marginVertical: 3,
   },
   textContainer: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   buttonsContainer: {
     alignItems: 'center',
     alignSelf: 'stretch',
+    paddingTop: 20
   },
   button: {
     alignSelf: 'stretch',

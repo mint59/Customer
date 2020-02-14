@@ -3,8 +3,6 @@ import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 
 import { colors, fonts } from '../../styles';
 
-const chartIcon = require('../../../assets/images/pages/chart.png');
-const calendarIcon = require('../../../assets/images/pages/calendar.png');
 const chatIcon = require('../../../assets/images/pages/chat.png');
 const galleryIcon = require('../../../assets/images/pages/gallery.png');
 const profileIcon = require('../../../assets/images/pages/profile.png');
@@ -13,28 +11,6 @@ export default function PagesScreen(props) {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate({ routeName: 'Charts' })}
-          style={styles.item}
-        >
-          <Image
-            resizeMode="contain"
-            source={chartIcon}
-            style={styles.itemImage}
-          />
-          <Text style={styles.itemText}>Charts</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate({ routeName: 'Gallery' })}
-          style={styles.item}
-        >
-          <Image
-            resizeMode="contain"
-            source={galleryIcon}
-            style={styles.itemImage}
-          />
-          <Text style={styles.itemText}>Gallery</Text>
-        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => props.navigation.navigate({ routeName: 'Profile' })}
           style={styles.item}
@@ -46,9 +22,38 @@ export default function PagesScreen(props) {
           />
           <Text style={styles.itemText}>Profile</Text>
         </TouchableOpacity>
+
+        {/* <TouchableOpacity
+          onPress={() => props.navigation.navigate({ routeName: 'Gallery' })}
+          style={styles.item}
+        >
+          <Image
+            resizeMode="contain"
+            source={galleryIcon}
+            style={styles.itemImage}
+          />
+          <Text style={styles.itemText}>Gallery</Text>
+        </TouchableOpacity>  */}
+        
       </View>
       <View style={styles.row}>
+
         <TouchableOpacity
+          onPress={() => props.navigation.navigate({ routeName: 'Gallery' })}
+          style={styles.item}
+        >
+          <Image
+            resizeMode="contain"
+            source={galleryIcon}
+            style={styles.itemImage}
+          />
+          <Text style={styles.itemText}>Gallery</Text>
+        </TouchableOpacity> 
+        
+      </View>
+      <View style={styles.row}>
+
+      <TouchableOpacity
           onPress={() => props.navigation.navigate({ routeName: 'Chat' })}
           style={styles.item}
         >
@@ -59,24 +64,17 @@ export default function PagesScreen(props) {
           />
           <Text style={styles.itemText}>Chats</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate({ routeName: 'Calendar' })}
-          style={styles.item}
-        >
-          <Image
-            resizeMode="contain"
-            source={calendarIcon}
-            style={styles.itemImage}
-          />
-          <Text style={styles.itemText}>Calendar</Text>
-        </TouchableOpacity>
+        
+      </View>
+      <View style={styles.row}>
+
         <TouchableOpacity onPress={() => {}} style={styles.item}>
           <Image
             resizeMode="contain"
-            source={profileIcon}
+            source={galleryIcon}
             style={styles.itemImage}
           />
-          <Text style={styles.itemText}>Login</Text>
+          <Text style={styles.itemText}>Logout</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -96,7 +94,7 @@ const styles = StyleSheet.create({
   },
   item: {
     flex: 1,
-    height: 120,
+    height: 100,
     paddingVertical: 20,
     borderColor: colors.primaryLight,
     borderWidth: 1,
