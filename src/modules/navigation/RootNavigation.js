@@ -12,7 +12,7 @@ import GalleryScreen from '../gallery/GalleryViewContainer';
 import ProfileScreen from '../Profile/ProfileView';
 // import ArticleScreen from '../containers/ArticleScreen';
 import DetailStoreScreen from '../Detail/DetailStore';
-// import MessagesScreen from '../containers/chat/MessagesScreen';
+import CheckoutScreen from '../Checkout/CheckoutView';
 import DetailListScreen from '../Detail/DetailList';
 
 import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVersionViewContainer';
@@ -88,8 +88,8 @@ const stackNavigator = createStackNavigator(
         header: null,
       },
     },
-    Charts: {
-      screen: AvailableInFullVersion,
+    Checkout: {
+      screen: CheckoutScreen,
       navigationOptions: {
         header: null,
       },

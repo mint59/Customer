@@ -11,13 +11,14 @@ import ListScreen from '../List/ListViewContainer';
 import PagesScreen from '../pages/PagesViewContainer';
 import GridScreen from '../grid/GridViewContainer'
 import ComponentsScreen from '../components/ComponentsViewContainer';
+import StoreScreen from '../Store/StoreViewContainer'
 // import Icons from ''
 
-const iconHome = require('../../../assets/images/tabbar/home.png');
-const iconCalendar = require('../../../assets/images/tabbar/calendar.png');
-const iconGrids = require('../../../assets/images/tabbar/grids.png');
-const iconPages = require('../../../assets/images/tabbar/pages.png');
-const iconComponents = require('../../../assets/images/tabbar/components.png');
+const iconHome = require('../../../assets/images/icons/baseline_home_black_18dp.png');
+const iconCalendar = require('../../../assets/images/icons/baseline_folder_open_black_18dp.png');
+const iconGrids = require('../../../assets/images/icons/baseline_insert_drive_file_black_24.png');
+const iconPages = require('../../../assets/images/icons/baseline_work_black_18dp.png');
+const iconComponents = require('../../../assets/images/icons/baseline_account_circle_black_18dp.png');
 
 const hederBackground = require('../../../assets/images/topBarBg.png');
 
@@ -90,7 +91,7 @@ export default createBottomTabNavigator(
       },
     },
     คลัง: {
-      screen: CalendarScreen,
+      screen: StoreScreen,
       navigationOptions: {
         header: (
           <View style={styles.headerContainer}>
