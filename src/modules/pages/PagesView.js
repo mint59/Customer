@@ -47,7 +47,7 @@ export default function PagesScreen(props) {
             source={galleryIcon}
             style={styles.itemImage}
           />
-          <Text style={styles.itemText}>Gallery</Text>
+          <Text style={styles.itemText}>ช่วยเหลือ</Text>
         </TouchableOpacity> 
         
       </View>
@@ -62,7 +62,7 @@ export default function PagesScreen(props) {
             source={chatIcon}
             style={styles.itemImage}
           />
-          <Text style={styles.itemText}>Chats</Text>
+          <Text style={styles.itemText}>เงื่อนไข / ข้อตกลง</Text>
         </TouchableOpacity>
         
       </View>

@@ -31,18 +31,16 @@ export default function DetailListScreen(props) {
                     <Text style={styles.availableText}>ประเภท</Text>
                     <Text style={styles.availableText}>รายละเอียด</Text>
                     <Text style={styles.availableText}>ที่อยู่</Text>
-                </View>
-
-                {/* <View style={styles.buttonsContainer}>
+                    <Text></Text>
                     <Button
                         large
-                        //   bordered
+                        //   bosrdered
                         rounded
                         style={{ color: '#009e73' }}
                         caption="Back"
                         onPress={() => props.navigation.goBack()}
                     />
-                </View> */}
+                </View>
             </View>
         </View>
     );

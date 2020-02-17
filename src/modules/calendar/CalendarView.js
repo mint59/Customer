@@ -1,11 +1,11 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Agenda } from 'react-native-calendars';
 
 import { colors, fonts } from '../../styles';
 
-class CalendarScreen extends React.Component {
+export default class CalendarScreen extends React.Component {
   rowHasChanged(r1, r2) {
     return r1.name !== r2.name;
   }
@@ -23,38 +23,50 @@ class CalendarScreen extends React.Component {
       item.labels &&
       item.labels.map(label => (
         <View
-          key={`label-${label}`}
-          style={{
-            padding: 5,
-            backgroundColor:
-              label === 'Urgent' ? colors.primary : colors.secondary,
-            borderRadius: 3,
-          }}
+          // key={`label-${label}`}
+          // style={{
+          //   padding: 5,
+          //   backgroundColor:
+          //     label === 'Urgent' ? colors.primary : colors.secondary,
+          //   borderRadius: 3,
+          // }}
         >
           <Text style={{ color: 'white' }}>{label}</Text>
         </View>
       ));
 
+    _openArticle = article => {
+      this.props.navigation.navigate({
+        routeName: 'Article',
+        params: { ...article },
+      });
+    };
+
     return (
       <View style={styles.item} >
-        <View onPress={() => props.navigation.navigate({ routeName: 'Profile' })}>
-          <Text
-            style={{
-              color: '#48506B',
-              fontFamily: fonts.primaryRegular,
-              marginBottom: 10,
-            }}
+        <View>
+          <TouchableOpacity
+            key={item.id}
+            style={styles.itemThreeContainer}
+            onPress={() => this._openArticle(item)}
           >
-            {item.name}
-          </Text>
-          <Text style={{ color: '#48506B', fontFamily: fonts.primaryRegular }}>
-            {item.type}
-          </Text>
-          <Text style={{ color: '#9B9B9B', fontFamily: fonts.primaryRegular }}>
-            {item.time}
-          </Text>
+            <View>
+              <View >
+                <Text style={{
+                  color: '#48506B',
+                  fontFamily: fonts.primaryRegular,
+                  marginBottom: 10,
+                }}
+                >
+                  {item.name}</Text>
+                <View>
+                  <Text style={{ color: '#48506B', fontFamily: fonts.primaryRegular }}>{item.type}</Text>
+                  <Text style={{ color: '#9B9B9B', fontFamily: fonts.primaryRegular }}>{item.time}</Text>
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity>
         </View>
-
         <View styleName="horizontal h-start">{labels}</View>
       </View>
     );
@@ -65,7 +77,7 @@ class CalendarScreen extends React.Component {
     return (
       <Agenda
         items={items}
-        loadItemsForMonth={loadItems}
+        // loadItemsForMonth={loadItems}
         renderItem={this.renderItem}
         renderEmptyDate={this.renderEmptyDate}
         rowHasChanged={this.rowHasChanged}
@@ -105,4 +117,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CalendarScreen;
+// export default CalendarScreen;

@@ -2,7 +2,6 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  Platform,
   Text,
   FlatList,
   TouchableOpacity,
@@ -11,7 +10,7 @@ import {
 } from 'react-native';
 import { colors, fonts } from '../../styles';
 
-import { RadioGroup, GridRow } from '../../components';
+import {Button, GridRow } from '../../components';
 
 export default class GridScreen extends React.Component {
   _getRenderItemFunction = () =>
@@ -19,39 +18,51 @@ export default class GridScreen extends React.Component {
     this.props.tabIndex
     ];
 
-  _openDetailList = detailList => {
+  _openCheckout = checkout => {
     this.props.navigation.navigate({
-      routeName: 'DetailList',
-      params: { ...detailList },
+      routeName: 'Checkout',
+      params: { ...checkout },
     });
   };
 
   renderRowOne = rowData => {
     const cellViews = rowData.item.map(item => (
-      <TouchableOpacity
-        key={item.id}
-        style={styles.itemThreeContainer}
-        onPress={() => this._openDetailList(item)}
-      >
-        <View style={styles.itemThreeSubContainer}>
-          <Image source={require('../../../assets/images/wrench.png')} style={styles.itemThreeImage} />
+      // <TouchableOpacity
+      //   key={item.id}
+      //   style={styles.itemThreeContainer}
+      //   onPress={() => this._openCheckout(item)}
+      // >
+      <View style={styles.itemThreeSubContainer}>
+        <Image source={require('../../../assets/images/wrench.png')} style={styles.itemThreeImage} />
 
-          <View style={styles.itemThreeContent}>
-            <Text style={styles.itemThreeBrand}>ชื่อลูกค้า {item.name} {item.last}</Text>
-            <View>
-              <Text style={styles.itemThreeTitle}>ประเภท {item.type}</Text>
+        <View style={styles.itemThreeContent}>
+          <Text style={styles.itemThreeBrand}>ชื่อลูกค้า {item.name} {item.last}</Text>
+          <View>
+            <Text style={styles.itemThreeTitle}>ประเภท {item.type}</Text>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.itemThreeSubtitle} numberOfLines={1}>
+              {item.date}
+            </Text>
+            <View style={{ paddingLeft: 10 }}>
+              <Text style={styles.itemThreeSubtitle}>{item.datetime}</Text>
             </View>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={styles.itemThreeSubtitle} numberOfLines={1}>
-                {item.date}
-              </Text>
-              <View style={{ paddingLeft: 50 }}>
-                <Text style={styles.itemThreeSubtitle}>{item.datetime}</Text>
-              </View>
+            <View style={{ paddingLeft: 15 }}>
+              <Button
+                // style={styles.demoButton}
+                secondary
+                caption="Check In"
+                onPress={() => this._openCheckout(item)}
+              />
             </View>
           </View>
+          {/* <View>
+          
+              </View> */}
         </View>
-      </TouchableOpacity>
+        
+      </View>
+      // </TouchableOpacity>
     ));
     return (
       <View key={rowData.item[0].id}>
@@ -124,6 +135,7 @@ const styles = StyleSheet.create({
   },
   itemThreeSubtitle: {
     fontFamily: fonts.primaryRegular,
+    paddingBottom: 12,
     fontSize: 12,
     color: '#a4a4a4',
   },

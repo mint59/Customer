@@ -7,12 +7,15 @@ import {
     ImageBackground,
     Linking,
 } from 'react-native';
-import { Appbar } from 'react-native-paper';
+import { Appbar, Checkbox } from 'react-native-paper';
 import { fonts, colors } from '../../styles';
 import { Button } from '../../components';
 
 export default function CheckoutScreen(props) {
-
+    state = {
+        checked: false,
+    };
+    const { checked } = this.state;
     return (
         <View >
             <Appbar.Header >
@@ -24,25 +27,30 @@ export default function CheckoutScreen(props) {
                     title="Check Out"
                 />
             </Appbar.Header>
-        <View style={styles.componentsSection}>
-        {/* <Text style={styles.componentSectionHeader}></Text> */}
+            <Checkbox
+                status={checked ? 'checked' : 'unchecked'}
+                onPress={() => { this.setState({ checked: !checked }); }}
+            >
+            </Checkbox>
+            <View style={styles.componentsSection}>
+                {/* <Text style={styles.componentSectionHeader}></Text> */}
 
-        <View style={styles.demoButtonsContainer}>
-          <Button
-            style={styles.demoButton}
-            primary
-            caption="OK"
-            onPress={() => props.navigation.navigate({ routeName: 'GridScreen' })}
-          />
-          <Button
-            style={styles.demoButton}
-            secondary
-            caption="Cencel"
-            onPress={() => props.navigation.navigate({ routeName: 'ListScreen' })}
-          />
-         
-        </View>
-      </View>
+                {/* <View style={styles.demoButtonsContainer}> */}
+                <Button
+                    style={styles.demoButton}
+                    primary
+                    caption="OK"
+                    onPress={() => props.navigation.navigate({ routeName: 'GridScreen' })}
+                />
+                <Button
+                    style={styles.demoButton}
+                    secondary
+                    caption="Cencel"
+                    onPress={() => props.navigation.goBack()}
+                />
+
+            </View>
+            {/* </View> */}
         </View>
     );
 }
@@ -82,29 +90,35 @@ const styles = StyleSheet.create({
     },
     componentsSection: {
         backgroundColor: colors.white,
+        flexDirection: 'row',
         padding: 15,
         marginBottom: 20,
-        borderRadius: 5,
-        paddingTop: 50
-      },
-      componentSectionHeader: {
+        borderRadius: 10,
+        paddingTop: '100%',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    componentSectionHeader: {
         fontFamily: fonts.primaryRegular,
         color: '#686868',
         fontSize: 20,
         marginBottom: 20,
-      },
-      demoButtonsContainer: {
+    },
+    demoButtonsContainer: {
         flex: 1,
+        // flexWrap: 'wrap',
         flexDirection: 'row',
-        flexWrap: 'wrap',
         alignItems: 'center',
+        // paddingTop: '100%',
         justifyContent: 'space-between',
-      },
-      demoButton: {
-        marginTop: 8,
+    },
+    demoButton: {
+        marginTop: 50,
+        paddingHorizontal: 12,
         marginBottom: 8,
-      },
-      demoItem: {
+        // width: 40,
+    },
+    demoItem: {
         marginVertical: 15,
-      },
+    },
 });

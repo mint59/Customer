@@ -32,16 +32,24 @@ export default function DetailStoreScreen(props) {
                     <Text style={styles.availableText}>ที่อยู่</Text>
                 </View>
 
-                {/* <View style={styles.buttonsContainer}>
+                <View style={styles.buttonsContainer}>
                     <Button
                         large
                         //   bordered
                         rounded
-                        style={{ color: '#009e73' }}
-                        caption="Back"
+                        // style={{ color: '#009e73' }}
+                        caption="OK"
                         onPress={() => props.navigation.goBack()}
                     />
-                </View> */}
+                    <Button
+                        large
+                        //   bordered
+                        rounded
+                        // style={{ color: '#009e73' }}
+                        caption="Cancel"
+                        onPress={() => props.navigation.goBack()}
+                    />
+                </View>
             </View>
         </View>
     );
