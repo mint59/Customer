@@ -24,12 +24,30 @@ export default function DetailStoreScreen(props) {
                     title="รายละเอียด"
                 />
             </Appbar.Header>
-            <View style={styles.container}>
+            {/* <View style={styles.container}> */}
                 <View style={styles.textContainer}>
+                <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.availableText}>ลูกค้าชื่อ-สกุล </Text>
-                    <Text style={styles.availableText}>ประเภท</Text>
-                    <Text style={styles.availableText}>รายละเอียด</Text>
-                    <Text style={styles.availableText}>ที่อยู่</Text>
+                    <Text style={styles.availableText}>สิริพร แสนสุข</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.availableText}>เบอร์ </Text>
+                    <Text style={styles.availableText}>025558555</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.availableText}>วันที่ </Text>
+                    <Text style={styles.availableText}>02/02/2020</Text>
+                    <Text style={styles.availableText}>เวลา </Text>
+                    <Text style={styles.availableText}> 12.00</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.availableText}>ประเภท </Text>
+                    <Text style={styles.availableText}>ระบบไฟ</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.availableText}>ที่อยู่ </Text>
+                    <Text style={styles.availableText}>44 ลาดพร้าว 55 วังทองหลาง วังทองหลาง กรุงเทพมหานคร</Text>
+                </View>
                 </View>
 
                 <View style={styles.buttonsContainer}>
@@ -51,7 +69,7 @@ export default function DetailStoreScreen(props) {
                     />
                 </View>
             </View>
-        </View>
+        // </View>
     );
 }
 

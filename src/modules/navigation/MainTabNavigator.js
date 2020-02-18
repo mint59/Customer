@@ -12,7 +12,6 @@ import PagesScreen from '../pages/PagesViewContainer';
 import GridScreen from '../grid/GridViewContainer'
 import ComponentsScreen from '../components/ComponentsViewContainer';
 import StoreScreen from '../Store/StoreViewContainer'
-// import Icons from ''
 
 const iconHome = require('../../../assets/images/icons/baseline_home_black_18dp.png');
 const iconCalendar = require('../../../assets/images/icons/baseline_folder_open_black_18dp.png');

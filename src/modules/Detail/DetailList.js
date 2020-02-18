@@ -25,16 +25,42 @@ export default function DetailListScreen(props) {
                     title="รายละเอียด"
                 />
             </Appbar.Header>
-            <View style={styles.container}>
-                <View style={styles.textContainer}>
+            {/* <View style={styles.container}> */}
+            <View style={styles.textContainer}>
+                <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.availableText}>ลูกค้าชื่อ-สกุล </Text>
-                    <Text style={styles.availableText}>ประเภท</Text>
-                    <Text style={styles.availableText}>รายละเอียด</Text>
-                    <Text style={styles.availableText}>ที่อยู่</Text>
-                    <Text></Text>
+                    <Text style={styles.availableText}>สิริพร แสนสุข</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.availableText}>เบอร์ </Text>
+                    <Text style={styles.availableText}>025558555</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.availableText}>วันที่ </Text>
+                    <Text style={styles.availableText}>02/02/2020</Text>
+                    <Text style={styles.availableText}>เวลา </Text>
+                    <Text style={styles.availableText}> 12.00</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.availableText}>ประเภท </Text>
+                    <Text style={styles.availableText}>ระบบไฟ</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.availableText}>ที่อยู่ </Text>
+                    <Text style={styles.availableText}>44 ลาดพร้าว 55 วังทองหลาง วังทองหลาง กรุงเทพมหานคร</Text>
+                </View>
+
+                {/* <Text style={styles.availableText}>วันที่ 02/02/2020 เวลา 12.00</Text>
+                    <Text style={styles.availableText}>ประเภท ระบบไฟ</Text>
+                    <Text style={styles.availableText}>รายละเอียด </Text>
+                    <Text style={styles.availableText}>ที่อยู่ </Text>
+                    <Text></Text> */}
+
+                {/* </View> */}
+                <View style={styles.button}>
                     <Button
                         large
-                        //   bosrdered
+                        bosrdered
                         rounded
                         style={{ color: '#009e73' }}
                         caption="Back"
@@ -74,7 +100,8 @@ const styles = StyleSheet.create({
     },
     button: {
         alignSelf: 'stretch',
-        marginBottom: 20,
-        color: '#009e73'
+        marginBottom: 50,
+        color: '#009e73',
+        paddingTop: 50
     },
 });
