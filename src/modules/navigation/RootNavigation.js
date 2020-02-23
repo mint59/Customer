@@ -10,7 +10,7 @@ import GalleryScreen from '../gallery/GalleryViewContainer';
 
 // To use this screens please see the full version at https://reactnativestarter.com
 import ProfileScreen from '../Profile/ProfileView';
-// import ArticleScreen from '../containers/ArticleScreen';
+import LoginScreen from '../Login/LoginView';
 import DetailStoreScreen from '../Detail/DetailStore';
 import CheckoutScreen from '../Checkout/CheckoutView';
 import DetailListScreen from '../Detail/DetailList';
@@ -26,6 +26,12 @@ const headerBackground = require('../../../assets/images/topBarBg.png');
 
 const stackNavigator = createStackNavigator(
   {
+    Login: {
+      screen: LoginScreen,
+      navigationOptions: {
+        header: null,
+      },
+    },
     Main: {
       screen: MainTabNavigator,
       navigationOptions: () => ({

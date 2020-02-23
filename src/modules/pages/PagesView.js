@@ -68,7 +68,7 @@ export default function PagesScreen(props) {
       </View>
       <View style={styles.row}>
 
-        <TouchableOpacity onPress={() => {}} style={styles.item}>
+        <TouchableOpacity onPress={() => props.navigation.navigate({ routeName: 'Login' })} style={styles.item}>
           <Image
             resizeMode="contain"
             source={galleryIcon}
