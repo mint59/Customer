@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { Agenda } from 'react-native-calendars';
+// import { Agenda } from 'react-native-calendars';
 
 import { colors, fonts } from '../../styles';
 

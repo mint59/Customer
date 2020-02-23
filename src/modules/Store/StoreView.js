@@ -1,19 +1,56 @@
-import React from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
-import { Searchbar } from 'react-native-paper';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, ScrollView, Button, TouchableOpacity,DatePickerAndroid } from 'react-native';
+// import { Searchbar } from 'react-native-paper';
 import { colors, fonts } from '../../styles';
+// import DateTimePickerModal from "react-native-modal-datetime-picker";
+// import DatePicker from 'react-native-date-picker'
 
 // import { Button, RadioGroup, Dropdown } from '../../components';
 
 export default function ComponentsScreen(props) {
-    return (
 
-        <Searchbar
-            placeholder="วัน-เดือน-ปี"
-            style={styles.container}
-        // onChangeText={query => { this.setState({ firstQuery: query }); }}
-        // value={firstQuery}
-        />
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    const handleConfirm = date => {
+        console.warn("A date has been picked: ", date);
+        hideDatePicker();
+    };
+    // state = { date: new Date() }
+    return (
+        <View></View>
+        // <View style={{ flex: 1 }}>
+        //     <TouchableOpacity onPress={showDatePicker}>
+        //         <Text>Show DatePicker</Text>
+        //     </TouchableOpacity>
+        //     <DateTimePickerModal
+        //         isVisible={isDatePickerVisible}
+        //         onConfirm={hideDatePicker}
+        //         onCancel={handleConfirm}
+        //     />
+        // </View>
+        // <View>
+        //     <Button title="Show Date Picker" onPress={showDatePicker} />
+        //     <DateTimePickerModal
+        //         isVisible={isDatePickerVisible}
+        //         mode="date"
+        //         onConfirm={handleConfirm}
+        //         onCancel={hideDatePicker}
+        //     />
+        // </View>
+        // <Searchbar
+        //     placeholder="วัน-เดือน-ปี"
+        //     style={styles.container}
+        // // onChangeText={query => { this.setState({ firstQuery: query }); }}
+        // // value={firstQuery}
+        // />
     );
 }
 
