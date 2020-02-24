@@ -55,7 +55,7 @@ export default class GridsScreen extends React.Component {
 
             </View>
             <View style={styles.itemThreeMetaContainer}>
-              <Text style={styles.itemThreePrice}>{item.status}</Text>
+              {/* <Text style={styles.itemThreePrice}>{item.status}</Text> */}
             </View>
           </View>
         </View>
@@ -125,31 +125,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#5F5F5F',
   },
-  itemThreeTitle: {
-    fontFamily: fonts.primaryBold,
-    fontSize: 14,
-    color: '#5F5F5F',
-  },
-  itemThreeSubtitle: {
-    fontFamily: fonts.primaryRegular,
-    fontSize: 12,
-    color: '#a4a4a4',
-  },
-  itemThreeMetaContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  itemThreePrice: {
-    fontFamily: fonts.primaryRegular,
-    fontSize: 15,
-    color: '#5f5f5f',
-    textAlign: 'right',
-  },
-  badge: {
-    backgroundColor: colors.secondary,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
+
 });

@@ -65,18 +65,27 @@ export default function DetailListScreen(props) {
         >
         </MapView>
       </View>
+      {/* <View style={styles.layout}> */}
       <View style={styles.button}>
-                 <Button
-                     large
-                     bosrdered
-                     rounded
-                     style={{ color: '#009e73' }}
-                     caption="Back"
-                    onPress={() => props.navigation.goBack()}
-                 />
+        <Button
+          large
+          bosrdered
+          rounded
+          style={{ color: '#08ae9e' }}
+          caption="ok"
+          onPress={() => props.navigation.goBack()}
+        />
+        <Button
+          large
+          bosrdered
+          rounded
+          caption="cancel"
+          onPress={() => props.navigation.goBack()}
+        />
       </View>
+      {/* </View> */}
     </View >
-    
+
 
   );
 }
@@ -93,7 +102,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     height: 250,
     width: 400,
-    marginTop: '75%',
+    marginTop: '65%',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -119,10 +128,14 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     color: '#009e73'
   },
+  layout: {
+    flexDirection: 'row',
+  },
   button: {
+    flexDirection: 'row',
     alignSelf: 'stretch',
     marginBottom: 50,
     color: '#009e73',
-    marginTop: '80%'
+    marginTop: '70%'
   },
 });

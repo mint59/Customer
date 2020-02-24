@@ -22,8 +22,8 @@ export default function HomeScreen({ isExtended, setIsExtended }) {
   //   });
   // };
   const items = [
-    { name: 'Team', background: '#02ef1d', icon: 'users'},
-    { name: 'Friends', background: '#02cbef', icon: 'group' },
+    { name: 'งานวันนี้', background: '#02ef1d', icon: 'users'},
+    { name: 'งานเดือนนี้', background: '#02cbef', icon: 'group' },
   ];
   
 

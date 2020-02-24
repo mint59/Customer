@@ -15,6 +15,7 @@ import ImagePicker from 'react-native-image-picker';
 export default function CheckoutScreen(props) {
 
     const [filePath, setFilePath] = useState({});
+
     const chooseFile = () => {
         var options = {
             title: 'Select Image',
@@ -26,6 +27,7 @@ export default function CheckoutScreen(props) {
                 path: 'images',
             },
         };
+
         ImagePicker.showImagePicker(options, response => {
             console.log('Response = ', response);
 
@@ -43,66 +45,74 @@ export default function CheckoutScreen(props) {
         });
     };
 
-    const [text, setText] = useState(false);
+    const [text, setText] = useState(''); 
+    const [Item, setItem] = useState('');
+    // items={['option 1', 'option 2','option 3','option 4']}
+    // const onSelect  = () => {
+    //     setItem
+    // };
 
-    return (
-        <View>
-            <Appbar.Header >
-                <Appbar.BackAction
-                    onPress={() => props.navigation.goBack()}
-                />
-
-                <Appbar.Content
-                    title="Check Out"
-                />
-            </Appbar.Header>
-            <View style={{ paddingTop: 20}}>
-            <Dropdown
-                style={{ width: 200, alignSelf: 'center' }}
-                onSelect={() => { }}
-                items={['เสร็จ', 'ไม่เสร็จ']}
-            />
-            </View>
-            <View style={styles.componentsSection}>
-                <Image
-                    source={{
-                        uri: 'data:image/jpeg;base64,' + filePath.data,
-                    }}
-                    style={{ width: 150, height: 150 }}
-                />
-                <Image
-                    source={{ uri: filePath.uri }}
-                    style={{ width: 150, height: 150 }}
-                />
-
-            </View>
-            <View style={styles.demoButton}>
-                <Button caption="Cencel" onPress={chooseFile} />
-            </View>
-            {/* </View> */}
-
-            {/* <View> */}
-            <TextInput
-                label="comment"
-                value={text}
-                onChangeText={text => setText({ text })}
-            ></TextInput>
-            {/* </View>
-            <View > */}
-
-            <Button
-                style={styles.button}
-                primary
-                caption="OK"
-                // onPress={() => props.navigation.navigate({ routeName: 'GridScreen' })}
+return (
+    <View>
+        <Appbar.Header >
+            <Appbar.BackAction
                 onPress={() => props.navigation.goBack()}
             />
 
-            {/* </View> */}
+            <Appbar.Content
+                title="Check Out"
+            />
+        </Appbar.Header>
 
-            {/* </View> */}
+        <View style={{ paddingTop: 20 }}>
+            <Dropdown
+                style={{ width: 200, alignSelf: 'center' }}
+                onSelect={items => setItem({items})}
+                // value={items}
+                items={['option 1', 'option 2','option 3','option 4']}
+            />
         </View>
-    );
+
+        <View style={styles.componentsSection}>
+            <Image
+                source={{
+                    uri: 'data:image/jpeg;base64,' + filePath.data,
+                }}
+                style={{ width: 150, height: 150 }}
+            />
+            <Image
+                source={{ uri: filePath.uri }}
+                style={{ width: 150, height: 150 }}
+            />
+
+        </View>
+        <View style={styles.demoButton}>
+            <Button caption="Cencel" onPress={chooseFile} />
+        </View>
+        {/* </View> */}
+
+        {/* <View> */}
+        <TextInput
+            label="comment"
+            value={text}
+            onChangeText={text => setText({ text })}
+        ></TextInput>
+        {/* </View>
+            <View > */}
+
+        <Button
+            style={styles.button}
+            primary
+            caption="OK"
+            // onPress={() => props.navigation.navigate({ routeName: 'GridScreen' })}
+            onPress={() => props.navigation.goBack()}
+        />
+
+        {/* </View> */}
+
+        {/* </View> */}
+    </View>
+);
 }
 
 const styles = StyleSheet.create({
