@@ -53,17 +53,13 @@ export default function DetailStoreScreen(props) {
                 <View style={styles.buttonsContainer}>
                     <Button
                         large
-                        //   bordered
                         rounded
-                        // style={{ color: '#009e73' }}
                         caption="OK"
                         onPress={() => props.navigation.goBack()}
                     />
                     <Button
                         large
-                        //   bordered
                         rounded
-                        // style={{ color: '#009e73' }}
                         caption="Cancel"
                         onPress={() => props.navigation.goBack()}
                     />

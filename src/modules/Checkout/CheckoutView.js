@@ -18,10 +18,7 @@ export default function CheckoutScreen(props) {
 
     const chooseFile = () => {
         var options = {
-            title: 'Select Image',
-            customButtons: [
-                { name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
-            ],
+            title: 'เลือกรูป',
             storageOptions: {
                 skipBackup: true,
                 path: 'images',
@@ -45,74 +42,70 @@ export default function CheckoutScreen(props) {
         });
     };
 
-    const [text, setText] = useState(''); 
+    const [text, setText] = React.useState('');
     const [Item, setItem] = useState('');
     // items={['option 1', 'option 2','option 3','option 4']}
     // const onSelect  = () => {
     //     setItem
     // };
 
-return (
-    <View>
-        <Appbar.Header >
-            <Appbar.BackAction
+    return (
+        <View>
+            <Appbar.Header >
+                <Appbar.BackAction
+                    onPress={() => props.navigation.goBack()}
+                />
+
+                <Appbar.Content
+                    title="Check Out"
+                />
+            </Appbar.Header>
+
+            <View style={{ paddingTop: 20 }}>
+                <Dropdown
+                    style={{ width: 200, alignSelf: 'center' }}
+                    onSelect={items => setItem({ items })}
+                    // value={items}
+                    items={['งานเสร็จ', 'งานไม่เสร็จ']}
+                />
+            </View>
+
+            <View style={styles.componentsSection}>
+                <Image
+                    source={{
+                        uri: 'data:image/jpeg;base64,' + filePath.data,
+                    }}
+                    style={{ width: 150, height: 150 }}
+                />
+                <Image
+                    source={{ uri: filePath.uri }}
+                    style={{ width: 150, height: 150 }}
+                />
+
+            </View>
+            <View style={styles.demoButton}>
+                <Button caption="เพิ่มรูป" onPress={chooseFile} />
+            </View>
+
+            <TextInput
+                label="หมายเหตุ"
+                onChangeText={text => setText(text)}
+                value={text}
+            />
+
+            <Button
+                style={styles.button}
+                primary
+                caption="ตกลง"
+                // onPress={() => props.navigation.navigate({ routeName: 'GridScreen' })}
                 onPress={() => props.navigation.goBack()}
             />
 
-            <Appbar.Content
-                title="Check Out"
-            />
-        </Appbar.Header>
+            {/* </View> */}
 
-        <View style={{ paddingTop: 20 }}>
-            <Dropdown
-                style={{ width: 200, alignSelf: 'center' }}
-                onSelect={items => setItem({items})}
-                // value={items}
-                items={['option 1', 'option 2','option 3','option 4']}
-            />
+            {/* </View> */}
         </View>
-
-        <View style={styles.componentsSection}>
-            <Image
-                source={{
-                    uri: 'data:image/jpeg;base64,' + filePath.data,
-                }}
-                style={{ width: 150, height: 150 }}
-            />
-            <Image
-                source={{ uri: filePath.uri }}
-                style={{ width: 150, height: 150 }}
-            />
-
-        </View>
-        <View style={styles.demoButton}>
-            <Button caption="Cencel" onPress={chooseFile} />
-        </View>
-        {/* </View> */}
-
-        {/* <View> */}
-        <TextInput
-            label="comment"
-            value={text}
-            onChangeText={text => setText({ text })}
-        ></TextInput>
-        {/* </View>
-            <View > */}
-
-        <Button
-            style={styles.button}
-            primary
-            caption="OK"
-            // onPress={() => props.navigation.navigate({ routeName: 'GridScreen' })}
-            onPress={() => props.navigation.goBack()}
-        />
-
-        {/* </View> */}
-
-        {/* </View> */}
-    </View>
-);
+    );
 }
 
 const styles = StyleSheet.create({

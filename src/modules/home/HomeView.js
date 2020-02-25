@@ -10,7 +10,7 @@ import { fonts, colors } from '../../styles';
 import { Text } from '../../components/StyledText';
 import Dashboard from 'react-native-dashboard';
 
-export default function HomeScreen({ isExtended, setIsExtended }) {
+export default function HomeScreen(props) {
   // const rnsUrl = 'https://reactnativestarter.com';
   // const handleClick = () => {
   //   Linking.canOpenURL(rnsUrl).then(supported => {
@@ -22,7 +22,7 @@ export default function HomeScreen({ isExtended, setIsExtended }) {
   //   });
   // };
   const items = [
-    { name: 'งานวันนี้', background: '#02ef1d', icon: 'users'},
+    { name: 'งานวันนี้', background: '#02ef1d', icon: 'user'},
     { name: 'งานเดือนนี้', background: '#02cbef', icon: 'group' },
   ];
   
@@ -52,41 +52,5 @@ const styles = StyleSheet.create({
   bgImage: {
     flex: 1,
     marginHorizontal: -20,
-  },
-  section: {
-    flex: 1,
-    paddingHorizontal: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  sectionLarge: {
-    flex: 2,
-    justifyContent: 'space-around',
-  },
-  sectionHeader: {
-    marginBottom: 8,
-  },
-  priceContainer: {
-    alignItems: 'center',
-  },
-  description: {
-    padding: 15,
-    lineHeight: 25,
-  },
-  titleDescription: {
-    color: '#19e7f7',
-    textAlign: 'center',
-    fontFamily: fonts.primaryRegular,
-    fontSize: 15,
-  },
-  title: {
-    marginTop: 30,
-  },
-  price: {
-    marginBottom: 5,
-  },
-  priceLink: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.primary,
-  },
+  }
 });

@@ -8,7 +8,7 @@ import { colors } from '../styles';
 
 class RNSDropDown extends React.Component {
   static defaultProps = {
-    placeholder: 'Please Select...',
+    placeholder: 'Status...',
     selectedIndex: -1,
     color: colors.primary,
     borderColor: colors.primary,

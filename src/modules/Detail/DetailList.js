@@ -71,7 +71,6 @@ export default function DetailListScreen(props) {
           large
           bosrdered
           rounded
-          style={{ color: '#08ae9e' }}
           caption="ok"
           onPress={() => props.navigation.goBack()}
         />
@@ -79,6 +78,7 @@ export default function DetailListScreen(props) {
           large
           bosrdered
           rounded
+          secondary
           caption="cancel"
           onPress={() => props.navigation.goBack()}
         />
@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
   },
   button: {
     flexDirection: 'row',
+    justifyContent: 'space-around',
     alignSelf: 'stretch',
     marginBottom: 50,
     color: '#009e73',

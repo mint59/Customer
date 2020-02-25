@@ -53,8 +53,11 @@ export default function LoginScreen(props) {
                         value={password}
                     />
                     <View style={styles.button}>
-                        <Button block success onPress={() => props.navigation.navigate({ routeName: 'Main' })}>
-                            <Text>Submit</Text>
+                        <Button  
+                            caption="Submit"  
+                            rounded
+                            onPress={() => props.navigation.navigate({ routeName: 'Main' })}
+                            >
                         </Button>
                     </View>
                 </View>
@@ -83,7 +86,8 @@ const styles = StyleSheet.create({
     button: {
         paddingTop: 50,
         paddingLeft: 20,
-        width: '95%'
+        width: '95%',
+        
     },
     section: {
         flex: 1,

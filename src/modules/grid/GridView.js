@@ -49,8 +49,6 @@ export default class GridScreen extends React.Component {
             </View>
             <View style={{ paddingLeft: 15 }}>
               <Button
-                // style={styles.demoButton}
-                secondary
                 caption="Check In"
                 onPress={() => this._openCheckout(item)}
               />
