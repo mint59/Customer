@@ -29,16 +29,9 @@ export default function HomeScreen(props) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={require('../../../assets/images/background.png')}
-        style={styles.bgImage}
-        resizeMode="cover"
-      >
         <View style={styles.container}>
-          <Dashboard items={items} background={true} column={2} />
+          <Dashboard items={items} background={true} column={2} ></Dashboard>
         </View>
-
-      </ImageBackground>
     </View>
   );
 }

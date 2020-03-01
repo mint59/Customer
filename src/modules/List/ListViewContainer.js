@@ -21,6 +21,7 @@ const listData = [
     type: 'ระบบน้ำ',
     date: '02/02/2020',
     datetime: '05.00',
+    status: 'NEW',
     timeFrom: true,
   },
   {
@@ -51,6 +52,7 @@ const listData = [
     type: 'ระบบน้ำ',
     date: '02/02/2020',
     datetime: '07.00',
+    status: 'NEW',
     timeFrom: true,
   },
   {
@@ -81,6 +83,7 @@ const listData = [
     type: 'Office, prom or special parties is all dressed up',
     date: '02/02/2020',
     datetime: '10.00',
+    status: 'NEW',
     timeFrom: true,
   },
   {
@@ -108,6 +111,6 @@ const listData = [
 
 export default compose(
   withState('tabIndex', 'setTabIndex', 0),
-  // withState('tabs', 'setTabs', ['Grid', 'List 1', 'List 2']),
+  withState('tabs', 'setTabs', ['งานวันนี้', 'งานที่ทำ']),
   withState('data', 'setData', listData),
 )(ListView);

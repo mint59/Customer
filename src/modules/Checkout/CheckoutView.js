@@ -10,6 +10,8 @@ import { Appbar, TextInput } from 'react-native-paper';
 import { fonts, colors } from '../../styles';
 import { Button, Dropdown } from '../../components';
 import ImagePicker from 'react-native-image-picker';
+import { CheckBox } from 'react-native-elements'
+
 
 
 export default function CheckoutScreen(props) {
@@ -26,7 +28,7 @@ export default function CheckoutScreen(props) {
         };
 
         ImagePicker.showImagePicker(options, response => {
-            console.log('Response = ', response);
+            // console.log('Response = ', response);
 
             if (response.didCancel) {
                 console.log('User cancelled image picker');
@@ -43,12 +45,20 @@ export default function CheckoutScreen(props) {
     };
 
     const [text, setText] = React.useState('');
-    const [Item, setItem] = useState('');
+    const [checked, setChecked] = useState(false);
+    const [checked2, setChecked2] = useState(false);
+
     // items={['option 1', 'option 2','option 3','option 4']}
     // const onSelect  = () => {
     //     setItem
     // };
 
+    const onChecked = () => {
+        setChecked(!checked);
+    }
+    const onChecked2 = () => {
+        setChecked2(!checked2);
+    }
     return (
         <View>
             <Appbar.Header >
@@ -61,49 +71,51 @@ export default function CheckoutScreen(props) {
                 />
             </Appbar.Header>
 
-            <View style={{ paddingTop: 20 }}>
-                <Dropdown
-                    style={{ width: 200, alignSelf: 'center' }}
-                    onSelect={items => setItem({ items })}
-                    // value={items}
-                    items={['งานเสร็จ', 'งานไม่เสร็จ']}
+            <View style={{ paddingTop: 2 }}>
+                <CheckBox
+                    title='เสร็จ'
+                    checked={checked}
+                    onPress={onChecked}
+                // onPress={() => onChecked(checked)}
+
+                />
+
+                <CheckBox
+                    title='ไม่เสร็จ'
+                    checked={checked2}
+                    onPress={onChecked2}
+
+                // onPress={() => onChecked(checked)}
                 />
             </View>
-
+            <View style={styles.demoButton}>
+                <Button caption="เพิ่มรูป" onPress={chooseFile} />
+            </View>
             <View style={styles.componentsSection}>
                 <Image
                     source={{
                         uri: 'data:image/jpeg;base64,' + filePath.data,
                     }}
-                    style={{ width: 150, height: 150 }}
+                    style={{ width: 200, height: 200 }}
                 />
-                <Image
-                    source={{ uri: filePath.uri }}
-                    style={{ width: 150, height: 150 }}
-                />
-
-            </View>
-            <View style={styles.demoButton}>
-                <Button caption="เพิ่มรูป" onPress={chooseFile} />
             </View>
 
-            <TextInput
-                label="หมายเหตุ"
-                onChangeText={text => setText(text)}
-                value={text}
-            />
-
-            <Button
-                style={styles.button}
-                primary
-                caption="ตกลง"
-                // onPress={() => props.navigation.navigate({ routeName: 'GridScreen' })}
-                onPress={() => props.navigation.goBack()}
-            />
-
-            {/* </View> */}
-
-            {/* </View> */}
+            <View>
+                <TextInput
+                    label="หมายเหตุ"
+                    onChangeText={text => setText(text)}
+                    value={text}
+                />
+            </View>
+            <View>
+                <Button
+                    style={styles.button}
+                    primary
+                    caption="ตกลง"
+                    // onPress={() => props.navigation.navigate({ routeName: 'GridScreen' })}
+                    onPress={() => props.navigation.goBack()}
+                />
+            </View>
         </View>
     );
 }
@@ -137,19 +149,18 @@ const styles = StyleSheet.create({
         color: '#009e73'
     },
     button: {
-        marginTop: 90,
+        marginTop: 50,
         paddingHorizontal: 20,
         marginBottom: 20,
     },
     componentsSection: {
         backgroundColor: colors.white,
-        flexDirection: 'row',
         padding: 15,
-        marginBottom: 20,
+        marginBottom: 0,
         borderRadius: 10,
-        paddingTop: 20,
+        paddingTop: 0,
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
     },
     componentSectionHeader: {
         fontFamily: fonts.primaryRegular,
@@ -166,7 +177,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     demoButton: {
-        marginTop: 20,
+        marginTop: 10,
         paddingHorizontal: 12,
         marginBottom: 8,
         // width: 40,

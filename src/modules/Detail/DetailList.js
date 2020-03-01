@@ -30,26 +30,60 @@ export default function DetailListScreen(props) {
 
       <View style={styles.textContainer}>
         <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.availableText}>ลูกค้าชื่อ-สกุล </Text>
-          <Text style={styles.availableText}>สิริพร แสนสุข</Text>
+          <Text style={styles.availableText}>ลูกค้าชื่อ-สกุล: </Text>
+          <Text style={{
+                fontFamily: fonts.primarySemiBold,
+                fontSize: 20,
+                marginVertical: 3,
+                paddingLeft: 12,}}
+                >
+                สิริพร แสนสุข</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.availableText}>เบอร์ </Text>
-          <Text style={styles.availableText}>025558555</Text>
+          <Text style={styles.availableText}>เบอร์: </Text>
+          <Text style={{
+                fontFamily: fonts.primarySemiBold,
+                fontSize: 20,
+                marginVertical: 3,
+                paddingLeft: 90,}}
+                >025558555</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.availableText}>วันที่ </Text>
-          <Text style={styles.availableText}>02/02/2020</Text>
-          <Text style={styles.availableText}>เวลา </Text>
-          <Text style={styles.availableText}> 12.00</Text>
+          <Text style={styles.availableText}>วันที่: </Text>
+          <Text style={{
+                fontFamily: fonts.primarySemiBold,
+                fontSize: 20,
+                marginVertical: 3,
+                paddingLeft: 95,}}
+                >02/02/2020</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.availableText}>ประเภท </Text>
-          <Text style={styles.availableText}>ระบบไฟ</Text>
+          <Text style={styles.availableText}>เวลา: </Text>
+          <Text style={{
+                fontFamily: fonts.primarySemiBold,
+                fontSize: 20,
+                marginVertical: 3,
+                paddingLeft: 90,}}
+                > 12.00</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.availableText}>ที่อยู่ </Text>
-          <Text style={styles.availableText}>44 ลาดพร้าว 55 วังทองหลาง วังทองหลาง กรุงเทพมหานคร</Text>
+          <Text style={styles.availableText}>ประเภท: </Text>
+          <Text style={{
+                fontFamily: fonts.primarySemiBold,
+                fontSize: 20,
+                marginVertical: 3,
+                paddingLeft: 60,}}
+                >ระบบไฟ</Text>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.availableText}>ที่อยู่: </Text>
+          <Text style={{
+                fontFamily: fonts.primarySemiBold,
+                fontSize: 20,
+                marginVertical: 3,
+                paddingLeft: 85,
+                width: "89%"}}
+                >ถนน พหลโยธิน แขวง ถนนพญาไท เขตราชเทวี กรุงเทพมหานคร 10400 ไทย</Text>
         </View>
       </View>
 
@@ -57,33 +91,28 @@ export default function DetailListScreen(props) {
         <MapView
           style={styles.mapStyle}
           region={{
-            latitude: 37.78825,
-            longitude: -122.4324,
+            latitude: 13.76472260079499,
+            longitude: 100.53832253466798,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}
         >
         </MapView>
       </View>
-      {/* <View style={styles.layout}> */}
       <View style={styles.button}>
         <Button
           large
-          bosrdered
           rounded
-          caption="ok"
+          caption="Check In"
           onPress={() => props.navigation.goBack()}
         />
         <Button
           large
-          bosrdered
           rounded
-          secondary
           caption="cancel"
           onPress={() => props.navigation.goBack()}
         />
       </View>
-      {/* </View> */}
     </View >
 
 
@@ -102,7 +131,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     height: 250,
     width: 400,
-    marginTop: '65%',
+    marginTop: '85%',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -116,7 +145,7 @@ const styles = StyleSheet.create({
   },
   availableText: {
     // color: colors.,
-    fontFamily: fonts.primaryRegular,
+    fontFamily: fonts.primarySemiBold,
     fontSize: 20,
     marginVertical: 3,
   },
@@ -129,7 +158,10 @@ const styles = StyleSheet.create({
     color: '#009e73'
   },
   layout: {
-    flexDirection: 'row',
+    fontFamily: fonts.primarySemiBold,
+    fontSize: 20,
+    marginVertical: 3,
+    paddingLeft: 12,
   },
   button: {
     flexDirection: 'row',
@@ -137,6 +169,6 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     marginBottom: 50,
     color: '#009e73',
-    marginTop: '70%'
+    marginTop: '65%'
   },
 });

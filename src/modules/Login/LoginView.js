@@ -35,7 +35,7 @@ export default function LoginScreen(props) {
             >
                 <View style={{alignItems: "center"}}>
                     <Image
-                        source={require('../../../assets/images/RNS_nerd.png')}
+                        source={require('../../../assets/images/logoapp2.png')}
                         style={styles.nerdImage}
                     />
                 </View>

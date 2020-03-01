@@ -78,17 +78,7 @@ export default createBottomTabNavigator(
         ),
       },
     },
-    งานที่ทำ: {
-      screen: GridScreen,
-      navigationOptions: {
-        header: (
-          <View style={styles.headerContainer}>
-            <Image style={styles.headerImage} source={hederBackground} />
-            <Text style={styles.headerCaption}>งานที่ทำ</Text>
-          </View>
-        ),
-      },
-    },
+   
     คลัง: {
       screen: StoreScreen,
       navigationOptions: {
@@ -125,9 +115,9 @@ export default createBottomTabNavigator(
           case 'งาน':
             iconSource = iconCalendar;
             break;
-          case 'งานที่ทำ':
-            iconSource = iconGrids;
-            break;
+          // case 'งานที่ทำ':
+          //   iconSource = iconGrids;
+          //   break;
           case 'คลัง':
             iconSource = iconPages;
             break;

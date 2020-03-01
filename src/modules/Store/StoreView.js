@@ -1,99 +1,153 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, Button, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Platform,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { colors, fonts } from '../../styles';
+import { GridRow } from '../../components';
 // import DateTimePickerModal from "react-native-modal-datetime-picker";
 // import DatePicker from 'react-native-date-picker'
 
-// import { Button, RadioGroup, Dropdown } from '../../components';
+export default class StoreScreen extends React.Component {
 
-export default function ComponentsScreen(props) {
+  _getRenderItemFunction = () =>
+    [this.renderRowOne][
+    this.props.tabIndex
+    ];
 
-    // const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  _openDetailStore = detailStore => {
+    this.props.navigation.navigate({
+      routeName: 'DetailStore',
+      params: { ...detailStore },
+    });
+  };
+  state = {
+    search: '',
+  };
 
-    // const showDatePicker = () => {
-    //     setDatePickerVisibility(true);
-    // };
+  updateSearch = search => {
+    this.setState({ search });
+  };
 
-    // const hideDatePicker = () => {
-    //     setDatePickerVisibility(false);
-    // };
+  renderRowOne = rowData => {
+    const cellViews = rowData.item.map(item => (
+      <TouchableOpacity
+        key={item.id}
+        style={styles.itemThreeContainer}
+        onPress={() => this._openDetailStore(item)}
+      >
+        <View style={styles.itemThreeSubContainer}>
+          <Image source={require('../../../assets/images/logo.png')} style={styles.itemThreeImage} />
 
-    // const handleConfirm = date => {
-    //     console.warn("A date has been picked: ", date);
-    //     hideDatePicker();
-    // };
-    // state = { date: new Date() }
-    return (
-        // <View></View>
-        // <View style={{ flex: 1 }}>
-        //     <TouchableOpacity onPress={showDatePicker}>
-        //         <Text>Show DatePicker</Text>
-        //     </TouchableOpacity>
-        //     <DateTimePickerModal
-        //         isVisible={isDatePickerVisible}
-        //         onConfirm={hideDatePicker}
-        //         onCancel={handleConfirm}
-        //     />
-        // </View>
-        // <View>
-        //     <Button title="Show Date Picker" onPress={showDatePicker} />
-        //     <DateTimePickerModal
-        //         isVisible={isDatePickerVisible}
-        //         mode="date"
-        //         onConfirm={handleConfirm}
-        //         onCancel={hideDatePicker}
-        //     />
-        // </View>
-        <View>
-        <Searchbar
-            placeholder="วัน-เดือน-ปี"
-            style={styles.container}
-        // onChangeText={query => { this.setState({ firstQuery: query }); }}
-        // value={firstQuery}
-        />
+          <View style={styles.itemThreeContent}>
+            <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.name} {item.last}</Text>
+            <View>
+              <Text style={styles.itemThreeTitle}>ประเภท {item.type}</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <View>
+                  <Text style={styles.itemThreeSubtitle}>
+                    {item.date}
+                  </Text>
+                </View>
+                <View style={{ paddingLeft: 50 }}>
+                  <Text style={styles.itemThreeSubtitle}>
+                    {item.datetime}
+                  </Text>
+                </View>
+              </View>
+
+            </View>
+            <View style={styles.itemThreeMetaContainer}>
+              {/* <Text style={styles.itemThreePrice}>{item.status}</Text> */}
+            </View>
+          </View>
         </View>
+        <View style={{
+        height: 1,
+        backgroundColor: colors.lightGray,
+        width: "200%"
+      }}>
+      </View>
+      </TouchableOpacity>
+    ));
+    return (
+      <View key={rowData.item[0].id} >
+        {cellViews}
+      </View>
     );
+  };
+
+  render() {
+    const groupedData =
+      this.props.tabIndex === 0
+        ? GridRow.groupByRows(this.props.data, 2)
+        : this.props.data;
+
+    const { search } = this.state;
+
+    return (
+      <View style={styles.container}>
+        <Searchbar
+          placeholder="วัน-เดือน-ปี"
+          style={{marginBottom: 12, backgroundColor: '#fff'}}
+          onChangeText={this.updateSearch}
+          value={search}
+        />
+      <FlatList
+        keyExtractor={item =>
+          item.id
+            ? `${this.props.tabIndex}-${item.id}`
+            : `${item[0] && item[0].id}`
+        }
+        style={{ backgroundColor: colors.white, paddingHorizontal: 15 }}
+        data={groupedData}
+        renderItem={this._getRenderItemFunction()}
+      />
+      </View>
+    );
+  }
 }
 
+
 const styles = StyleSheet.create({
-    container: {
-        paddingTop: 10,
-        alignItems: 'center',
-        // width: 100,
-    },
-    componentsSection: {
-        backgroundColor: colors.white,
-        padding: 15,
-        marginBottom: 20,
-        borderRadius: 5,
-    },
-    componentSectionHeader: {
-        fontFamily: fonts.primaryRegular,
-        color: '#686868',
-        fontSize: 20,
-        marginBottom: 20,
-    },
-    demoButtonsContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    demoIconsContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        marginBottom: 20,
-    },
-    demoButton: {
-        marginTop: 8,
-        marginBottom: 8,
-    },
-    demoItem: {
-        marginVertical: 15,
-    },
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
+  componentsSection: {
+    backgroundColor: colors.white,
+    padding: 15,
+    marginBottom: 20,
+    borderRadius: 5,
+  },
+  componentSectionHeader: {
+    fontFamily: fonts.primaryRegular,
+    color: '#686868',
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  itemThreeContainer: {
+    backgroundColor: "white",
+  },
+  itemThreeSubContainer: {
+    flexDirection: 'row',
+    paddingVertical: 10,
+    paddingLeft: 25
+  },
+
+  itemThreeContent: {
+    paddingLeft: 15,
+    justifyContent: 'space-between',
+  },
+  itemThreeImage: {
+    height: 100,
+    width: 60,
+  },
 });

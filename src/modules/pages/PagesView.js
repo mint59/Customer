@@ -22,24 +22,12 @@ export default function PagesScreen(props) {
           />
           <Text style={styles.itemText}>Profile</Text>
         </TouchableOpacity>
-
-        {/* <TouchableOpacity
-          onPress={() => props.navigation.navigate({ routeName: 'Gallery' })}
-          style={styles.item}
-        >
-          <Image
-            resizeMode="contain"
-            source={galleryIcon}
-            style={styles.itemImage}
-          />
-          <Text style={styles.itemText}>Gallery</Text>
-        </TouchableOpacity>  */}
         
       </View>
       <View style={styles.row}>
 
         <TouchableOpacity
-          onPress={() => props.navigation.navigate({ routeName: 'Gallery' })}
+          onPress={() => props.navigation.navigate({ routeName: 'Profile' })}
           style={styles.item}
         >
           <Image
@@ -54,7 +42,7 @@ export default function PagesScreen(props) {
       <View style={styles.row}>
 
       <TouchableOpacity
-          onPress={() => props.navigation.navigate({ routeName: 'Chat' })}
+          onPress={() => props.navigation.navigate({ routeName: 'Profile' })}
           style={styles.item}
         >
           <Image

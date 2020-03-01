@@ -12,16 +12,16 @@ import { fonts, colors } from '../../styles';
 import { Button } from '../../components';
 
 export default function ProfileScreen(props) {
-//   const rnsUrl = 'https://reactnativestarter.com';
-//   const handleClick = () => {
-//     Linking.canOpenURL(rnsUrl).then(supported => {
-//       if (supported) {
-//         Linking.openURL(rnsUrl);
-//       } else {
-//         console.log(`Don't know how to open URI: ${rnsUrl}`);
-//       }
-//     });
-//   };
+  //   const rnsUrl = 'https://reactnativestarter.com';
+  //   const handleClick = () => {
+  //     Linking.canOpenURL(rnsUrl).then(supported => {
+  //       if (supported) {
+  //         Linking.openURL(rnsUrl);
+  //       } else {
+  //         console.log(`Don't know how to open URI: ${rnsUrl}`);
+  //       }
+  //     });
+  //   };
 
   return (
     <ImageBackground
@@ -34,9 +34,40 @@ export default function ProfileScreen(props) {
       />
 
       <View style={styles.textContainer}>
-        <Text style={styles.availableText}>ชื่อ-สกุล : อดิศรแสน แสนประเสริฐ</Text>
-        <Text style={styles.availableText}>เบอร์ : 0222222222</Text>
-        <Text style={styles.availableText}>Email : mm@email.com</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.availableText}>ชื่อ-สกุล: </Text>
+          <Text style={{
+            color: colors.white,
+            fontFamily: fonts.primaryRegular,
+            fontSize: 20,
+            marginVertical: 3,
+            paddingLeft: 20,
+            width: '70%'
+          }}
+          >อดิศรแสน แสนประเสริฐ</Text>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.availableText}>เบอร์: </Text>
+          <Text style={{
+            color: colors.white,
+            fontFamily: fonts.primaryRegular,
+            fontSize: 20,
+            marginVertical: 3,
+            paddingLeft: 50
+          }}
+          >0222222222</Text>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.availableText}>Email: </Text>
+          <Text style={{
+            color: colors.white,
+            fontFamily: fonts.primaryRegular,
+            fontSize: 20,
+            marginVertical: 3,
+            paddingLeft: 45
+          }}
+          >mm@email.com</Text>
+        </View>
       </View>
       <View style={styles.buttonsContainer}>
         <Button
@@ -48,7 +79,7 @@ export default function ProfileScreen(props) {
           onPress={() => props.navigation.goBack()}
         />
       </View>
-    </ImageBackground>
+    </ImageBackground >
   );
 }
 
