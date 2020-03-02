@@ -22,8 +22,8 @@ export default function HomeScreen(props) {
   //   });
   // };
   const items = [
-    { name: 'งานวันนี้', background: '#02ef1d', icon: 'user'},
-    { name: 'งานเดือนนี้', background: '#02cbef', icon: 'group' },
+    { name: 'งานวันนี้', background: '#02ef1d', icon: 'user', title: '1'},
+    { name: 'งานเดือนนี้', background: '#02cbef', icon: 'group', title: '2' },
   ];
   
 

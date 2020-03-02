@@ -11,8 +11,6 @@ import { fonts, colors } from '../../styles';
 import { Button } from '../../components';
 
 export default function DetailStoreScreen(props) {
-    const { region } = props;
-    console.log(region);
     return (
         <View>
             <Appbar.Header >
