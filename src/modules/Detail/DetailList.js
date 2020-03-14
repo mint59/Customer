@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,22 +11,48 @@ import MapView, { Marker } from 'react-native-maps';
 import { Appbar } from 'react-native-paper';
 import { fonts, colors } from '../../styles';
 import { Button } from '../../components';
+import HITSAPI from '../../../HISAPI'
 
-export default function DetailListScreen(props) {
+export default function DetailListScreen(props, params) {
+ 
+  // const hitsAPI = new HITSAPI();
 
-  // region = [
-  //   {
-  //     latitude: '13.76472260079499',
-  //     longitude: '100.53832253466798',
-  //     latitudeDelta: '0.015',
-  //     longitudeDelta: '0.0121',
-  //   }
-  // ];
+  // const [model, setModel] = useState({
+  //   data: [{
+  //     latitude: "",
+  //     longitude: ""
+  //   }]
+  // });
 
-  // const [region, seRegion] = useState('')
+  // const fetchModels = async () => {
+  //   // setLoading(true);
+  //   await hitsAPI.axios
+  //     .get(`/crud/task`)
+  //     .then(function (response) {
+  //       console.log(response.data);
+  //       // const pagination = { ...tableOption.pagination };
+  //       // pagination.total = response.data.totalCount;
+  //       setModel({
+  //         latitude: response.data.rows.latitude,
+  //         longitude: response.data.rows.longitude
+  //       });
+  //       // setLoading(false);
 
+  //     });
+  //   // const result = await axios(
+  //   //   `http://192.168.43.8:5000/crud/task`
+  //   // );
+  //   // setModel({ data: result.data.rows });
+  // };
+  // useEffect(() => {
+  //   fetchModels();
+  //   // setTableOption({
+  //   //     loading: false,
+  //   //     data: dataTest,
+  //   //     pagination
+  //   // });
+  // }, []);
 
-  //  console.log(region);
   return (
     <View>
       <Appbar.Header >
@@ -48,7 +74,7 @@ export default function DetailListScreen(props) {
             paddingLeft: 12,
           }}
           >
-            สิริพร แสนสุข</Text>
+            {props.navigation.state.params.customer_name} </Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.availableText}>เบอร์: </Text>
@@ -58,7 +84,7 @@ export default function DetailListScreen(props) {
             marginVertical: 3,
             paddingLeft: 90,
           }}
-          >025558555</Text>
+          > {props.navigation.state.params.tel}</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.availableText}>วันที่: </Text>
@@ -68,17 +94,7 @@ export default function DetailListScreen(props) {
             marginVertical: 3,
             paddingLeft: 95,
           }}
-          >02/02/2020</Text>
-        </View>
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.availableText}>เวลา: </Text>
-          <Text style={{
-            fontFamily: fonts.primarySemiBold,
-            fontSize: 20,
-            marginVertical: 3,
-            paddingLeft: 90,
-          }}
-          > 12.00</Text>
+          > {props.navigation.state.params.task_date}</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.availableText}>ประเภท: </Text>
@@ -86,9 +102,19 @@ export default function DetailListScreen(props) {
             fontFamily: fonts.primarySemiBold,
             fontSize: 20,
             marginVertical: 3,
+            paddingLeft: 90,
+          }}
+          >{props.navigation.state.params.type}</Text>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.availableText}>รายละเอียด: </Text>
+          <Text style={{
+            fontFamily: fonts.primarySemiBold,
+            fontSize: 20,
+            marginVertical: 3,
             paddingLeft: 60,
           }}
-          >ระบบไฟ</Text>
+          >{props.navigation.state.params.detail_type}</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.availableText}>ที่อยู่: </Text>
@@ -99,30 +125,36 @@ export default function DetailListScreen(props) {
             paddingLeft: 85,
             width: "89%"
           }}
-          >ถนน พหลโยธิน แขวง ถนนพญาไท เขตราชเทวี กรุงเทพมหานคร 10400 ไทย</Text>
+          >{props.navigation.state.params.location}</Text>
         </View>
 
 
         <View style={styles.map}>
           <MapView
             style={styles.mapStyle}
-            region={{
-              latitude: 13.76472260079499,
-              longitude: 100.53832253466798,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
+            // region={{
+            //   latitude: (model.data.latitude),
+            //   longitude: (model.data.longitude)
+            // }}
+            region={{ 
+              latitude: 15.6783324 , 
+              longitude: 101.8670393
             }}
-          >
+                      >
             <Marker
               draggable
               coordinate={{
-                latitude: 13.76472260079499,
-                longitude: 100.53832253466798,
+                latitude: 15.6783324 , 
+                longitude: 101.8670393
               }}
+              // coordinate={{
+              //   region
+              // }}
               onDragEnd={(e) => alert(JSON.stringify(e.nativeEvent.coordinate))}
               title={'Marker'}
               description={'This is a description of the marker'}
             />
+
           </MapView>
         </View>
         <View style={styles.button}>

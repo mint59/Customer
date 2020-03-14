@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -7,112 +7,125 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  Dimensions,
 } from 'react-native';
-import { Searchbar } from 'react-native-paper';
 import { colors, fonts } from '../../styles';
-import { GridRow } from '../../components';
-// import DateTimePickerModal from "react-native-modal-datetime-picker";
-// import DatePicker from 'react-native-date-picker'
+import HITSAPI from '../../../HISAPI'
+import { SearchBar } from "react-native-elements";
 
-export default class StoreScreen extends React.Component {
+export default function StoreScreen(props) {
+  const hitsAPI = new HITSAPI();
 
-  _getRenderItemFunction = () =>
-    [this.renderRowOne][
-    this.props.tabIndex
-    ];
+  const [loading, setLoading] = useState(false);
+  const [text, setText] = React.useState('');
+  const [model, setModel] = useState({
+    data: [],
+  });
 
-  _openDetailStore = detailStore => {
-    this.props.navigation.navigate({
+  const [newSearch, setNewSearch] = useState([]);
+
+  useEffect(() => {
+    fetchModels();
+  }, []);
+
+  // fetch data
+  const fetchModels = async () => {
+    setLoading(true);
+    await hitsAPI.axios
+      .get(`/crud/task`)
+      .then(function (response) {
+        setModel({
+          data: response.data.rows,
+        });
+        setLoading(false);
+        setNewSearch(response.data.rows);
+      });
+
+  };
+
+  const searchFilterFunction = text => {
+    setText(text);
+
+    const newData = newSearch.filter(item => {
+      const itemData = `${item.customer_name.toUpperCase()}`;
+      const textData = text.toUpperCase();
+  
+      return itemData.indexOf(textData) > -1;
+    });
+    setModel({
+      data: newData,
+    });
+  };
+
+  const openDetailStore = detailStore => {
+    props.navigation.navigate({
       routeName: 'DetailStore',
       params: { ...detailStore },
     });
   };
-  state = {
-    search: '',
-  };
 
-  updateSearch = search => {
-    this.setState({ search });
-  };
+  return (
+    <View style={styles.container}>
+      <View style={styles.dialog}>
+    
+        <SearchBar
+          placeholder="วัน/เดือน/ปี"
+          lightTheme
+          round
+          value={text}
+          onChangeText={text => searchFilterFunction(text)}
+          />
 
-  renderRowOne = rowData => {
-    const cellViews = rowData.item.map(item => (
-      <TouchableOpacity
-        key={item.id}
-        style={styles.itemThreeContainer}
-        onPress={() => this._openDetailStore(item)}
-      >
-        <View style={styles.itemThreeSubContainer}>
-          <Image source={require('../../../assets/images/logo.png')} style={styles.itemThreeImage} />
+        <FlatList
+          style={styles.zIndex}
+          data={model.data}
+          keyExtractor={item => item.customer_id}
+          renderItem={({ item }) => (
+            <View style={styles.container}>
+              <View style={styles.container}>
+                <TouchableOpacity
+                  onPress={() => openDetailStore(item)}
+                >
+                  <View style={styles.itemThreeSubContainer}>
+                    <Image source={require('../../../assets/images/logo.png')} style={styles.itemThreeImage} />
 
-          <View style={styles.itemThreeContent}>
-            <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.name} {item.last}</Text>
-            <View>
-              <Text style={styles.itemThreeTitle}>ประเภท {item.type}</Text>
-              <View style={{ flexDirection: 'row' }}>
-                <View>
-                  <Text style={styles.itemThreeSubtitle}>
-                    {item.date}
-                  </Text>
-                </View>
-                <View style={{ paddingLeft: 50 }}>
-                  <Text style={styles.itemThreeSubtitle}>
-                    {item.datetime}
-                  </Text>
-                </View>
+                    <View style={styles.itemThreeContent}>
+                      <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.customer_name}</Text>
+                      <View>
+                        <Text style={styles.itemThreeTitle}>ประเภท {item.type}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                          <View>
+                            <Text style={styles.itemThreeSubtitle}>
+                              {item.created_date}
+                            </Text>
+                          </View>
+                          <View style={{ paddingLeft: 50 }}>
+                            <Text style={styles.itemThreeSubtitle}>
+                              {item.datetime}
+                            </Text>
+                          </View>
+                        </View>
+
+                      </View>
+                      <View style={styles.itemThreeMetaContainer}>
+                        <Text style={styles.itemThreePrice}>{item.status}</Text>
+                      </View>
+                    </View>
+                  </View>
+                  <View style={{
+                    height: 1,
+                    backgroundColor: colors.lightGray,
+                    width: "200%"
+                  }}>
+                  </View>
+                </TouchableOpacity>
               </View>
-
             </View>
-            <View style={styles.itemThreeMetaContainer}>
-              {/* <Text style={styles.itemThreePrice}>{item.status}</Text> */}
-            </View>
-          </View>
-        </View>
-        <View style={{
-        height: 1,
-        backgroundColor: colors.lightGray,
-        width: "200%"
-      }}>
-      </View>
-      </TouchableOpacity>
-    ));
-    return (
-      <View key={rowData.item[0].id} >
-        {cellViews}
-      </View>
-    );
-  };
-
-  render() {
-    const groupedData =
-      this.props.tabIndex === 0
-        ? GridRow.groupByRows(this.props.data, 2)
-        : this.props.data;
-
-    const { search } = this.state;
-
-    return (
-      <View style={styles.container}>
-        <Searchbar
-          placeholder="วัน-เดือน-ปี"
-          style={{marginBottom: 12, backgroundColor: '#fff'}}
-          onChangeText={this.updateSearch}
-          value={search}
+          )
+          }
         />
-      <FlatList
-        keyExtractor={item =>
-          item.id
-            ? `${this.props.tabIndex}-${item.id}`
-            : `${item[0] && item[0].id}`
-        }
-        style={{ backgroundColor: colors.white, paddingHorizontal: 15 }}
-        data={groupedData}
-        renderItem={this._getRenderItemFunction()}
-      />
-      </View>
-    );
-  }
+      </View >
+    </View >
+  );
 }
 
 
@@ -120,6 +133,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
+  },
+  zIndex: {
+    zIndex: -1
+  },
+  dialog: {
+    flex: 1,
+  },
+  item: {
+    height: 40,
+    paddingVertical: 10,
+    borderColor: colors.lightGray,
+    borderWidth: 1,
+    borderRadius: 5,
+    marginHorizontal: 5,
   },
   componentsSection: {
     backgroundColor: colors.white,

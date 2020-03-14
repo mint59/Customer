@@ -11,6 +11,7 @@ import { fonts, colors } from '../../styles';
 import { Button } from '../../components';
 
 export default function DetailStoreScreen(props) {
+
     return (
         <View>
             <Appbar.Header >
@@ -32,7 +33,7 @@ export default function DetailStoreScreen(props) {
                         paddingLeft: 12,
                     }}
                     >
-                        สิริพร แสนสุข</Text>
+                        {props.navigation.state.params.customer_name}</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.availableText}>เบอร์: </Text>
@@ -42,7 +43,7 @@ export default function DetailStoreScreen(props) {
                         marginVertical: 3,
                         paddingLeft: 90,
                     }}
-                    >025558555</Text>
+                    >{props.navigation.state.params.tel}</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.availableText}>วันที่: </Text>
@@ -52,17 +53,7 @@ export default function DetailStoreScreen(props) {
                         marginVertical: 3,
                         paddingLeft: 95,
                     }}
-                    >02/02/2020</Text>
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.availableText}>เวลา: </Text>
-                    <Text style={{
-                        fontFamily: fonts.primarySemiBold,
-                        fontSize: 20,
-                        marginVertical: 3,
-                        paddingLeft: 90,
-                    }}
-                    > 12.00</Text>
+                    >{props.navigation.state.params.task_date}</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.availableText}>ประเภท: </Text>
@@ -70,9 +61,19 @@ export default function DetailStoreScreen(props) {
                         fontFamily: fonts.primarySemiBold,
                         fontSize: 20,
                         marginVertical: 3,
+                        paddingLeft: 90,
+                    }}
+                    >{props.navigation.state.params.type}</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.availableText}>รายละเอียด: </Text>
+                    <Text style={{
+                        fontFamily: fonts.primarySemiBold,
+                        fontSize: 20,
+                        marginVertical: 3,
                         paddingLeft: 60,
                     }}
-                    >ระบบไฟ</Text>
+                    >{props.navigation.state.params.detail_type}</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.availableText}>ที่อยู่: </Text>
@@ -83,12 +84,13 @@ export default function DetailStoreScreen(props) {
                         paddingLeft: 85,
                         width: "89%"
                     }}
-                    >ถนน พหลโยธิน แขวง ถนนพญาไท เขตราชเทวี กรุงเทพมหานคร 10400 ไทย</Text>
+                    >{props.navigation.state.params.location}</Text>
                 </View>
             </View>
 
             <View style={styles.imageid}>
-                <Image source={require('../../../assets/images/projects.jpg')} style={styles.itemThreeImage} />
+                {props.navigation.state.params.image}
+                {/* <Image source={require(props.navigation.state.params.image)} style={styles.itemThreeImage} /> */}
             </View>
         </View >
 

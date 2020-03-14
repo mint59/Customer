@@ -1,3 +1,5 @@
+import React,{ useEffect, useState, useMemo } from 'react';
+import HITSAPI from '../../../HISAPI'
 import { compose, withState } from 'recompose';
 // import logo from '../../../assets/images'
 
@@ -109,8 +111,11 @@ const listData = [
   }
 ];
 
-export default compose(
-  withState('tabIndex', 'setTabIndex', 0),
-  withState('tabs', 'setTabs', ['งานวันนี้', 'งานที่ทำ']),
-  withState('data', 'setData', listData),
-)(ListView);
+// export default compose(
+//   // withState('tabIndex', 'setTabIndex', 0),
+//   // withState('tabs', 'setTabs', ['งานวันนี้', 'งานที่ทำ']),
+//   // withState('data', 'setData', model),
+// )(ListView);
+export default compose()(
+  ListView,
+);

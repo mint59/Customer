@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -8,163 +8,195 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  SafeAreaView,
+  Button,
 } from 'react-native';
+import RadioGroup from '../../components/RadioGroup'
 import { colors, fonts } from '../../styles';
-import { RadioGroup, GridRow } from '../../components';
+import HITSAPI from '../../../HISAPI'
 
-export default class GridsScreen extends React.Component {
-  _getRenderItemFunction = () =>
-    [this.renderRowOne, this.renderRowTwo][
-    this.props.tabIndex
+export default function Listview(props) {
+  const hitsAPI = new HITSAPI();
+  const [loading, setLoading] = useState(false);
+
+  const [model, setModel] = useState({
+    data: [],
+
+  });
+  const [tabs, setTabs] = useState(['งานวันนี้', 'งานที่ทำ'])
+  const [tabIndex, setTabIndex] = useState(0)
+  const [detailList, setDetailList] = useState({});
+
+  useEffect(() => {
+    fetchModels();
+    // const pagination = { ...tableOption.pagination };
+    // pagination.total = 20;
+
+    // setTableOption({
+    //     loading: false,
+    //     data: dataTest,
+    //     pagination
+    // });
+  }, []);
+
+  // fetch data
+  const fetchModels = async () => {
+    setLoading(true);
+    await hitsAPI.axios
+      .get(`/crud/task`)
+      .then(function (response) {
+        console.log(response.data);
+        // const pagination = { ...tableOption.pagination };
+        // pagination.total = response.data.totalCount;
+        setModel({
+          data: response.data.rows,
+        });
+        setLoading(false);
+
+      });
+    // const result = await axios(
+    //   `http://192.168.43.8:5000/crud/task`
+    // );
+    // setModel({ data: result.data.rows });
+  };
+
+  const getRenderItemFunction = () =>
+    [renderRowOne, renderRowTwo][
+    tabIndex
     ];
 
-  _openDetailList = detailList => {
-    this.props.navigation.navigate({
+  const openDetailList = detailList => {
+    props.navigation.navigate({
       routeName: 'DetailList',
       params: { ...detailList },
     });
   };
-  _openDetailList2 = checkout => {
-    this.props.navigation.navigate({
-      routeName: 'Checkout',
-      params: { ...checkout },
-    });
-  };
+  
+  const openCheckOut = checkout => {
+    props.navigation.navigate({
+    routeName: 'Checkout',
+    params: { ...checkout },
+  });
+};
 
-  renderRowOne = rowData => {
-    const cellViews = rowData.item.map(item => (
-      <TouchableOpacity
-        key={item.id}
-        style={styles.item}
-        onPress={() => this._openDetailList(item)}
-      >
-        <View style={styles.itemThreeSubContainer}>
-          <Image source={require('../../../assets/images/logo.png')} style={styles.itemThreeImage} />
+  const renderRowOne = ({ item }) => (
+    <View style={styles.container}>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => openDetailList(item)}
+        >
+          <View style={styles.itemThreeSubContainer}>
+            <Image source={require('../../../assets/images/logo.png')} style={styles.itemThreeImage} />
 
-          <View style={styles.itemThreeContent}>
-            <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.name} {item.last}</Text>
-            <View>
-              <Text style={styles.itemThreeTitle}>ประเภท {item.type}</Text>
-              <View style={{ flexDirection: 'row' }}>
-                <View>
-                  <Text style={styles.itemThreeSubtitle}>
-                    {item.date}
-                  </Text>
-                </View>
-                <View style={{ paddingLeft: 50 }}>
-                  <Text style={styles.itemThreeSubtitle}>
-                    {item.datetime}
-                  </Text>
-                </View>
-              </View>
-
-            </View>
-            <View style={styles.itemThreeMetaContainer}>
-              {/* <Text style={styles.itemThreePrice}>{item.status}</Text> */}
-            </View>
-          </View>
-        </View>
-        <View style={{
-          height: 1,
-          backgroundColor: colors.lightGray,
-          width: "200%"
-        }}>
-        </View>
-      </TouchableOpacity>
-    ));
-    return (
-      <View key={rowData.item[0].id} >
-        {cellViews}
-      </View>
-    );
-  };
-
-
-
-  renderRowTwo = ({ item }) => (
-    <TouchableOpacity
-      key={item.id}
-      style={styles.itemThreeContainer}
-      onPress={() => this._openDetailList2(item)}
-    >
-      <View style={styles.itemThreeSubContainer}>
-        <Image source={require('../../../assets/images/logo.png')} style={styles.itemThreeImage} />
-
-        <View style={styles.itemThreeContent}>
-          <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.name} {item.last}</Text>
-          <View>
-            <Text style={styles.itemThreeTitle}>ประเภท {item.type}</Text>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={styles.itemThreeContent}>
+              <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.customer_name}</Text>
               <View>
-                <Text style={styles.itemThreeSubtitle}>
-                  {item.date}
-                </Text>
+                <Text style={styles.itemThreeTitle}>ประเภท {item.type}</Text>
+                <View style={{ flexDirection: 'row' }}>
+                  <View>
+                    <Text style={styles.itemThreeSubtitle}>
+                      {item.created_date}
+                    </Text>
+                  </View>
+                  {/* <View style={{ paddingLeft: 50 }}>
+                          <Text style={styles.itemThreeSubtitle}>
+                            {item.datetime}
+                          </Text>
+                        </View> */}
+                </View>
+
               </View>
-              <View style={{ paddingLeft: 50 }}>
-                <Text style={styles.itemThreeSubtitle}>
-                  {item.datetime}
-                </Text>
+              <View style={styles.itemThreeMetaContainer}>
+                {/* <Text style={styles.itemThreePrice}>{item.status}</Text> */}
               </View>
             </View>
-
           </View>
-          <View style={styles.itemThreeMetaContainer}>
-            {/* <Text style={styles.itemThreePrice}>{item.status}</Text> */}
+          <View style={{
+            height: 1,
+            backgroundColor: colors.lightGray,
+            width: "200%"
+          }}>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
-      <View style={{
-        height: 1,
-        backgroundColor: colors.lightGray,
-        width: "200%"
-      }}>
-      </View>
-    </TouchableOpacity>
+    </View>
   );
 
-  // renderDviver = () =>{
-  //   return (
-  //     <View style={{ 
-  //       height: 1, 
-  //       backgroundColor: colors.lightGray,
-  //       width: "200%" }}>
-  //     </View>
-  //   )
-  // } 
-
-  render() {
-    const groupedData =
-      this.props.tabIndex === 0
-        ? GridRow.groupByRows(this.props.data, 2)
-        : this.props.data;
-
-    return (
+  const renderRowTwo = ({ item }) => (
+    <View style={styles.container}>
       <View style={styles.container}>
-        <View style={{ height: 50 }}>
-          <RadioGroup
-            selectedIndex={this.props.tabIndex}
-            items={this.props.tabs}
-            onChange={this.props.setTabIndex}
-            underline
-          />
-        </View>
-        <FlatList
-          ItemSeparatorComponent={this.renderDviver}
-          keyExtractor={item =>
-            item.id
-              ? `${this.props.tabIndex}-${item.id}`
-              : `${item[0] && item[0].id}`
-          }
-          style={{ backgroundColor: colors.white, paddingHorizontal: 15 }}
-          data={groupedData}
-          renderItem={this._getRenderItemFunction()}
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => openCheckOut(item)}
+        >
+          <View style={styles.itemThreeSubContainer}>
+            <Image source={require('../../../assets/images/logo.png')} style={styles.itemThreeImage} />
 
-        // renderDviver={renderDviver}
+            <View style={styles.itemThreeContent}>
+              <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.customer_name}</Text>
+              <View>
+                <Text style={styles.itemThreeTitle}>ประเภท {item.type}</Text>
+                <View style={{ flexDirection: 'row' }}>
+                  <View>
+                    <Text style={styles.itemThreeSubtitle}>
+                      {item.created_date}
+                    </Text>
+                  </View>
+                  {/* <View style={{ paddingLeft: 50 }}>
+                          <Text style={styles.itemThreeSubtitle}>
+                            {item.datetime}
+                          </Text>
+                        </View> */}
+                </View>
+
+              </View>
+              <View style={styles.itemThreeMetaContainer}>
+                {/* <Text style={styles.itemThreePrice}>{item.status}</Text> */}
+              </View>
+            </View>
+          </View>
+          <View style={{
+            height: 1,
+            backgroundColor: colors.lightGray,
+            width: "200%"
+          }}>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ height: 50 }}>
+        <RadioGroup
+          selectedIndex={tabIndex}
+          items={tabs}
+          onChange={setTabIndex}
+          underline
         />
       </View>
-    );
-  }
-}
+      <FlatList
+        data={model.data}
+        keyExtractor={item => item.customer_id}
+        // renderItem={({ item }) => (
+        //   <ListOne />
+        // )
+        // }
+        renderItem={getRenderItemFunction()}
+      //     ListFooterComponent={
+      //   loading ? (
+      //     <ActivityIndicator />
+      //   ) : (
+      //       <Button title="Load More" onPress={loadMore} />
+      //     )
+      // }
+      />
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
