@@ -25,18 +25,10 @@ export default function Listview(props) {
   });
   const [tabs, setTabs] = useState(['งานวันนี้', 'งานที่ทำ'])
   const [tabIndex, setTabIndex] = useState(0)
-  const [detailList, setDetailList] = useState({});
+  // const [detailList, setDetailList] = useState({});
 
   useEffect(() => {
     fetchModels();
-    // const pagination = { ...tableOption.pagination };
-    // pagination.total = 20;
-
-    // setTableOption({
-    //     loading: false,
-    //     data: dataTest,
-    //     pagination
-    // });
   }, []);
 
   // fetch data
@@ -46,18 +38,12 @@ export default function Listview(props) {
       .get(`/crud/task`)
       .then(function (response) {
         console.log(response.data);
-        // const pagination = { ...tableOption.pagination };
-        // pagination.total = response.data.totalCount;
         setModel({
           data: response.data.rows,
         });
         setLoading(false);
 
       });
-    // const result = await axios(
-    //   `http://192.168.43.8:5000/crud/task`
-    // );
-    // setModel({ data: result.data.rows });
   };
 
   const getRenderItemFunction = () =>
@@ -181,10 +167,6 @@ export default function Listview(props) {
       <FlatList
         data={model.data}
         keyExtractor={item => item.customer_id}
-        // renderItem={({ item }) => (
-        //   <ListOne />
-        // )
-        // }
         renderItem={getRenderItemFunction()}
       //     ListFooterComponent={
       //   loading ? (
@@ -322,16 +304,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
-  // item: {
-  //   flex: 1,
-  //   height: 120,
-  //   paddingVertical: 20,
-  //   borderColor: colors.lightGray,
-  //   borderWidth: 1,
-  //   borderRadius: 5,
-  //   alignItems: 'center',
-  //   justifyContent: 'space-around',
-  //   marginHorizontal: 5,
-  //   marginTop: 12,
-  // },
 });

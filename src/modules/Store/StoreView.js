@@ -68,7 +68,7 @@ export default function StoreScreen(props) {
       <View style={styles.dialog}>
     
         <SearchBar
-          placeholder="วัน/เดือน/ปี"
+          placeholder="ชื่อ..."
           lightTheme
           round
           value={text}

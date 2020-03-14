@@ -11,70 +11,20 @@ import { Text } from '../../components/StyledText';
 
 export default function HomeScreen(props) {
   const hitsAPI = new HITSAPI();
-  const [model, setModel] = useState({
-    data: [],
+  const [filterCount, setFilterCount] = useState({
+    totalTask: 0,
+    totalOpen: 0,
   });
-  // const [filterCount, setFilterCount] = useState({
-  //   totalOpp: 0,
-  // });
 
-  // const fecthCountStatus = async () => {
-  //   await hitsAPI.axios.get(`/opp/opp-sum`).then(function (response) {
-  //     console.log(response.data);
-  //     setFilterCount(response.data);
-  //   });
-  // };
+  const fetchModels = async () => {
+    await hitsAPI.axios.get(`/task/task-sum`).then(function (response) {
+      console.log(response.data);
+      setFilterCount(response.data);
+    });
+  };
   useEffect(() => {
     fetchModels();
-    // const pagination = { ...tableOption.pagination };
-    // pagination.total = 20;
-
-    // setTableOption({
-    //     loading: false,
-    //     data: dataTest,
-    //     pagination
-    // });
   }, []);
-
-  // fetch data
-  const fetchModels = async () => {
-    // setLoading(true);
-    await hitsAPI.axios
-      .get(`/crud/task`)
-      .then(function (response) {
-        console.log(response.data);
-        // const pagination = { ...tableOption.pagination };
-        // pagination.total = response.data.totalCount;
-        setModel({
-          data: response.data.rows,
-        });
-        // setLoading(false);
-
-      });
-    // const result = await axios(
-    //   `http://192.168.43.8:5000/crud/task`
-    // );
-    // setModel({ data: result.data.rows });
-  };
-
-  const data = [
-    {
-      name: "New York",
-      population: 8538000,
-      color: "#ffffff",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    },
-    {
-      name: "Moscow",
-      population: 11920000,
-      color: "rgb(0, 0, 255)",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    }
-
-  ];
-
 
   return (
     <View style={styles.container}>
@@ -82,13 +32,13 @@ export default function HomeScreen(props) {
         <TouchableOpacity
           style={styles.itemday}
         >
-          <Text style={styles.itemText}>1</Text>
+          <Text style={styles.itemText}>{filterCount.totalTask}</Text>
           <Text style={styles.itemText}>งานวันนี้</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.itemmount}
         >
-          <Text style={styles.itemText}>2</Text>
+          <Text style={styles.itemText}>{filterCount.totalOpen}</Text>
           <Text style={styles.itemText}>งานเดือนนี้</Text>
         </TouchableOpacity>
 
