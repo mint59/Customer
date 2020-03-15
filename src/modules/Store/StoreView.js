@@ -11,6 +11,7 @@ import {
 import { colors, fonts } from '../../styles';
 import HITSAPI from '../../../HISAPI'
 import { SearchBar } from "react-native-elements";
+import moment from "moment";
 
 export default function StoreScreen(props) {
   const hitsAPI = new HITSAPI();
@@ -48,7 +49,7 @@ export default function StoreScreen(props) {
     const newData = newSearch.filter(item => {
       const itemData = `${item.customer_name.toUpperCase()}`;
       const textData = text.toUpperCase();
-  
+
       return itemData.indexOf(textData) > -1;
     });
     setModel({
@@ -66,14 +67,14 @@ export default function StoreScreen(props) {
   return (
     <View style={styles.container}>
       <View style={styles.dialog}>
-    
+
         <SearchBar
           placeholder="ชื่อ..."
           lightTheme
           round
           value={text}
           onChangeText={text => searchFilterFunction(text)}
-          />
+        />
 
         <FlatList
           style={styles.zIndex}
@@ -91,11 +92,33 @@ export default function StoreScreen(props) {
                     <View style={styles.itemThreeContent}>
                       <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.customer_name}</Text>
                       <View>
-                        <Text style={styles.itemThreeTitle}>ประเภท {item.type}</Text>
+                        <Text style={styles.itemThreeTitle}>ประเภท
+                          {item.type === "1" && (
+                            " ระบบน้ำ"
+                          )}
+                          {item.type === "2" && (
+                            " ระบบไฟ"
+                          )}
+                          {item.type === "3" && (
+                            " เครื่องใช้ไฟฟ้า"
+                          )}
+                          {item.type === "4" && (
+                            " โครงสร้าง"
+                          )}
+                          {item.type === "5" && (
+                            " บริการ"
+                          )}
+                          {item.type === "6" && (
+                            " เบ็ดเตล็ด"
+                          )}</Text>
                         <View style={{ flexDirection: 'row' }}>
                           <View>
                             <Text style={styles.itemThreeSubtitle}>
-                              {item.created_date}
+                              {item.task_date
+                                ? moment(
+                                  item.task_date
+                                ).format("DD/MM/YYYY HH:mm")
+                                : ""}
                             </Text>
                           </View>
                           <View style={{ paddingLeft: 50 }}>

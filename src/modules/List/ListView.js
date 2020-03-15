@@ -14,6 +14,7 @@ import {
 import RadioGroup from '../../components/RadioGroup'
 import { colors, fonts } from '../../styles';
 import HITSAPI from '../../../HISAPI'
+import moment from "moment";
 
 export default function Listview(props) {
   const hitsAPI = new HITSAPI();
@@ -21,11 +22,10 @@ export default function Listview(props) {
 
   const [model, setModel] = useState({
     data: [],
-
   });
   const [tabs, setTabs] = useState(['งานวันนี้', 'งานที่ทำ'])
   const [tabIndex, setTabIndex] = useState(0)
-  // const [detailList, setDetailList] = useState({});
+  const [statusText, setStatusText] = useState("");
 
   useEffect(() => {
     fetchModels();
@@ -57,13 +57,14 @@ export default function Listview(props) {
       params: { ...detailList },
     });
   };
-  
+
   const openCheckOut = checkout => {
     props.navigation.navigate({
-    routeName: 'Checkout',
-    params: { ...checkout },
-  });
-};
+      routeName: 'Checkout',
+      params: { ...checkout },
+    });
+  };
+
 
   const renderRowOne = ({ item }) => (
     <View style={styles.container}>
@@ -78,11 +79,34 @@ export default function Listview(props) {
             <View style={styles.itemThreeContent}>
               <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.customer_name}</Text>
               <View>
-                <Text style={styles.itemThreeTitle}>ประเภท {item.type}</Text>
+                <Text style={styles.itemThreeTitle}>ประเภท
+                  {item.type === "1" && (
+                    " ระบบน้ำ"
+                  )}
+                  {item.type === "2" && (
+                    " ระบบไฟ"
+                  )}
+                  {item.type === "3" && (
+                    " เครื่องใช้ไฟฟ้า"
+                  )}
+                  {item.type === "4" && (
+                    " โครงสร้าง"
+                  )}
+                  {item.type === "5" && (
+                    " บริการ"
+                  )}
+                  {item.type === "6" && (
+                    " เบ็ดเตล็ด"
+                  )}
+                </Text>
                 <View style={{ flexDirection: 'row' }}>
                   <View>
                     <Text style={styles.itemThreeSubtitle}>
-                      {item.created_date}
+                      {item.task_date
+                        ? moment(
+                          item.task_date
+                        ).format("DD/MM/YYYY HH:mm")
+                        : ""}
                     </Text>
                   </View>
                   {/* <View style={{ paddingLeft: 50 }}>
@@ -122,11 +146,34 @@ export default function Listview(props) {
             <View style={styles.itemThreeContent}>
               <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.customer_name}</Text>
               <View>
-                <Text style={styles.itemThreeTitle}>ประเภท {item.type}</Text>
+                <Text style={styles.itemThreeTitle}>ประเภท
+                  {item.type === "1" && (
+                    " ระบบน้ำ"
+                  )}
+                  {item.type === "2" && (
+                    " ระบบไฟ"
+                  )}
+                  {item.type === "3" && (
+                    " เครื่องใช้ไฟฟ้า"
+                  )}
+                  {item.type === "4" && (
+                    " โครงสร้าง"
+                  )}
+                  {item.type === "5" && (
+                    " บริการ"
+                  )}
+                  {item.type === "6" && (
+                    " เบ็ดเตล็ด"
+                  )}
+                </Text>
                 <View style={{ flexDirection: 'row' }}>
                   <View>
                     <Text style={styles.itemThreeSubtitle}>
-                      {item.created_date}
+                      {item.task_date
+                        ? moment(
+                          item.task_date
+                        ).format("DD/MM/YYYY HH:mm")
+                        : ""}
                     </Text>
                   </View>
                   {/* <View style={{ paddingLeft: 50 }}>

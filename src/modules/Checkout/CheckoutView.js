@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     View,
     Text,
@@ -11,12 +11,18 @@ import { fonts, colors } from '../../styles';
 import { Button, Dropdown } from '../../components';
 import ImagePicker from 'react-native-image-picker';
 import { CheckBox } from 'react-native-elements'
-
-
+import Axios from 'axios';
 
 export default function CheckoutScreen(props) {
+    const [text, setText] = React.useState('');
+    const [checked, setChecked] = useState(false);
+    const [checked2, setChecked2] = useState(false);
 
     const [filePath, setFilePath] = useState({});
+    const [upload, setUpload] = useState(false)
+    const [model, setModel] = useState({
+        data: []
+    });
 
     const chooseFile = () => {
         var options = {
@@ -28,30 +34,49 @@ export default function CheckoutScreen(props) {
         };
 
         ImagePicker.showImagePicker(options, response => {
-            // console.log('Response = ', response);
-
-            if (response.didCancel) {
-                console.log('User cancelled image picker');
-            } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            } else if (response.customButton) {
+            // let result = await ImagePicker.launchCameraAsync();
+            // if (response.didCancel) {
+            //     console.log('User cancelled image picker');
+            // } else if (response.error) {
+            //     console.log('ImagePicker Error: ', response.error);
+            // } else 
+            if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton);
                 alert(response.customButton);
             } else {
                 let source = response;
                 setFilePath(source);
+                console.log("Image: " + response.uri)
             }
+            // uploadImage = async (uri, imageName) => {
+            //     const response = await fetch(uri);
+            //     const blob = await response.blob();
+            
+            //     var ref = firebase.storage().ref().child("images/" + imageName);
+            //     return ref.put(blob);
+            // }
         });
     };
+    // const fileUpload = () => {
+    //     axios.post('gs://customer-268903.appspot.com/customer');
+    // }
+    const updateBlogPost = () => {
+        return fetch((props.navigation.state.params.customer_id), {
+            method: 'PUT',
+            mode: 'CORS',
+            body: JSON.stringify(
+                props.navigation.state.params.status= checked,
+                props.navigation.state.params.images= filePath,
+                props.navigation.state.params.comment= text,
+			),
+        }).then(res => {
+            return res;
+        }).catch(err => err);
+    }
 
-    const [text, setText] = React.useState('');
-    const [checked, setChecked] = useState(false);
-    const [checked2, setChecked2] = useState(false);
-
-    // items={['option 1', 'option 2','option 3','option 4']}
-    // const onSelect  = () => {
-    //     setItem
-    // };
+    const handleSubmit = (data)=> {
+        updateBlogPost(model.data,data);
+    }
 
     const onChecked = () => {
         setChecked(!checked);
@@ -76,31 +101,28 @@ export default function CheckoutScreen(props) {
                     title='เสร็จ'
                     checked={checked}
                     onPress={onChecked}
-                // onPress={() => onChecked(checked)}
-
                 />
 
                 <CheckBox
                     title='ไม่เสร็จ'
                     checked={checked2}
                     onPress={onChecked2}
-
-                // onPress={() => onChecked(checked)}
                 />
             </View>
-            <View style={styles.demoButton}>
-                <Button caption="เพิ่มรูป" onPress={chooseFile} />
+            <View style={styles.images}>
+                <View style={styles.imageContainer}>
+                    <Image
+                        source={{
+                            uri: 'data:image/jpeg;base64,' + filePath.data,
+                        }}
+                        style={{ width: "100%", height: '100%' }}
+                    />
+                </View>
+                <View style={styles.demoButton}>
+                    <Button caption="เพิ่มรูป" onPress={chooseFile} />
+                </View>
             </View>
-            <View style={styles.componentsSection}>
-                <Image
-                    source={{
-                        uri: 'data:image/jpeg;base64,' + filePath.data,
-                    }}
-                    style={{ width: 200, height: 200 }}
-                />
-            </View>
-
-            <View>
+            <View style={{paddingLeft: 12, paddingRight: 12}}>
                 <TextInput
                     label="หมายเหตุ"
                     onChangeText={text => setText(text)}
@@ -112,8 +134,8 @@ export default function CheckoutScreen(props) {
                     style={styles.button}
                     primary
                     caption="ตกลง"
-                    // onPress={() => props.navigation.navigate({ routeName: 'GridScreen' })}
-                    onPress={() => props.navigation.goBack()}
+                    onPress={() => handleSubmit()}
+                    // onPress={() => props.navigation.goBack()}
                 />
             </View>
         </View>
@@ -191,14 +213,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    imageContainer: {
+        borderWidth: 1,
+        borderColor: colors.grey,
+        backgroundColor: colors.bluish,
+        width: '80%',
+        height: 150
+    },
+    images: {
+        width: '100%',
+        alignItems: 'center'
+      },
 });
-// import React from 'react';
-// import { StyleSheet, Text, View, Button, Image } from 'react-native';
-// export default class App extends React.Component {
-
-//   render() {
-// return (
-
-//     );
-//   }
-// }
