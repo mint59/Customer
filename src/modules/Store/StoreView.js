@@ -24,38 +24,37 @@ export default function StoreScreen(props) {
 
   const [newSearch, setNewSearch] = useState([]);
 
-  useEffect(() => {
-    fetchModels();
-  }, []);
-
   // fetch data
   const fetchModels = async () => {
     setLoading(true);
     await hitsAPI.axios
-      .get(`/crud/task`)
+      .get(`/crud/task/get-listC`)
       .then(function (response) {
+        console.log(response.data);
         setModel({
           data: response.data.rows,
         });
         setLoading(false);
         setNewSearch(response.data.rows);
       });
-
   };
 
   const searchFilterFunction = text => {
     setText(text);
-
-    const newData = newSearch.filter(item => {
+      const newData = newSearch.filter(item => {
       const itemData = `${item.customer_name.toUpperCase()}`;
       const textData = text.toUpperCase();
-
       return itemData.indexOf(textData) > -1;
     });
     setModel({
       data: newData,
     });
   };
+
+  useEffect(() => {
+    fetchModels();
+  }, []);
+
 
   const openDetailStore = detailStore => {
     props.navigation.navigate({
@@ -94,43 +93,49 @@ export default function StoreScreen(props) {
                       <View>
                         <Text style={styles.itemThreeTitle}>ประเภท
                           {item.type === "1" && (
-                            " ระบบน้ำ"
+                            "  ระบบน้ำ"
                           )}
                           {item.type === "2" && (
-                            " ระบบไฟ"
+                            "  ระบบไฟ"
                           )}
                           {item.type === "3" && (
-                            " เครื่องใช้ไฟฟ้า"
+                            "  เครื่องใช้ไฟฟ้า"
                           )}
                           {item.type === "4" && (
-                            " โครงสร้าง"
+                            "  โครงสร้าง"
                           )}
                           {item.type === "5" && (
-                            " บริการ"
+                            "  บริการ"
                           )}
                           {item.type === "6" && (
-                            " เบ็ดเตล็ด"
+                            "  เบ็ดเตล็ด"
                           )}</Text>
                         <View style={{ flexDirection: 'row' }}>
                           <View>
                             <Text style={styles.itemThreeSubtitle}>
+                            วันที่
                               {item.task_date
                                 ? moment(
                                   item.task_date
-                                ).format("DD/MM/YYYY HH:mm")
-                                : ""}
+                                ).format("        DD/MM/YYYY HH:mm")
+                                : " "}
                             </Text>
                           </View>
                           <View style={{ paddingLeft: 50 }}>
                             <Text style={styles.itemThreeSubtitle}>
-                              {item.datetime}
+                              {/* {item.datetime} */}
                             </Text>
                           </View>
                         </View>
 
                       </View>
                       <View style={styles.itemThreeMetaContainer}>
-                        <Text style={styles.itemThreePrice}>{item.status}</Text>
+              
+                        <Text style={{ color: colors.green, fontFamily: fonts.primaryRegular }}>
+                          {item.status === "C" && (
+                            " complete"
+                          )}
+                          </Text>
                       </View>
                     </View>
                   </View>

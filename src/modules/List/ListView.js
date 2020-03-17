@@ -25,11 +25,15 @@ export default function Listview(props) {
   });
   const [tabs, setTabs] = useState(['งานวันนี้', 'งานที่ทำ'])
   const [tabIndex, setTabIndex] = useState(0)
-  const [statusText, setStatusText] = useState("");
+  // const [statusText, setStatusText] = useState("");
 
   useEffect(() => {
-    fetchModels();
-  }, []);
+    if (tabIndex === 0) {
+      fetchModels();
+    } else if (tabIndex === 1) {
+      fetchModelI();
+    }
+  }, [tabIndex]);
 
   // fetch data
   const fetchModels = async () => {
@@ -42,7 +46,18 @@ export default function Listview(props) {
           data: response.data.rows,
         });
         setLoading(false);
-
+      });
+  };
+  const fetchModelI = async () => {
+    setLoading(true);
+    await hitsAPI.axios
+      .get(`/crud/task/get-listI`)
+      .then(function (response) {
+        console.log(response.data);
+        setModel({
+          data: response.data.rows,
+        });
+        setLoading(false);
       });
   };
 
@@ -81,32 +96,33 @@ export default function Listview(props) {
               <View>
                 <Text style={styles.itemThreeTitle}>ประเภท
                   {item.type === "1" && (
-                    " ระบบน้ำ"
+                    "  ระบบน้ำ"
                   )}
                   {item.type === "2" && (
-                    " ระบบไฟ"
+                    "  ระบบไฟ"
                   )}
                   {item.type === "3" && (
-                    " เครื่องใช้ไฟฟ้า"
+                    "  เครื่องใช้ไฟฟ้า"
                   )}
                   {item.type === "4" && (
-                    " โครงสร้าง"
+                    "  โครงสร้าง"
                   )}
                   {item.type === "5" && (
-                    " บริการ"
+                    "  บริการ"
                   )}
                   {item.type === "6" && (
-                    " เบ็ดเตล็ด"
+                    "  เบ็ดเตล็ด"
                   )}
                 </Text>
                 <View style={{ flexDirection: 'row' }}>
                   <View>
                     <Text style={styles.itemThreeSubtitle}>
+                      วันที่
                       {item.task_date
                         ? moment(
                           item.task_date
-                        ).format("DD/MM/YYYY HH:mm")
-                        : ""}
+                        ).format("        DD/MM/YYYY HH:mm")
+                        : " "}
                     </Text>
                   </View>
                   {/* <View style={{ paddingLeft: 50 }}>
@@ -118,7 +134,11 @@ export default function Listview(props) {
 
               </View>
               <View style={styles.itemThreeMetaContainer}>
-                {/* <Text style={styles.itemThreePrice}>{item.status}</Text> */}
+                {/* <Text style={styles.itemThreePrice}>
+                  {item.status === "O" && (
+                    " Start"
+                  )}
+                </Text> */}
               </View>
             </View>
           </View>
@@ -148,32 +168,33 @@ export default function Listview(props) {
               <View>
                 <Text style={styles.itemThreeTitle}>ประเภท
                   {item.type === "1" && (
-                    " ระบบน้ำ"
+                    "  ระบบน้ำ"
                   )}
                   {item.type === "2" && (
                     " ระบบไฟ"
                   )}
                   {item.type === "3" && (
-                    " เครื่องใช้ไฟฟ้า"
+                    "  เครื่องใช้ไฟฟ้า"
                   )}
                   {item.type === "4" && (
-                    " โครงสร้าง"
+                    "  โครงสร้าง"
                   )}
                   {item.type === "5" && (
-                    " บริการ"
+                    "  บริการ"
                   )}
                   {item.type === "6" && (
-                    " เบ็ดเตล็ด"
+                    "  เบ็ดเตล็ด"
                   )}
                 </Text>
                 <View style={{ flexDirection: 'row' }}>
                   <View>
                     <Text style={styles.itemThreeSubtitle}>
+                      วันที่
                       {item.task_date
                         ? moment(
                           item.task_date
-                        ).format("DD/MM/YYYY HH:mm")
-                        : ""}
+                        ).format("        DD/MM/YYYY HH:mm")
+                        : " "}
                     </Text>
                   </View>
                   {/* <View style={{ paddingLeft: 50 }}>
@@ -215,13 +236,13 @@ export default function Listview(props) {
         data={model.data}
         keyExtractor={item => item.customer_id}
         renderItem={getRenderItemFunction()}
-      //     ListFooterComponent={
-      //   loading ? (
-      //     <ActivityIndicator />
-      //   ) : (
-      //       <Button title="Load More" onPress={loadMore} />
-      //     )
-      // }
+        //  ListFooterComponent={
+        //    loading ? (
+        //      <ActivityIndicator />
+        //    ) : (
+        //        <Button title="Load More" onPress={loadMore} />
+        //      )
+        //  }
       />
     </SafeAreaView>
   );

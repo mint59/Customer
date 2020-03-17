@@ -29,7 +29,7 @@ export default function DetailStoreScreen(props) {
                     <Text style={styles.availableText}>ลูกค้าชื่อ-สกุล: </Text>
                     <Text style={{
                         fontFamily: fonts.primarySemiBold,
-                        fontSize: 20,
+                        fontSize: 18,
                         marginVertical: 3,
                         paddingLeft: 12,
                     }}
@@ -40,7 +40,7 @@ export default function DetailStoreScreen(props) {
                     <Text style={styles.availableText}>เบอร์: </Text>
                     <Text style={{
                         fontFamily: fonts.primarySemiBold,
-                        fontSize: 20,
+                        fontSize: 18,
                         marginVertical: 3,
                         paddingLeft: 90,
                     }}
@@ -50,7 +50,7 @@ export default function DetailStoreScreen(props) {
                     <Text style={styles.availableText}>วันที่: </Text>
                     <Text style={{
                         fontFamily: fonts.primarySemiBold,
-                        fontSize: 20,
+                        fontSize: 18,
                         marginVertical: 3,
                         paddingLeft: 90,
                     }}
@@ -65,7 +65,7 @@ export default function DetailStoreScreen(props) {
                     <Text style={styles.availableText}>ประเภท: </Text>
                     <Text style={{
                         fontFamily: fonts.primarySemiBold,
-                        fontSize: 20,
+                        fontSize: 18,
                         marginVertical: 3,
                         paddingLeft: 60,
                     }}
@@ -94,7 +94,7 @@ export default function DetailStoreScreen(props) {
                     <Text style={styles.availableText}>รายละเอียด: </Text>
                     <Text style={{
                         fontFamily: fonts.primarySemiBold,
-                        fontSize: 20,
+                        fontSize: 18,
                         marginVertical: 3,
                         paddingLeft: 25,
                     }}
@@ -104,7 +104,7 @@ export default function DetailStoreScreen(props) {
                     <Text style={styles.availableText}>ที่อยู่: </Text>
                     <Text style={{
                         fontFamily: fonts.primarySemiBold,
-                        fontSize: 20,
+                        fontSize: 18,
                         marginVertical: 3,
                         paddingLeft: 85,
                         width: "89%"

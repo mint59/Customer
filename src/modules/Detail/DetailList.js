@@ -17,26 +17,18 @@ import HITSAPI from '../../../HISAPI'
 import moment from "moment";
 
 export default function DetailListScreen(props, params) {
-
-  // const hitsAPI = new HITSAPI();
-
-  // const [model, setModel] = useState({
-  //   data: [{
-  //     latitude: "",
-  //     longitude: ""
-  //   }]
-  // });
+  const hitsAPI = new HITSAPI();
+  const [save, setSave] = useState({
+    status: props.navigation.state.params.status
+  });
+  const [markers, setMarkers] = useState([]);
 
   const [defaultCenterOption, setDefaultCenterOption] = useState({
     latitude: 0,
     longitude: 0,
-    latitudeDelta: 0.0001,
-    longitudeDelta: 0.0021,
-
+    latitudeDelta: 0.0222,
+    longitudeDelta: 0.0221,
   });
-
-  //init map
-  const [markers, setMarkers] = useState([]);
 
   const handleChangeMapInit = modelParam => {
     if (modelParam.location) {
@@ -48,7 +40,6 @@ export default function DetailListScreen(props, params) {
         });
         let tempMarker = [
           {
-
             latitude: Number(modelParam.latitude),
             longitude: Number(modelParam.longitude)
           }
@@ -58,10 +49,19 @@ export default function DetailListScreen(props, params) {
     }
   };
 
+  const checkIn = async () => {
+    await hitsAPI.axios
+      .put(`/crud/task/${props.navigation.state.params.task_id}`, save)
+      .then(function (response) {
+        setSave({
+          status: "I"
+        });
+      });
+  }
+
   useEffect(() => {
+    checkIn();
     handleChangeMapInit(props.navigation.state.params);
-    // console.log(markers);
-    // console.log("defaualll",defaultCenterOption);
   }, [props.navigation.state.params])
 
   return (
@@ -80,7 +80,7 @@ export default function DetailListScreen(props, params) {
             <Text style={styles.availableText}>ลูกค้าชื่อ-สกุล: </Text>
             <Text style={{
               fontFamily: fonts.primarySemiBold,
-              fontSize: 20,
+              fontSize: 18,
               marginVertical: 3,
               paddingLeft: 12,
             }}
@@ -91,7 +91,7 @@ export default function DetailListScreen(props, params) {
             <Text style={styles.availableText}>เบอร์: </Text>
             <Text style={{
               fontFamily: fonts.primarySemiBold,
-              fontSize: 20,
+              fontSize: 18,
               marginVertical: 3,
               paddingLeft: 80,
             }}
@@ -101,7 +101,7 @@ export default function DetailListScreen(props, params) {
             <Text style={styles.availableText}>วันที่: </Text>
             <Text style={{
               fontFamily: fonts.primarySemiBold,
-              fontSize: 20,
+              fontSize: 18,
               marginVertical: 3,
               paddingLeft: 85,
             }}
@@ -116,7 +116,7 @@ export default function DetailListScreen(props, params) {
             <Text style={styles.availableText}>ประเภท: </Text>
             <Text style={{
               fontFamily: fonts.primarySemiBold,
-              fontSize: 20,
+              fontSize: 18,
               marginVertical: 3,
               paddingLeft: 60,
             }}
@@ -145,7 +145,7 @@ export default function DetailListScreen(props, params) {
             <Text style={styles.availableText}>รายละเอียด: </Text>
             <Text style={{
               fontFamily: fonts.primarySemiBold,
-              fontSize: 20,
+              fontSize: 18,
               marginVertical: 3,
               paddingLeft: 25,
             }}
@@ -155,7 +155,7 @@ export default function DetailListScreen(props, params) {
             <Text style={styles.availableText}>ที่อยู่: </Text>
             <Text style={{
               fontFamily: fonts.primarySemiBold,
-              fontSize: 20,
+              fontSize: 18,
               marginVertical: 3,
               paddingLeft: 85,
               width: "89%"
@@ -179,8 +179,8 @@ export default function DetailListScreen(props, params) {
                     longitude: marker.longitude ? marker.longitude : 0
                   }}
                   onDragEnd={(e) => alert(JSON.stringify(e.nativeEvent.coordinate))}
-                  title={'Marker'}
-                  description={'This is a description of the marker'}
+                  // title={'Marker'}
+                  description={props.navigation.state.params.location}
                 />
               ))}
 
@@ -191,7 +191,8 @@ export default function DetailListScreen(props, params) {
               large
               rounded
               caption="Check In"
-              onPress={() => props.navigation.goBack()}
+              onPress={() => checkIn()}
+              
             />
             <Button
               large
@@ -218,9 +219,9 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    height: 250,
-    width: 400,
-    marginTop: '70%',
+    height: 270,
+    width: 420,
+    marginTop: Dimensions.get('window').width / 2 + 65,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -258,6 +259,6 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     // marginBottom: 50,
     color: '#009e73',
-    marginTop: Dimensions.get('window').width / 2 + 100,
+    marginTop: Dimensions.get('window').width / 2 + 85,
   },
 });
