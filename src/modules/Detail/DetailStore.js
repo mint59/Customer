@@ -10,6 +10,7 @@ import { Appbar } from 'react-native-paper';
 import { fonts, colors } from '../../styles';
 import { Button } from '../../components';
 import moment from "moment";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function DetailStoreScreen(props) {
 
@@ -25,7 +26,8 @@ export default function DetailStoreScreen(props) {
             </Appbar.Header>
 
             <View style={styles.textContainer}>
-                <View style={{ flexDirection: 'row', paddingLeft: 10 }}>
+                <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+                <Icon name="user" style={styles.layoutIcon} />
                     <Text style={styles.availableText}>ลูกค้าชื่อ-สกุล: </Text>
                     <Text style={{
                         fontFamily: fonts.primarySemiBold,
@@ -36,7 +38,9 @@ export default function DetailStoreScreen(props) {
                     >
                         {props.navigation.state.params.customer_name}</Text>
                 </View>
-                <View style={{ flexDirection: 'row', paddingLeft: 10 }}>
+                <View style={styles.layout}></View>
+                <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+                <Icon name="phone" style={styles.layoutIcon} />
                     <Text style={styles.availableText}>เบอร์: </Text>
                     <Text style={{
                         fontFamily: fonts.primarySemiBold,
@@ -46,7 +50,9 @@ export default function DetailStoreScreen(props) {
                     }}
                     >{props.navigation.state.params.tel}</Text>
                 </View>
-                <View style={{ flexDirection: 'row', paddingLeft: 10 }}>
+                <View style={styles.layout}></View>
+                <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+                <Icon name="calendar" style={styles.layoutIcon} />
                     <Text style={styles.availableText}>วันที่: </Text>
                     <Text style={{
                         fontFamily: fonts.primarySemiBold,
@@ -61,7 +67,9 @@ export default function DetailStoreScreen(props) {
                         : ""}
                     </Text>
                 </View>
-                <View style={{ flexDirection: 'row', paddingLeft: 10 }}>
+                <View style={styles.layout}></View>
+                <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+                <Icon name="wrench" style={styles.layoutIcon} />
                     <Text style={styles.availableText}>ประเภท: </Text>
                     <Text style={{
                         fontFamily: fonts.primarySemiBold,
@@ -90,7 +98,9 @@ export default function DetailStoreScreen(props) {
                         )}
                     </Text>
                 </View>
-                <View style={{ flexDirection: 'row', paddingLeft: 10 }}>
+                <View style={styles.layout}></View>
+                <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+                <Icon name="table" style={styles.layoutIcon} />
                     <Text style={styles.availableText}>รายละเอียด: </Text>
                     <Text style={{
                         fontFamily: fonts.primarySemiBold,
@@ -100,19 +110,21 @@ export default function DetailStoreScreen(props) {
                     }}
                     >{props.navigation.state.params.detail_type}</Text>
                 </View>
-                <View style={{ flexDirection: 'row', paddingLeft: 10 }}>
+                <View style={styles.layout}></View>
+                <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+                <Icon name="map-marker" style={styles.layoutIcon} />
                     <Text style={styles.availableText}>ที่อยู่: </Text>
                     <Text style={{
                         fontFamily: fonts.primarySemiBold,
                         fontSize: 18,
                         marginVertical: 3,
                         paddingLeft: 85,
-                        width: "89%"
+                        width: "70%"
                     }}
                     >{props.navigation.state.params.location}</Text>
                 </View>
             </View>
-
+            <View style={styles.layout}></View>
             <View style={styles.imageid}>
                 {props.navigation.state.params.image}
                 <Image source={(props.navigation.state.params.image)} style={styles.itemThreeImage} />
@@ -137,6 +149,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     availableText: {
+        paddingLeft: 40,
         fontFamily: fonts.primarySemiBold,
         fontSize: 20,
         marginVertical: 3,
@@ -148,4 +161,16 @@ const styles = StyleSheet.create({
         height: 150,
         width: Dimensions.get('window').width / 2 - 40,
     },
+    layout: {
+        height: 1,
+        backgroundColor: colors.lightGray,
+        width: "90%",
+        marginLeft: 60,
+        marginTop: 10
+      },
+      layoutIcon: {
+        fontSize: 35,
+        color: "#7EBB0F",
+        paddingLeft: 10
+      }
 });

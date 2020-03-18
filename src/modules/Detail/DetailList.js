@@ -4,17 +4,18 @@ import {
   Text,
   Image,
   StyleSheet,
-  ImageBackground,
-  Linking,
+  TouchableOpacity,
+  SafeAreaView,
   Dimensions,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Appbar } from 'react-native-paper';
 import { fonts, colors } from '../../styles';
-import { Button } from '../../components';
+import { Button } from 'react-native-elements'
 import HITSAPI from '../../../HISAPI'
 import moment from "moment";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function DetailListScreen(props, params) {
   const hitsAPI = new HITSAPI();
@@ -65,7 +66,7 @@ export default function DetailListScreen(props, params) {
   }, [props.navigation.state.params])
 
   return (
-    <View>
+    <SafeAreaView>
       <Appbar.Header >
         <Appbar.BackAction
           onPress={() => props.navigation.goBack()}
@@ -76,92 +77,6 @@ export default function DetailListScreen(props, params) {
       </Appbar.Header>
       <ScrollView>
         <View style={styles.textContainer}>
-          <View style={{ flexDirection: 'row', paddingLeft: 10 }}>
-            <Text style={styles.availableText}>ลูกค้าชื่อ-สกุล: </Text>
-            <Text style={{
-              fontFamily: fonts.primarySemiBold,
-              fontSize: 18,
-              marginVertical: 3,
-              paddingLeft: 12,
-            }}
-            >
-              {props.navigation.state.params.customer_name} </Text>
-          </View>
-          <View style={{ flexDirection: 'row', paddingLeft: 10 }}>
-            <Text style={styles.availableText}>เบอร์: </Text>
-            <Text style={{
-              fontFamily: fonts.primarySemiBold,
-              fontSize: 18,
-              marginVertical: 3,
-              paddingLeft: 80,
-            }}
-            > {props.navigation.state.params.tel}</Text>
-          </View>
-          <View style={{ flexDirection: 'row', paddingLeft: 10 }}>
-            <Text style={styles.availableText}>วันที่: </Text>
-            <Text style={{
-              fontFamily: fonts.primarySemiBold,
-              fontSize: 18,
-              marginVertical: 3,
-              paddingLeft: 85,
-            }}
-            >{props.navigation.state.params.task_date
-              ? moment(
-                props.navigation.state.params.task_date
-              ).format("DD/MM/YYYY HH:mm")
-              : ""}
-            </Text>
-          </View>
-          <View style={{ flexDirection: 'row', paddingLeft: 10 }}>
-            <Text style={styles.availableText}>ประเภท: </Text>
-            <Text style={{
-              fontFamily: fonts.primarySemiBold,
-              fontSize: 18,
-              marginVertical: 3,
-              paddingLeft: 60,
-            }}
-            >
-              {props.navigation.state.params.type === "1" && (
-                "ระบบน้ำ"
-              )}
-              {props.navigation.state.params.type === "2" && (
-                "ระบบไฟ"
-              )}
-              {props.navigation.state.params.type === "3" && (
-                "เครื่องใช้ไฟฟ้า"
-              )}
-              {props.navigation.state.params.type === "4" && (
-                "โครงสร้าง"
-              )}
-              {props.navigation.state.params.type === "5" && (
-                "บริการ"
-              )}
-              {props.navigation.state.params.type === "6" && (
-                "เบ็ดเตล็ด"
-              )}
-            </Text>
-          </View>
-          <View style={{ flexDirection: 'row', paddingLeft: 10 }}>
-            <Text style={styles.availableText}>รายละเอียด: </Text>
-            <Text style={{
-              fontFamily: fonts.primarySemiBold,
-              fontSize: 18,
-              marginVertical: 3,
-              paddingLeft: 25,
-            }}
-            >{props.navigation.state.params.detail_type}</Text>
-          </View>
-          <View style={{ flexDirection: 'row', paddingLeft: 10 }}>
-            <Text style={styles.availableText}>ที่อยู่: </Text>
-            <Text style={{
-              fontFamily: fonts.primarySemiBold,
-              fontSize: 18,
-              marginVertical: 3,
-              paddingLeft: 85,
-              width: "89%"
-            }}
-            >{props.navigation.state.params.location}</Text>
-          </View>
           <View style={styles.map}>
             <MapView
               style={styles.mapStyle}
@@ -186,24 +101,126 @@ export default function DetailListScreen(props, params) {
 
             </MapView>
           </View>
-          <View style={styles.button}>
-            <Button
-              large
-              rounded
-              caption="Check In"
-              onPress={() => checkIn()}
-              
-            />
-            <Button
-              large
-              rounded
-              caption="cancel"
-              onPress={() => props.navigation.goBack()}
-            />
+
+          <View style={{ flexDirection: 'column', marginTop: Dimensions.get('window').width / 2 + 60 }}>
+            <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+              <Icon name="user" style={styles.layoutIcon} />
+              <Text style={styles.availableText}>ลูกค้าชื่อ-สกุล: </Text>
+              <Text style={{
+                fontFamily: fonts.primarySemiBold,
+                fontSize: 16,
+                marginVertical: 3,
+                paddingLeft: 12,
+              }}
+              >
+                {props.navigation.state.params.customer_name}
+              </Text>
+
+            </View>
+            <View style={styles.layout}>
+            </View>
+            <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+              <Icon name="phone" style={styles.layoutIcon} />
+              <Text style={styles.availableText}>เบอร์: </Text>
+              <Text style={{
+                fontFamily: fonts.primarySemiBold,
+                fontSize: 16,
+                marginVertical: 3,
+                paddingLeft: 80,
+              }}
+              > {props.navigation.state.params.tel}</Text>
+            </View>
+            <View style={styles.layout}></View>
+            <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+              <Icon name="calendar" style={styles.layoutIcon} />
+              <Text style={styles.availableText}>วันที่: </Text>
+              <Text style={{
+                fontFamily: fonts.primarySemiBold,
+                fontSize: 16,
+                marginVertical: 3,
+                paddingLeft: 83,
+              }}
+              >{props.navigation.state.params.task_date
+                ? moment(
+                  props.navigation.state.params.task_date
+                ).format("DD/MM/YYYY HH:mm")
+                : ""}
+              </Text>
+            </View>
+            <View style={styles.layout} />
+            <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+              <Icon name="wrench" style={styles.layoutIcon} />
+              <Text style={styles.availableText}>ประเภท: </Text>
+              <Text style={{
+                fontFamily: fonts.primarySemiBold,
+                fontSize: 16,
+                marginVertical: 3,
+                paddingLeft: 54,
+              }}
+              >
+                {props.navigation.state.params.type === "1" && (
+                  "ระบบน้ำ"
+                )}
+                {props.navigation.state.params.type === "2" && (
+                  "ระบบไฟ"
+                )}
+                {props.navigation.state.params.type === "3" && (
+                  "เครื่องใช้ไฟฟ้า"
+                )}
+                {props.navigation.state.params.type === "4" && (
+                  "โครงสร้าง"
+                )}
+                {props.navigation.state.params.type === "5" && (
+                  "บริการ"
+                )}
+                {props.navigation.state.params.type === "6" && (
+                  "เบ็ดเตล็ด"
+                )}
+              </Text>
+            </View>
+            <View style={styles.layout} />
+            <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+              <Icon name="table" style={styles.layoutIcon} />
+              <Text style={styles.availableText}>รายละเอียด: </Text>
+              <Text style={{
+                fontFamily: fonts.primarySemiBold,
+                fontSize: 16,
+                marginVertical: 3,
+                paddingLeft: 20,
+              }}
+              >{props.navigation.state.params.detail_type}</Text>
+            </View>
+            <View style={styles.layout} />
+            <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+              <Icon name="map-marker" style={styles.layoutIcon} />
+              <Text style={styles.availableText}>ที่อยู่: </Text>
+              <Text style={{
+                fontFamily: fonts.primarySemiBold,
+                fontSize: 16,
+                marginVertical: 3,
+                paddingLeft: 90,
+                width: "70%"
+              }}
+              >{props.navigation.state.params.location}</Text>
+            </View>
+            <View style={styles.layout} />
+            <View style={styles.btn}>
+              <Button
+                title="Check In"
+                onPress={() => checkIn()}
+              />
+              <Button
+                type="outline"  
+                title="cancel"
+                onPress={() => props.navigation.goBack()}
+              />
+            </View>
+            <View style={styles.button}></View>
           </View>
         </View>
+
       </ScrollView>
-    </View >
+    </SafeAreaView >
 
 
   );
@@ -221,7 +238,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     height: 270,
     width: 420,
-    marginTop: Dimensions.get('window').width / 2 + 65,
+    // marginTop: Dimensions.get('window').width / 2 + 65,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -229,29 +246,22 @@ const styles = StyleSheet.create({
     flex: 1,
     ...StyleSheet.absoluteFillObject,
   },
-  nerdImage: {
-    width: 80,
-    height: 80,
-  },
   availableText: {
-    // color: colors.,
+    paddingLeft: 40,
     fontFamily: fonts.primarySemiBold,
     fontSize: 20,
     marginVertical: 3,
   },
   textContainer: {
     alignItems: 'flex-start',
-  },
-  buttonsContainer: {
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    color: '#009e73'
+    flexDirection: 'column',
   },
   layout: {
-    fontFamily: fonts.primarySemiBold,
-    fontSize: 20,
-    marginVertical: 3,
-    paddingLeft: 12,
+    height: 1,
+    backgroundColor: colors.lightGray,
+    width: "90%",
+    marginLeft: 60,
+    marginTop: 10
   },
   button: {
     flexDirection: 'row',
@@ -259,6 +269,19 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     // marginBottom: 50,
     color: '#009e73',
-    marginTop: Dimensions.get('window').width / 2 + 85,
+    // paddingTop: 20,
+    marginTop: Dimensions.get('window').width / 2 - 150,
   },
+  btn: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignSelf: 'stretch',
+    paddingBottom: 20,
+    paddingTop: 10
+  },
+  layoutIcon: {
+    fontSize: 35,
+    color: "#7EBB0F",
+    paddingLeft: 10
+  }
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     StyleSheet,
     View,
@@ -10,21 +10,33 @@ import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 import { fonts, colors } from '../../styles';
 import { Text } from '../../components/StyledText';
-import Profile from '../Profile/ProfileView'
+import HITSAPI from '../../../HISAPI'
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import Cookie from "js-cookie";
 
 export default function LoginScreen(props) {
-    // const rnsUrl = 'https://reactnativestarter.com';
-    // const handleClick = () => {
-    //   Linking.canOpenURL(rnsUrl).then(supported => {
-    //     if (supported) {
-    //       Linking.openURL(rnsUrl);
-    //     } else {
-    //       console.log(`Don't know how to open URI: ${rnsUrl}`);
-    //     }
-    //   });
-    // };
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const hitsAPI = new HITSAPI();
+
+    const [model, setModel] = useState({
+        username: '',
+        password: ''
+    })
+
+
+    const handleSubmit = event => {
+        if (model.username !== "" && model.password !== "") {
+            event.preventDefault();
+            hitsAPI.axios
+                // .post("/signon/SignOn/authenticate", model)
+                .post("/auth/", model)
+                .then(function (response) {
+                    Cookie.set("token", response.data.token);
+                    // localStorage.clear();
+                    props.navigation.navigate({ routeName: 'Main' })
+                });
+        }
+
+    };
 
     return (
         <View style={styles.container}>
@@ -33,7 +45,7 @@ export default function LoginScreen(props) {
                 style={styles.bgImage}
                 resizeMode="cover"
             >
-                <View style={{alignItems: "center"}}>
+                <View style={{ alignItems: "center" }}>
                     <Image
                         source={require('../../../assets/images/logoapp2.png')}
                         style={styles.nerdImage}
@@ -42,22 +54,24 @@ export default function LoginScreen(props) {
                 <View style={styles.section}>
                     <Text>Username</Text>
                     <TextInput
-                        onChangeText={username => setUsername(username)}
-                        value={username}
+                        onChangeText={username => setModel({ ...model, username: username })}
+                        name="username"
+                        value={model.username}
                     />
 
                     <Text>Password</Text>
                     <TextInput
                         secureTextEntry={true}
-                        onChangeText={password => setPassword(password)}
-                        value={password}
+                        onChangeText={password => setModel({ ...model, password: password })}
+                        name="password"
+                        value={model.password}
                     />
                     <View style={styles.button}>
-                        <Button  
-                            caption="Submit"  
+                        <Button
+                            caption="Submit"
                             rounded
-                            onPress={() => props.navigation.navigate({ routeName: 'Main' })}
-                            >
+                            onPress={handleSubmit}
+                        >
                         </Button>
                     </View>
                 </View>
@@ -87,14 +101,14 @@ const styles = StyleSheet.create({
         paddingTop: 50,
         paddingLeft: 20,
         width: '95%',
-        
+
     },
     section: {
         flex: 1,
         paddingHorizontal: 20,
         justifyContent: 'center',
         alignItems: 'center',
-      },
+    },
     description: {
         padding: 15,
         lineHeight: 25,

@@ -7,11 +7,13 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  TextInput
 } from 'react-native';
 import { colors, fonts } from '../../styles';
 import HITSAPI from '../../../HISAPI'
-import { SearchBar } from "react-native-elements";
+import { SearchBar } from 'react-native-elements'
 import moment from "moment";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function StoreScreen(props) {
   const hitsAPI = new HITSAPI();
@@ -41,7 +43,7 @@ export default function StoreScreen(props) {
 
   const searchFilterFunction = text => {
     setText(text);
-      const newData = newSearch.filter(item => {
+    const newData = newSearch.filter(item => {
       const itemData = `${item.customer_name.toUpperCase()}`;
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
@@ -66,15 +68,26 @@ export default function StoreScreen(props) {
   return (
     <View style={styles.container}>
       <View style={styles.dialog}>
-
-        <SearchBar
-          placeholder="ชื่อ..."
-          lightTheme
-          round
-          value={text}
-          onChangeText={text => searchFilterFunction(text)}
-        />
-
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 10,
+            marginLeft: 20,
+            borderRadius: 30,
+            height: 50,
+            width: "90%",
+            borderWidth: 1,
+            borderColor: colors.lightGray,
+            backgroundColor: colors.white
+          }}>
+          <Icon name={"search"} style={{ paddingLeft: 20, fontSize: 18, paddingTop: 15, color: colors.lightGray }} />
+          <TextInput
+            style={{ paddingLeft: 30, paddingTop: 10, fontSize: 18 }}
+            placeholder=" ชื่อ..."
+            value={text}
+            onChangeText={text => searchFilterFunction(text)}
+          />
+        </View>
         <FlatList
           style={styles.zIndex}
           data={model.data}
@@ -113,7 +126,7 @@ export default function StoreScreen(props) {
                         <View style={{ flexDirection: 'row' }}>
                           <View>
                             <Text style={styles.itemThreeSubtitle}>
-                            วันที่
+                              วันที่
                               {item.task_date
                                 ? moment(
                                   item.task_date
@@ -130,12 +143,12 @@ export default function StoreScreen(props) {
 
                       </View>
                       <View style={styles.itemThreeMetaContainer}>
-              
+
                         <Text style={{ color: colors.green, fontFamily: fonts.primaryRegular }}>
                           {item.status === "C" && (
                             " complete"
                           )}
-                          </Text>
+                        </Text>
                       </View>
                     </View>
                   </View>
