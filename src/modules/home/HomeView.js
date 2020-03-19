@@ -1,4 +1,4 @@
-import React ,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -22,6 +22,7 @@ export default function HomeScreen(props) {
       setFilterCount(response.data);
     });
   };
+
   useEffect(() => {
     fetchModels();
   }, []);
@@ -33,13 +34,13 @@ export default function HomeScreen(props) {
           style={styles.itemday}
         >
           <Text style={styles.itemText}>{filterCount.totalTask}</Text>
-          <Text style={styles.itemText}>งานวันนี้</Text>
+          <Text style={styles.itemText}>งานที่เหลือ</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.itemmount}
         >
           <Text style={styles.itemText}>{filterCount.totalOpen}</Text>
-          <Text style={styles.itemText}>งานเดือนนี้</Text>
+          <Text style={styles.itemText}>งานที่กำลังทำ</Text>
         </TouchableOpacity>
 
       </View>

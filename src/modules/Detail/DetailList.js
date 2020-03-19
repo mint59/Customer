@@ -58,6 +58,9 @@ export default function DetailListScreen(props, params) {
           status: "I"
         });
       });
+      if (save.status === "I"){
+        props.navigation.goBack()
+      }
   }
 
   useEffect(() => {

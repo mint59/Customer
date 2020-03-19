@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from "axios";
-// import Cookie from "js-cookie";
+import Cookie from "js-cookie";
 import { cacheAdapterEnhancer } from "axios-extensions";
 import { useDispatch } from "reactn";
 // import { useSnackbar } from "notistack";
@@ -27,12 +27,14 @@ export default class HITSAPI {
         };
         const dispatchLoadingStack = useDispatch(addLoadingStact, "loading");
 
-        // const token = Cookie.get("token") ? Cookie.get("token") : "";
+        const token = Cookie.get("token") ? Cookie.get("token") : "";
 
         // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-        let baseURL = "http://192.168.20.47:5000";
-        // let baseURL = "http://192.168.137.160:5000";
+        let baseURL = "http://192.168.20.47:5000";  //หอ
+        // let baseURL = "http://192.168.137.160:5000"; //พี่ครีม
+        // let baseURL = "http://192.168.137.98:5000";  //พี่กล๊อฟ
+        // let baseURL = "http://192.168.137.151:5000"; //พี่เท่
         // if (report) {
         //     baseURL += "/report";
         // } else {
@@ -42,7 +44,7 @@ export default class HITSAPI {
         this.axios = axios.create({
             baseURL: baseURL,
             headers: {
-                // Authorization: "Bearer " + token,
+                Authorization: "Bearer " + token,
                 "Cache-Control": "no-cache"
             },
             // disable the default cache and set the cache flag
@@ -60,9 +62,9 @@ export default class HITSAPI {
             },
             function(error) {
                 // Do something with request error
-                dispatchLoadingStack(-1);
+                // dispatchLoadingStack(-1);
 
-                console.log(error);
+                // console.log(error);
                 // enqueueSnackbar("Cannot connect to server", {
                 //     variant: "error"
                 // });

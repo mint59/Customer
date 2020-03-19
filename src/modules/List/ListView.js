@@ -15,15 +15,20 @@ import RadioGroup from '../../components/RadioGroup'
 import { colors, fonts } from '../../styles';
 import HITSAPI from '../../../HISAPI'
 import moment from "moment";
+import Cookie from "js-cookie";
+
+// const jwt_decode = require("jwt-decode");
 
 export default function Listview(props) {
   const hitsAPI = new HITSAPI();
+  // const token = Cookie.get("token");
+ 
   const [loading, setLoading] = useState(false);
 
   const [model, setModel] = useState({
     data: [],
   });
-  const [tabs, setTabs] = useState(['งานวันนี้', 'งานที่ทำ'])
+  const [tabs, setTabs] = useState(['งานที่เหลือ', 'งานที่ทำ'])
   const [tabIndex, setTabIndex] = useState(0)
   // const [statusText, setStatusText] = useState("");
 
@@ -39,7 +44,7 @@ export default function Listview(props) {
   const fetchModels = async () => {
     setLoading(true);
     await hitsAPI.axios
-      .get(`/crud/task`)
+      .get(`/get-listO/task/97e84d8a-9106-4f63-b7fb-c58c437d896f`)
       .then(function (response) {
         console.log(response.data);
         setModel({
@@ -48,10 +53,11 @@ export default function Listview(props) {
         setLoading(false);
       });
   };
+
   const fetchModelI = async () => {
     setLoading(true);
     await hitsAPI.axios
-      .get(`/crud/task/get-listI`)
+      .get(`/get-listI/task/97e84d8a-9106-4f63-b7fb-c58c437d896f`)
       .then(function (response) {
         console.log(response.data);
         setModel({
@@ -223,6 +229,11 @@ export default function Listview(props) {
 
 
   return (
+
+    // <>
+    // {token}
+    // </>
+
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ height: 50 }}>
         <RadioGroup
@@ -236,13 +247,13 @@ export default function Listview(props) {
         data={model.data}
         keyExtractor={item => item.customer_id}
         renderItem={getRenderItemFunction()}
-        //  ListFooterComponent={
-        //    loading ? (
-        //      <ActivityIndicator />
-        //    ) : (
-        //        <Button title="Load More" onPress={loadMore} />
-        //      )
-        //  }
+      //  ListFooterComponent={
+      //    loading ? (
+      //      <ActivityIndicator />
+      //    ) : (
+      //        <Button title="Load More" onPress={loadMore} />
+      //      )
+      //  }
       />
     </SafeAreaView>
   );

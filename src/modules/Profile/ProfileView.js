@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect,useState} from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,29 @@ import {
   ImageBackground,
   Linking,
 } from 'react-native';
-
+import Cookie from "js-cookie";
 import { fonts, colors } from '../../styles';
 import { Button } from '../../components';
 
+const jwtDecode = require("jwt-decode");
+
 export default function ProfileScreen(props) {
+  
+  const [userCode, setUserCode] = useState("");
+  // const token = Cookie.get("token");
+  // let decoded = jwtDecode(token);
+  useEffect(() => {
+    //by pass
+    const token = Cookie.get("token");
+    if (token === null || token === "" || token === "null") {
+        setRedirect(true);
+    } else {
+        var decoded = jwtDecode(token);
+        // console.log(decoded);
+        setUserCode(decoded.fn);
+    }
+}, []);
+
 
   return (
     <ImageBackground
@@ -34,7 +52,8 @@ export default function ProfileScreen(props) {
             paddingLeft: 20,
             width: '70%'
           }}
-          >อดิศรแสน แสนประเสริฐ</Text>
+          userCode={userCode}
+          ></Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.availableText}>เบอร์: </Text>
