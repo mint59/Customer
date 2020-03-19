@@ -34,6 +34,8 @@ export default function LoginScreen(props) {
                     // localStorage.clear();
                     props.navigation.navigate({ routeName: 'Main' })
                 });
+        }else if (model.username === "" && model.password === ""){
+            alert( title='กรุณาใส่ Username และ Password ให้ถูกต้อง')
         }
 
     };
