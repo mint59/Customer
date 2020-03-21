@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from "axios";
+import {AsyncStorage} from 'react-native';
 import Cookie from "js-cookie";
 import { cacheAdapterEnhancer } from "axios-extensions";
 import { useDispatch } from "reactn";
@@ -26,15 +27,21 @@ export default class HITSAPI {
             return count + n;
         };
         const dispatchLoadingStack = useDispatch(addLoadingStact, "loading");
-
-        const token = Cookie.get("token") ? Cookie.get("token") : "";
-
+        const token = async () => {
+            try {
+              const value = await AsyncStorage.getItem('token');
+              if (value !== null) {
+                // We have data!!
+                console.log(value);
+              }
+            } catch (error) {
+              // Error retrieving data
+            }
+          };
+        // const token = AsyncStorage.getItem("token") ? AsyncStorage.getItem("token") : "";
         // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
         let baseURL = "http://192.168.20.47:5000";  //หอ
-        // let baseURL = "http://192.168.137.160:5000"; //พี่ครีม
-        // let baseURL = "http://192.168.137.98:5000";  //พี่กล๊อฟ
-        // let baseURL = "http://192.168.137.151:5000"; //พี่เท่
         // if (report) {
         //     baseURL += "/report";
         // } else {
@@ -44,7 +51,7 @@ export default class HITSAPI {
         this.axios = axios.create({
             baseURL: baseURL,
             headers: {
-                Authorization: "Bearer " + token,
+                // Authorization: "Bearer " + token,
                 "Cache-Control": "no-cache"
             },
             // disable the default cache and set the cache flag

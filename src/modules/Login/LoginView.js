@@ -4,15 +4,14 @@ import {
     View,
     TouchableOpacity,
     ImageBackground,
-    Image
+    Image,
+    AsyncStorage
 } from 'react-native';
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 import { fonts, colors } from '../../styles';
 import { Text } from '../../components/StyledText';
 import HITSAPI from '../../../HISAPI'
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import Cookie from "js-cookie";
 
 export default function LoginScreen(props) {
     const hitsAPI = new HITSAPI();
@@ -22,7 +21,6 @@ export default function LoginScreen(props) {
         password: ''
     })
 
-
     const handleSubmit = event => {
         if (model.username !== "" && model.password !== "") {
             event.preventDefault();
@@ -30,7 +28,9 @@ export default function LoginScreen(props) {
                 // .post("/signon/SignOn/authenticate", model)
                 .post("/auth/", model)
                 .then(function (response) {
-                    Cookie.set("token", response.data.token);
+                    AsyncStorage.setItem('token', response.data.token)
+                    // Cookie.set("token", response.data.token);
+                    // console.log(response.data.token)
                     // localStorage.clear();
                     props.navigation.navigate({ routeName: 'Main' })
                 });
