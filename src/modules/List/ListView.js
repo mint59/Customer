@@ -10,19 +10,17 @@ import {
   Dimensions,
   SafeAreaView,
   Button,
+  AsyncStorage
 } from 'react-native';
 import RadioGroup from '../../components/RadioGroup'
 import { colors, fonts } from '../../styles';
 import HITSAPI from '../../../HISAPI'
 import moment from "moment";
-import Cookie from "js-cookie";
-
-// const jwt_decode = require("jwt-decode");
+const jwtDecode = require("jwt-decode");
 
 export default function Listview(props) {
   const hitsAPI = new HITSAPI();
-  // const token = Cookie.get("token");
- 
+  const [userCode, setUserCode] = useState('');
   const [loading, setLoading] = useState(false);
 
   const [model, setModel] = useState({
@@ -40,32 +38,68 @@ export default function Listview(props) {
     }
   }, [tabIndex]);
 
-  // fetch data
   const fetchModels = async () => {
-    setLoading(true);
-    await hitsAPI.axios
-      .get(`/get-listO/task/97e84d8a-9106-4f63-b7fb-c58c437d896f`)
-      .then(function (response) {
-        console.log(response.data);
-        setModel({
-          data: response.data.rows,
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (token !== null) {
+        // We have data!!
+        var decode = jwtDecode(token);
+      }
+      await hitsAPI.axios.get(`/get-listO/task/${decode.uid}`)
+        .then(function (response) {
+          setModel({
+            data: response.data.rows,
+          });
         });
-        setLoading(false);
-      });
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const fetchModelI = async () => {
-    setLoading(true);
-    await hitsAPI.axios
-      .get(`/get-listI/task/97e84d8a-9106-4f63-b7fb-c58c437d896f`)
-      .then(function (response) {
-        console.log(response.data);
-        setModel({
-          data: response.data.rows,
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (token !== null) {
+        // We have data!!
+        var decode = jwtDecode(token);
+      }
+      await hitsAPI.axios.get(`/get-listI/task/${decode.uid}`)
+        .then(function (response) {
+          setModel({
+            data: response.data.rows,
+          });
+          setLoading(false);
         });
-        setLoading(false);
-      });
+    } catch (error) {
+      console.log(error)
+    }
   };
+
+
+  // fetch data
+  // const fetchModels = async () => {
+  //   setLoading(true);
+  //   await hitsAPI.axios
+  //     .get(`/get-listO/task/${userCode}`)
+  //     .then(function (response) {
+  //       setModel({
+  //         data: response.data.rows,
+  //       });
+  //       setLoading(false);
+  //     });
+  // };
+
+  // const fetchModelI = async () => {
+  //   setLoading(true);
+  //   await hitsAPI.axios
+  //     .get(`/get-listI/task/${userCode}`)
+  //     .then(function (response) {
+  //       setModel({
+  //         data: response.data.rows,
+  //       });
+  //       setLoading(false);
+  //     });
+  // };
 
   const getRenderItemFunction = () =>
     [renderRowOne, renderRowTwo][
@@ -226,8 +260,12 @@ export default function Listview(props) {
       </View>
     </View>
   );
-
-
+  const kkkk = ({ item }) => {
+    if (tabIndex === 0) { item => item.customer_id }
+    else if (tabIndex === 1) {
+      item => item.customer_id
+    }
+  }
   return (
 
     // <>
@@ -243,9 +281,10 @@ export default function Listview(props) {
           underline
         />
       </View>
+
       <FlatList
         data={model.data}
-        keyExtractor={item => item.customer_id}
+        keyExtractor={kkkk}
         renderItem={getRenderItemFunction()}
       //  ListFooterComponent={
       //    loading ? (

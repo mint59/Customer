@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
-  Platform,
+  AsyncStorage,
   Text,
   FlatList,
   TouchableOpacity,
@@ -14,32 +14,54 @@ import HITSAPI from '../../../HISAPI'
 import { SearchBar } from 'react-native-elements'
 import moment from "moment";
 import Icon from 'react-native-vector-icons/FontAwesome';
+const jwtDecode = require("jwt-decode");
 
 export default function StoreScreen(props) {
   const hitsAPI = new HITSAPI();
-
+  const [newSearch, setNewSearch] = useState([]);
   const [loading, setLoading] = useState(false);
   const [text, setText] = React.useState('');
   const [model, setModel] = useState({
     data: [],
   });
 
-  const [newSearch, setNewSearch] = useState([]);
-
-  // fetch data
   const fetchModels = async () => {
-    setLoading(true);
-    await hitsAPI.axios
-      .get(`/crud/task/get-listC`)
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (token !== null) {
+        // We have data!!
+        var decode = jwtDecode(token);
+      }
+      await hitsAPI.axios.get(`/get-listC/task/${decode.uid}`)
       .then(function (response) {
-        console.log(response.data);
         setModel({
           data: response.data.rows,
         });
-        setLoading(false);
+        // setLoading(false);
+        
         setNewSearch(response.data.rows);
       });
+    } catch (error) {
+      console.log(error)
+    }
   };
+
+  // // fetch data
+  // const fetchModels = async () => {
+  //   // setLoading(true);
+  //   retrieveData();
+  //   await hitsAPI.axios
+  //     .get(`/get-listC/task/${userCode}`)
+  //     .then(function (response) {
+  //       // console.log(response.data);
+  //       setModel({
+  //         data: response.data.rows,
+  //       });
+  //       // setLoading(false);
+        
+  //       setNewSearch(response.data.rows);
+  //     });
+  // };
 
   const searchFilterFunction = text => {
     setText(text);
@@ -52,7 +74,7 @@ export default function StoreScreen(props) {
       data: newData,
     });
   };
-
+  
   useEffect(() => {
     fetchModels();
   }, []);
