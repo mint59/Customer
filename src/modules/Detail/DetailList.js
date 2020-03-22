@@ -64,9 +64,9 @@ export default function DetailListScreen(props, params) {
   }
 
   useEffect(() => {
-    checkIn();
+    // checkIn();
     handleChangeMapInit(props.navigation.state.params);
-  }, [props.navigation.state.params])
+  }, [])
 
   return (
     <SafeAreaView>
@@ -105,7 +105,7 @@ export default function DetailListScreen(props, params) {
             </MapView>
           </View>
 
-          <View style={{ flexDirection: 'column', marginTop: Dimensions.get('window').width / 2 + 60 }}>
+          <View style={{ flexDirection: 'column', marginTop: Dimensions.get('window').width / 2 + 100 }}>
             <View style={{ flexDirection: 'row', paddingTop: 10 }}>
               <Icon name="user" style={styles.layoutIcon} />
               <Text style={styles.availableText}>ลูกค้าชื่อ-สกุล: </Text>
@@ -120,7 +120,8 @@ export default function DetailListScreen(props, params) {
               </Text>
 
             </View>
-            <View style={styles.layout}>
+            <View >
+              <View style={styles.layout}></View>
             </View>
             <View style={{ flexDirection: 'row', paddingTop: 10 }}>
               <Icon name="phone" style={styles.layoutIcon} />
@@ -133,7 +134,9 @@ export default function DetailListScreen(props, params) {
               }}
               > {props.navigation.state.params.tel}</Text>
             </View>
-            <View style={styles.layout}></View>
+            <View >
+              <View style={styles.layout}></View>
+            </View>
             <View style={{ flexDirection: 'row', paddingTop: 10 }}>
               <Icon name="calendar" style={styles.layoutIcon} />
               <Text style={styles.availableText}>วันที่: </Text>
@@ -150,7 +153,9 @@ export default function DetailListScreen(props, params) {
                 : ""}
               </Text>
             </View>
-            <View style={styles.layout} />
+            <View >
+              <View style={styles.layout}></View>
+            </View>
             <View style={{ flexDirection: 'row', paddingTop: 10 }}>
               <Icon name="wrench" style={styles.layoutIcon} />
               <Text style={styles.availableText}>ประเภท: </Text>
@@ -181,7 +186,9 @@ export default function DetailListScreen(props, params) {
                 )}
               </Text>
             </View>
-            <View style={styles.layout} />
+            <View >
+              <View style={styles.layout}></View>
+            </View>
             <View style={{ flexDirection: 'row', paddingTop: 10 }}>
               <Icon name="table" style={styles.layoutIcon} />
               <Text style={styles.availableText}>รายละเอียด: </Text>
@@ -193,7 +200,9 @@ export default function DetailListScreen(props, params) {
               }}
               >{props.navigation.state.params.detail_type}</Text>
             </View>
-            <View style={styles.layout} />
+            <View >
+              <View style={styles.layout}></View>
+            </View>
             <View style={{ flexDirection: 'row', paddingTop: 10 }}>
               <Icon name="map-marker" style={styles.layoutIcon} />
               <Text style={styles.availableText}>ที่อยู่: </Text>
@@ -206,7 +215,9 @@ export default function DetailListScreen(props, params) {
               }}
               >{props.navigation.state.params.location}</Text>
             </View>
-            <View style={styles.layout} />
+            {/* <View >
+              <View style={styles.layout}></View>
+            </View> */}
             <View style={styles.btn}>
               <Button
                 title="Check In"
@@ -262,8 +273,8 @@ const styles = StyleSheet.create({
   layout: {
     height: 1,
     backgroundColor: colors.lightGray,
-    width: "90%",
-    marginLeft: 60,
+    width: "85%",
+    marginLeft: 75,
     marginTop: 10
   },
   button: {

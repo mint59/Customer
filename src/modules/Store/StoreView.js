@@ -7,23 +7,36 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  TextInput
+  TextInput,
+  ScrollView,
+  RefreshControl,
+  SafeAreaView,
 } from 'react-native';
 import { colors, fonts } from '../../styles';
 import HITSAPI from '../../../HISAPI'
-import { SearchBar } from 'react-native-elements'
 import moment from "moment";
 import Icon from 'react-native-vector-icons/FontAwesome';
 const jwtDecode = require("jwt-decode");
+function wait(timeout) {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
 
 export default function StoreScreen(props) {
   const hitsAPI = new HITSAPI();
   const [newSearch, setNewSearch] = useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const [text, setText] = React.useState('');
   const [model, setModel] = useState({
     data: [],
   });
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, [refreshing]);
 
   const fetchModels = async () => {
     try {
@@ -33,35 +46,17 @@ export default function StoreScreen(props) {
         var decode = jwtDecode(token);
       }
       await hitsAPI.axios.get(`/get-listC/task/${decode.uid}`)
-      .then(function (response) {
-        setModel({
-          data: response.data.rows,
+        .then(function (response) {
+          setModel({
+            data: response.data.rows,
+          });
+          // setLoading(false);
+          setNewSearch(response.data.rows);
         });
-        // setLoading(false);
-        
-        setNewSearch(response.data.rows);
-      });
     } catch (error) {
       console.log(error)
     }
   };
-
-  // // fetch data
-  // const fetchModels = async () => {
-  //   // setLoading(true);
-  //   retrieveData();
-  //   await hitsAPI.axios
-  //     .get(`/get-listC/task/${userCode}`)
-  //     .then(function (response) {
-  //       // console.log(response.data);
-  //       setModel({
-  //         data: response.data.rows,
-  //       });
-  //       // setLoading(false);
-        
-  //       setNewSearch(response.data.rows);
-  //     });
-  // };
 
   const searchFilterFunction = text => {
     setText(text);
@@ -74,8 +69,9 @@ export default function StoreScreen(props) {
       data: newData,
     });
   };
-  
+
   useEffect(() => {
+    onRefresh(fetchModels);
     fetchModels();
   }, []);
 
@@ -88,106 +84,115 @@ export default function StoreScreen(props) {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.dialog}>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginTop: 10,
-            marginLeft: 20,
-            borderRadius: 30,
-            height: 50,
-            width: "90%",
-            borderWidth: 1,
-            borderColor: colors.lightGray,
-            backgroundColor: colors.white
-          }}>
-          <Icon name={"search"} style={{ paddingLeft: 20, fontSize: 18, paddingTop: 15, color: colors.lightGray }} />
-          <TextInput
-            style={{ paddingLeft: 30, paddingTop: 10, fontSize: 18 }}
-            placeholder=" ชื่อ..."
-            value={text}
-            onChangeText={text => searchFilterFunction(text)}
-          />
-        </View>
-        <FlatList
-          style={styles.zIndex}
-          data={model.data}
-          keyExtractor={item => item.customer_id}
-          renderItem={({ item }) => (
-            <View style={styles.container}>
-              <View style={styles.container}>
-                <TouchableOpacity
-                  onPress={() => openDetailStore(item)}
-                >
-                  <View style={styles.itemThreeSubContainer}>
-                    <Image source={require('../../../assets/images/logo.png')} style={styles.itemThreeImage} />
+    <SafeAreaView>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={styles.container}>
+          <View style={styles.dialog}>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 10,
+                marginLeft: 20,
+                borderRadius: 30,
+                height: 50,
+                width: "90%",
+                borderWidth: 1,
+                borderColor: colors.lightGray,
+                backgroundColor: colors.white
+              }}>
+              <Icon name={"search"} style={{ paddingLeft: 20, fontSize: 18, paddingTop: 15, color: colors.lightGray }} />
+              <TextInput
+                style={{ paddingLeft: 30, paddingTop: 10, fontSize: 18 }}
+                placeholder=" ชื่อ..."
+                value={text}
+                onChangeText={text => searchFilterFunction(text)}
+              />
+            </View>
+            <FlatList
+              style={styles.zIndex}
+              data={model.data}
+              keyExtractor={item => item.customer_id}
+              renderItem={({ item }) => (
+                <View style={styles.container}>
+                  <View style={styles.container}>
+                    <TouchableOpacity
+                      onPress={() => openDetailStore(item)}
+                    >
+                      <View style={styles.itemThreeSubContainer}>
+                        <Image source={require('../../../assets/images/logo.png')} style={styles.itemThreeImage} />
 
-                    <View style={styles.itemThreeContent}>
-                      <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.customer_name}</Text>
-                      <View>
-                        <Text style={styles.itemThreeTitle}>ประเภท
-                          {item.type === "1" && (
-                            "  ระบบน้ำ"
-                          )}
-                          {item.type === "2" && (
-                            "  ระบบไฟ"
-                          )}
-                          {item.type === "3" && (
-                            "  เครื่องใช้ไฟฟ้า"
-                          )}
-                          {item.type === "4" && (
-                            "  โครงสร้าง"
-                          )}
-                          {item.type === "5" && (
-                            "  บริการ"
-                          )}
-                          {item.type === "6" && (
-                            "  เบ็ดเตล็ด"
-                          )}</Text>
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={styles.itemThreeContent}>
+                          <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.customer_name}</Text>
                           <View>
-                            <Text style={styles.itemThreeSubtitle}>
-                              วันที่
+                            <Text style={styles.itemThreeTitle}>ประเภท
+                          {item.type === "1" && (
+                                "  ระบบน้ำ"
+                              )}
+                              {item.type === "2" && (
+                                "  ระบบไฟ"
+                              )}
+                              {item.type === "3" && (
+                                "  เครื่องใช้ไฟฟ้า"
+                              )}
+                              {item.type === "4" && (
+                                "  โครงสร้าง"
+                              )}
+                              {item.type === "5" && (
+                                "  บริการ"
+                              )}
+                              {item.type === "6" && (
+                                "  เบ็ดเตล็ด"
+                              )}</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                              <View>
+                                <Text style={styles.itemThreeSubtitle}>
+                                  วันที่
                               {item.task_date
-                                ? moment(
-                                  item.task_date
-                                ).format("        DD/MM/YYYY HH:mm")
-                                : " "}
-                            </Text>
+                                    ? moment(
+                                      item.task_date
+                                    ).format("        DD/MM/YYYY HH:mm")
+                                    : " "}
+                                </Text>
+                              </View>
+                              <View style={{ paddingLeft: 50 }}>
+                                <Text style={styles.itemThreeSubtitle}>
+                                  {/* {item.datetime} */}
+                                </Text>
+                              </View>
+                            </View>
+
                           </View>
-                          <View style={{ paddingLeft: 50 }}>
-                            <Text style={styles.itemThreeSubtitle}>
-                              {/* {item.datetime} */}
+                          <View style={styles.itemThreeMetaContainer}>
+
+                            <Text style={{ color: colors.green, fontFamily: fonts.primaryRegular }}>
+                              {item.status === "C" && (
+                                " complete"
+                              )}
                             </Text>
                           </View>
                         </View>
-
                       </View>
-                      <View style={styles.itemThreeMetaContainer}>
-
-                        <Text style={{ color: colors.green, fontFamily: fonts.primaryRegular }}>
-                          {item.status === "C" && (
-                            " complete"
-                          )}
-                        </Text>
+                      <View style={{
+                        height: 1,
+                        backgroundColor: colors.lightGray,
+                        width: "200%"
+                      }}>
                       </View>
-                    </View>
+                    </TouchableOpacity>
                   </View>
-                  <View style={{
-                    height: 1,
-                    backgroundColor: colors.lightGray,
-                    width: "200%"
-                  }}>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )
-          }
-        />
-      </View >
-    </View >
+                </View>
+              )
+              }
+            />
+          </View >
+        </View >
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

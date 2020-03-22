@@ -10,7 +10,9 @@ import {
   Dimensions,
   SafeAreaView,
   Button,
-  AsyncStorage
+  AsyncStorage,
+  ScrollView,
+  RefreshControl,
 } from 'react-native';
 import RadioGroup from '../../components/RadioGroup'
 import { colors, fonts } from '../../styles';
@@ -18,23 +20,35 @@ import HITSAPI from '../../../HISAPI'
 import moment from "moment";
 const jwtDecode = require("jwt-decode");
 
+function wait(timeout) {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
+
 export default function Listview(props) {
   const hitsAPI = new HITSAPI();
-  const [userCode, setUserCode] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const [refreshing, setRefreshing] = React.useState(false);
   const [model, setModel] = useState({
     data: [],
   });
   const [tabs, setTabs] = useState(['งานที่เหลือ', 'งานที่ทำ'])
   const [tabIndex, setTabIndex] = useState(0)
-  // const [statusText, setStatusText] = useState("");
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+
+    wait(2000).then(() => setRefreshing(false));
+  }, [refreshing]);
 
   useEffect(() => {
     if (tabIndex === 0) {
       fetchModels();
+      onRefresh(fetchModels);
     } else if (tabIndex === 1) {
       fetchModelI();
+      onRefresh(fetchModelI);
     }
   }, [tabIndex]);
 
@@ -74,32 +88,6 @@ export default function Listview(props) {
       console.log(error)
     }
   };
-
-
-  // fetch data
-  // const fetchModels = async () => {
-  //   setLoading(true);
-  //   await hitsAPI.axios
-  //     .get(`/get-listO/task/${userCode}`)
-  //     .then(function (response) {
-  //       setModel({
-  //         data: response.data.rows,
-  //       });
-  //       setLoading(false);
-  //     });
-  // };
-
-  // const fetchModelI = async () => {
-  //   setLoading(true);
-  //   await hitsAPI.axios
-  //     .get(`/get-listI/task/${userCode}`)
-  //     .then(function (response) {
-  //       setModel({
-  //         data: response.data.rows,
-  //       });
-  //       setLoading(false);
-  //     });
-  // };
 
   const getRenderItemFunction = () =>
     [renderRowOne, renderRowTwo][
@@ -267,33 +255,34 @@ export default function Listview(props) {
     }
   }
   return (
-
-    // <>
-    // {token}
-    // </>
-
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ height: 50 }}>
-        <RadioGroup
-          selectedIndex={tabIndex}
-          items={tabs}
-          onChange={setTabIndex}
-          underline
-        />
-      </View>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={{ height: 50 }}>
+          <RadioGroup
+            selectedIndex={tabIndex}
+            items={tabs}
+            onChange={setTabIndex}
+            underline
+          />
+        </View>
 
-      <FlatList
-        data={model.data}
-        keyExtractor={kkkk}
-        renderItem={getRenderItemFunction()}
-      //  ListFooterComponent={
-      //    loading ? (
-      //      <ActivityIndicator />
-      //    ) : (
-      //        <Button title="Load More" onPress={loadMore} />
-      //      )
-      //  }
-      />
+        <FlatList
+          data={model.data}
+          keyExtractor={kkkk}
+          renderItem={getRenderItemFunction()}
+        //  ListFooterComponent={
+        //    loading ? (
+        //      <ActivityIndicator />
+        //    ) : (
+        //        <Button title="Load More" onPress={loadMore} />
+        //      )
+        //  }
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -421,5 +410,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
-  },
+  }
 });

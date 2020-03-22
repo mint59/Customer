@@ -15,17 +15,17 @@ import ImagePicker from 'react-native-image-picker';
 import { CheckBox } from 'react-native-elements'
 import HITSAPI from '../../../HISAPI'
 import { Button } from 'react-native-elements'
+import ActionSheet from 'react-native-actionsheet'
 
 export default function CheckoutScreen(props) {
     const hitsAPI = new HITSAPI();
-    const [text, setText] = React.useState('');
     const [checked2, setChecked2] = useState(false);
-    const [state, setstate] = useState()
-
+    const showActionSheet = () => actionSheet.show();
+    const getActionSheetRef = ref => (actionSheet = ref);
     const [filePath, setFilePath] = useState({});
     const [upload, setUpload] = useState(false);
     const [modelCheck, setModelCheck] = useState({
-        status: "",
+        status: "C",
         comment: ""
     });
 
@@ -70,34 +70,30 @@ export default function CheckoutScreen(props) {
         await hitsAPI.axios
             .put(`/crud/task/${props.navigation.state.params.task_id}`, modelCheck)
             .then(function (response) {
-                setModelCheck({ 
-                    ...modelCheck, 
-                    status: !checked2 ? "I" : "C" 
+                setModelCheck({
+                    ...modelCheck,
+                    status: !checked2 ? "I" : "C"
                 });
             });
-            if (modelCheck.status === "C"){
-                alert( title='บันทึกงานเรียบร้อย')
-            } else if (modelCheck.status === "I"){
-                alert( title='บันทึกงานเรียบร้อยโปรดกลับมาทำใหม่วันพรุ่งนี้')
-                // props.navigation.goBack()
-            }
+        if (modelCheck.status === "C") {
+            alert(title = 'บันทึกงานเรียบร้อย')
+            props.navigation.goBack()
+        } else if (modelCheck.status === "I") {
+            alert(title = 'บันทึกงานเรียบร้อยโปรดกลับมาทำใหม่วันพรุ่งนี้')
+            props.navigation.goBack()
+        }
         console.log(modelCheck)
     }
 
     // useEffect(() => {
     //     handleSubmit();
     // }, [])
-
-    const handleChange = (comment) => {
-        setModelCheck({ ...modelCheck, comment: comment });
-    };
-
     const onChecked2 = () => {
         setChecked2(!checked2);
         setModelCheck({ ...modelCheck, status: !checked2 ? "I" : "C" });
     }
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ backgroundColor: colors.bluish, height: '100%' }}>
             <Appbar.Header >
                 <Appbar.BackAction
                     onPress={() => props.navigation.goBack()}
@@ -108,72 +104,130 @@ export default function CheckoutScreen(props) {
                 />
             </Appbar.Header>
             <ScrollView>
-                <Card style={{ paddingTop: 10 }}>
-                    <Text
-                        style={{
-                            paddingLeft: 10,
-                            fontFamily: fonts.primaryRegular,
-                            fontSize: 14,
-                            paddingTop: 10, color:
-                                colors.lightGray
-                        }}>* ติ๊กเมื่องานยังไม่เสร็จ</Text>
-                    <View style={{ paddingTop: 2, flexDirection: 'row', }}>
-
-                        <Text style={{ paddingLeft: 50, fontFamily: fonts.primaryRegular, fontSize: 18, paddingTop: 10 }}>ไม่เสร็จ</Text>
-
-                        <CheckBox
+                {/* <CheckBox
                             checked={checked2}
                             onPress={onChecked2}
-                        />
-                    </View>
-                </Card>
+                        /> */}
                 <View style={styles.images}>
-                    <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
-                        {/* {filePath.length > 1 ? */}
-                            <Image
-                                source={{
-                                    uri: 'data:image/jpeg;base64,' + filePath.data,
-                                }}
-                                style={{ width: "100%", height: '100%' }}
-                            />
-                            {/* :
+                    <Card>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
+                                {/* {filePath.length > 1 ? */}
+                                <Image
+                                    source={{
+                                        uri: 'data:image/jpeg;base64,' + filePath.data,
+                                    }}
+                                    style={{ width: "100%", height: '100%' }}
+                                />
+                                {/* :
                             <Icon
                                 name="plus"
                                 size={15}
                                 color={colors.blue}
                             />
                         } */}
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
-                        {/* <Image
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
+                                {/* <Image
                                 source={{
                                     uri: 'data:image/jpeg;base64,' + filePath.data,
                                 }}
                                 style={{ width: "100%", height: '100%' }}
                             /> */}
-                    </TouchableOpacity>
-                    {/* <View style={styles.demoButton}>
-                        <Button title="Add" onPress={chooseFile} type="outline" style={{ color: colors.lightGray }}
-                            icon={
-                                <Icon
-                                    name="plus"
-                                    size={15}
-                                    color={colors.blue}
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
+                                {/* {filePath.length > 1 ? */}
+                                <Image
+                                    source={{
+                                        uri: 'data:image/jpeg;base64,' + filePath.data,
+                                    }}
+                                    style={{ width: "100%", height: '100%' }}
                                 />
-                            }
-                        />
-                    </View> */}
+                                {/* :
+                            <Icon
+                                name="plus"
+                                size={15}
+                                color={colors.blue}
+                            />
+                        } */}
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
+                                {/* <Image
+                                source={{
+                                    uri: 'data:image/jpeg;base64,' + filePath.data,
+                                }}
+                                style={{ width: "100%", height: '100%' }}
+                            /> */}
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.demoButton}>
+                            <Button title="Add" onPress={chooseFile} type="outline" style={{ color: colors.lightGray }}
+                                icon={
+                                    <Icon
+                                        name="plus"
+                                        size={15}
+                                        color={colors.blue}
+                                    />
+                                }
+                            />
+                        </View>
+                    </Card>
                 </View>
-                <View style={{ paddingLeft: 12, paddingRight: 12 ,paddingTop: 40}}>
-                    <TextInput
-                        label="หมายเหตุ....."
-                        mode='outlined'
-                        onChangeText={text => setModelCheck({...modelCheck, comment: text})}
-                        value={modelCheck.comment}
-                        style={{ backgroundColor: colors.white, height: 70, paddingLeft: 10, paddingRight: 10 }}
-                    // value={modelCheck.comment}
-                    // onChange={xx => setModelCheck({...modelCheck, comment : xx})}
-                    />
+                <View style={{ paddingTop: 10, paddingLeft: 10, paddingRight: 10 }}>
+                    <Card style={{ paddingLeft: 10, paddingTop: 10 }}>
+                        <TouchableOpacity
+                            onPress={() => showActionSheet()}
+                            style={{
+                                // alignItems: 'center',
+                                paddingTop: 5,
+                                backgroundColor: colors.white,
+                                borderRadius: 4,
+                                paddingBottom: 5,
+                                width: '100%',
+                                paddingLeft: 10,
+                                flexDirection: 'row'
+                            }}
+                        >
+                            <Icon name="plus" size={15} color={colors.blue} />
+                            <Text style={{
+                                fontFamily: fonts.primarySemiBold,
+                                fontSize: 16,
+                                color: colors.blue,
+                                paddingLeft: 10
+                            }}
+                            >เพิ่มสถานะ</Text>
+                            <Text style={{
+                                fontFamily: fonts.primarySemiBold,
+                                fontSize: 16,
+                                color: colors.lightGray,
+                                paddingLeft: 10}}
+                                >dd</Text>
+                        </TouchableOpacity>
+
+                        <ActionSheet
+                            ref={getActionSheetRef}
+                            title={'โปรดเลือกสถานะ'}
+                            options={['งานเสร็จ', 'งานไม่เสร็จ', 'Confirm']}
+                            cancelButtonIndex={2}
+                            destructiveButtonIndex={1}
+                            onPress={() => { }}
+                        />
+                    </Card>
+                </View>
+                <View style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 10 }}>
+                    <Card >
+                        <TextInput
+                            label="หมายเหตุ"
+                            mode='flat'
+                            onChangeText={text => setModelCheck({ ...modelCheck, comment: text })}
+                            value={modelCheck.comment}
+                            style={{ backgroundColor: colors.white, height: 70, paddingLeft: 10, paddingRight: 10 }}
+                        // value={modelCheck.comment}
+                        // onChange={xx => setModelCheck({...modelCheck, comment : xx})}
+                        />
+                    </Card>
                 </View>
                 <View style={styles.button}>
                     <Button
@@ -216,11 +270,11 @@ const styles = StyleSheet.create({
         color: '#009e73'
     },
     button: {
-        marginTop: 90,
+        marginTop: 10,
         paddingHorizontal: 20,
         marginBottom: 20,
         paddingLeft: 50,
-        paddingRight: 50
+        paddingRight: 50,
     },
     componentsSection: {
         backgroundColor: colors.white,
@@ -265,16 +319,17 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         borderColor: "#E3E3E3",
         backgroundColor: "#F6F6F6",
-        width: '80%',
+        width: '50%',
+        alignItems: 'center',
         height: 150
     },
     images: {
         paddingTop: 10,
-        width: '60%',
+        width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingLeft: 20
-
+        paddingLeft: 10,
+        paddingRight: 10
     },
 });

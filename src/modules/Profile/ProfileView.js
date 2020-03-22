@@ -5,31 +5,50 @@ import {
   Image,
   StyleSheet,
   ImageBackground,
-  Linking,
+  AsyncStorage,
 } from 'react-native';
-import Cookie from "js-cookie";
+import HITSAPI from '../../../HISAPI'
 import { fonts, colors } from '../../styles';
 import { Button } from '../../components';
 
 const jwtDecode = require("jwt-decode");
 
 export default function ProfileScreen(props) {
-  
-  const [userCode, setUserCode] = useState("");
-  // const token = Cookie.get("token");
-  // let decoded = jwtDecode(token);
-  useEffect(() => {
-    //by pass
-    const token = Cookie.get("token");
-    if (token === null || token === "" || token === "null") {
-        setRedirect(true);
-    } else {
-        var decoded = jwtDecode(token);
-        // console.log(decoded);
-        setUserCode(decoded.fn);
-    }
-}, []);
+  const hitsAPI = new HITSAPI();
+  const [mobel, setMobel] = useState({
+    username: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+    tel: "",
+  })
 
+  const retrieveData = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (token !== null) {
+        // We have data!!
+        var decode = jwtDecode(token);
+      }
+      await hitsAPI.axios.get(`/crud/sys_user/${decode.uid}`)
+        .then(function (response) {
+          setMobel({
+            ...mobel,
+            username: response.data.username,
+            first_name: response.data.first_name,
+            last_name: response.data.last_name,
+            email: response.data.email,
+            tel: response.data.tel
+          });
+        });
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  useEffect(() => {
+    retrieveData();
+}, []);
 
   return (
     <ImageBackground
@@ -43,6 +62,20 @@ export default function ProfileScreen(props) {
 
       <View style={styles.textContainer}>
         <View style={{ flexDirection: 'row' }}>
+        <Text style={styles.availableText}>Usename: </Text>
+          <Text style={{
+            color: colors.white,
+            fontFamily: fonts.primaryRegular,
+            fontSize: 20,
+            marginVertical: 3,
+            paddingLeft: 20,
+            width: '70%'
+          }}
+          >
+            {mobel.username}
+          </Text>
+           </View>
+          <View style={{ flexDirection: 'row' }}>
           <Text style={styles.availableText}>ชื่อ-สกุล: </Text>
           <Text style={{
             color: colors.white,
@@ -52,8 +85,9 @@ export default function ProfileScreen(props) {
             paddingLeft: 20,
             width: '70%'
           }}
-          userCode={userCode}
-          ></Text>
+          >
+            {mobel.first_name}  {mobel.last_name}
+          </Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.availableText}>เบอร์: </Text>
@@ -64,7 +98,7 @@ export default function ProfileScreen(props) {
             marginVertical: 3,
             paddingLeft: 50
           }}
-          >0222222222</Text>
+          >{mobel.tel}</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.availableText}>Email: </Text>
@@ -75,7 +109,7 @@ export default function ProfileScreen(props) {
             marginVertical: 3,
             paddingLeft: 45
           }}
-          >mm@email.com</Text>
+          >{mobel.email}</Text>
         </View>
       </View>
       <View style={styles.buttonsContainer}>

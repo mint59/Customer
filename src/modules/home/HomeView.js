@@ -91,7 +91,7 @@ export default function HomeScreen(props) {
   useEffect(() => {
     retrieveData();
     fetchCovid();
-    onRefresh()
+    onRefresh(retrieveData);
   }, []);
 
   return (
