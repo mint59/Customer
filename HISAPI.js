@@ -1,10 +1,8 @@
 import React from 'react';
 import axios from "axios";
 import {AsyncStorage} from 'react-native';
-import Cookie from "js-cookie";
 import { cacheAdapterEnhancer } from "axios-extensions";
 import { useDispatch } from "reactn";
-// import { useSnackbar } from "notistack";
 
 export default class HITSAPI {
     constructor(report = false) {
