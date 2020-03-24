@@ -6,10 +6,8 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  Image,
   Dimensions,
   SafeAreaView,
-  Button,
   AsyncStorage,
   ScrollView,
   RefreshControl,
@@ -18,6 +16,7 @@ import RadioGroup from '../../components/RadioGroup'
 import { colors, fonts } from '../../styles';
 import HITSAPI from '../../../HISAPI'
 import moment from "moment";
+import Icon from 'react-native-vector-icons/AntDesign'
 const jwtDecode = require("jwt-decode");
 
 function wait(timeout) {
@@ -40,15 +39,19 @@ export default function Listview(props) {
     setRefreshing(true);
 
     wait(2000).then(() => setRefreshing(false));
-  }, [refreshing]);
+
+    if (tabIndex === 0) {
+      fetchModels();
+    } else if (tabIndex === 1) {
+      fetchModelI();
+    }
+  }, [refreshing, tabIndex]);
 
   useEffect(() => {
     if (tabIndex === 0) {
       fetchModels();
-      onRefresh(fetchModels);
     } else if (tabIndex === 1) {
       fetchModelI();
-      onRefresh(fetchModelI);
     }
   }, [tabIndex]);
 
@@ -117,8 +120,7 @@ export default function Listview(props) {
           onPress={() => openDetailList(item)}
         >
           <View style={styles.itemThreeSubContainer}>
-            <Image source={require('../../../assets/images/logo.png')} style={styles.itemThreeImage} />
-
+            <Icon name={'smileo'} size={50} style={styles.itemThreeImage}/>
             <View style={styles.itemThreeContent}>
               <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.customer_name}</Text>
               <View>
@@ -153,20 +155,13 @@ export default function Listview(props) {
                         : " "}
                     </Text>
                   </View>
-                  {/* <View style={{ paddingLeft: 50 }}>
-                          <Text style={styles.itemThreeSubtitle}>
-                            {item.datetime}
-                          </Text>
-                        </View> */}
                 </View>
 
               </View>
               <View style={styles.itemThreeMetaContainer}>
-                {/* <Text style={styles.itemThreePrice}>
-                  {item.status === "O" && (
-                    " Start"
-                  )}
-                </Text> */}
+                <Text style={{ color: colors.secondary, fontFamily: fonts.primaryRegular }}>
+                  CheckIn
+                </Text>
               </View>
             </View>
           </View>
@@ -189,8 +184,7 @@ export default function Listview(props) {
           onPress={() => openCheckOut(item)}
         >
           <View style={styles.itemThreeSubContainer}>
-            <Image source={require('../../../assets/images/logo.png')} style={styles.itemThreeImage} />
-
+           <Icon name={'meh'} size={50} style={styles.itemThreeImageS}/>
             <View style={styles.itemThreeContent}>
               <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.customer_name}</Text>
               <View>
@@ -226,15 +220,17 @@ export default function Listview(props) {
                     </Text>
                   </View>
                   {/* <View style={{ paddingLeft: 50 }}>
-                          <Text style={styles.itemThreeSubtitle}>
-                            {item.datetime}
-                          </Text>
-                        </View> */}
+                    <Text style={styles.itemThreePrice}>
+                          Check In
+                    </Text>
+                  </View> */}
                 </View>
 
               </View>
               <View style={styles.itemThreeMetaContainer}>
-                {/* <Text style={styles.itemThreePrice}>{item.status}</Text> */}
+                <Text style={{ color: colors.yellow, fontFamily: fonts.primaryRegular }}>
+                  CheckOut
+                </Text>
               </View>
             </View>
           </View>
@@ -386,8 +382,14 @@ const styles = StyleSheet.create({
     paddingLeft: 25
   },
   itemThreeImage: {
-    height: 100,
-    width: 60,
+    color: colors.secondaryGradientEnd,
+    alignItems: 'center',
+    paddingTop: 15
+  },
+  itemThreeImageS: {
+    color: colors.yellow,
+    alignItems: 'center',
+    paddingTop: 15
   },
   itemThreeContent: {
     flex: 1,
@@ -397,7 +399,7 @@ const styles = StyleSheet.create({
   itemThreeBrand: {
     fontFamily: fonts.primaryBold,
     fontSize: 14,
-    color: '#5F5F5F',
+    color: colors.black,
   },
   itemThreeHr: {
     flex: 1,

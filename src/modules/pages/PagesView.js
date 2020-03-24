@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 
 import { colors, fonts } from '../../styles';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const chatIcon = require('../../../assets/images/pages/chat.png');
 const galleryIcon = require('../../../assets/images/pages/gallery.png');
@@ -15,53 +16,37 @@ export default function PagesScreen(props) {
           onPress={() => props.navigation.navigate({ routeName: 'Profile' })}
           style={styles.item}
         >
-          <Image
-            resizeMode="contain"
-            source={profileIcon}
-            style={styles.itemImage}
-          />
+          <Icon name='user' style={{ color: colors.primary }} size={40}></Icon>
           <Text style={styles.itemText}>Profile</Text>
         </TouchableOpacity>
-        
+
       </View>
       <View style={styles.row}>
 
         <TouchableOpacity
-          onPress={() => props.navigation.navigate({ routeName: 'Profile' })}
+          onPress={() => props.navigation.navigate({ routeName: 'help' })}
           style={styles.item}
         >
-          <Image
-            resizeMode="contain"
-            source={galleryIcon}
-            style={styles.itemImage}
-          />
+          <Icon name='customerservice' style={{ color: colors.primary }} size={35}></Icon>
           <Text style={styles.itemText}>ช่วยเหลือ</Text>
-        </TouchableOpacity> 
-        
+        </TouchableOpacity>
+
       </View>
       <View style={styles.row}>
 
-      <TouchableOpacity
-          onPress={() => props.navigation.navigate({ routeName: 'Profile' })}
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate({ routeName: 'Agreement' })}
           style={styles.item}
         >
-          <Image
-            resizeMode="contain"
-            source={chatIcon}
-            style={styles.itemImage}
-          />
+          <Icon name='exclamationcircleo' style={{ color: colors.primary }} size={35}></Icon>
           <Text style={styles.itemText}>เงื่อนไข / ข้อตกลง</Text>
         </TouchableOpacity>
-        
+
       </View>
       <View style={styles.row}>
 
         <TouchableOpacity onPress={() => props.navigation.navigate({ routeName: 'Login' })} style={styles.item}>
-          <Image
-            resizeMode="contain"
-            source={galleryIcon}
-            style={styles.itemImage}
-          />
+          <Icon name='logout' style={{ color: colors.primary }} size={35}></Icon>
           <Text style={styles.itemText}>Logout</Text>
         </TouchableOpacity>
       </View>

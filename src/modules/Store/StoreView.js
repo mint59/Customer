@@ -36,6 +36,7 @@ export default function StoreScreen(props) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
+    fetchModels();
   }, [refreshing]);
 
   const fetchModels = async () => {
@@ -71,7 +72,6 @@ export default function StoreScreen(props) {
   };
 
   useEffect(() => {
-    onRefresh(fetchModels);
     fetchModels();
   }, []);
 
@@ -84,7 +84,7 @@ export default function StoreScreen(props) {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
         contentContainerStyle={styles.scrollView}
         refreshControl={
@@ -124,7 +124,7 @@ export default function StoreScreen(props) {
                       onPress={() => openDetailStore(item)}
                     >
                       <View style={styles.itemThreeSubContainer}>
-                        <Image source={require('../../../assets/images/logo.png')} style={styles.itemThreeImage} />
+                        <Icon name={'smile-o'} size={50} style={styles.itemThreeImageS} />
 
                         <View style={styles.itemThreeContent}>
                           <Text style={styles.itemThreeBrand}>ลูกค้าชื่อ {item.customer_name}</Text>
@@ -168,7 +168,6 @@ export default function StoreScreen(props) {
 
                           </View>
                           <View style={styles.itemThreeMetaContainer}>
-
                             <Text style={{ color: colors.green, fontFamily: fonts.primaryRegular }}>
                               {item.status === "C" && (
                                 " complete"
@@ -244,5 +243,10 @@ const styles = StyleSheet.create({
   itemThreeImage: {
     height: 100,
     width: 60,
+  },
+  itemThreeImageS: {
+    color: colors.green,
+    alignItems: 'center',
+    paddingTop: 15
   },
 });

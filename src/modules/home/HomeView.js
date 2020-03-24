@@ -43,6 +43,7 @@ export default function HomeScreen(props) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(1000).then(() => setRefreshing(false));
+    retrieveData()
   }, [refreshing]);
 
   const showDialog = () => {
@@ -91,7 +92,7 @@ export default function HomeScreen(props) {
   useEffect(() => {
     retrieveData();
     fetchCovid();
-    onRefresh(retrieveData);
+    // onRefresh();
   }, []);
 
   return (

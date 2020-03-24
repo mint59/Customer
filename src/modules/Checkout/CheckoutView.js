@@ -8,27 +8,26 @@ import {
     ScrollView,
     TouchableOpacity
 } from 'react-native';
-import { Appbar, TextInput, RadioButton, Card } from 'react-native-paper';
+import { Appbar, TextInput, Card } from 'react-native-paper';
 import { fonts, colors } from '../../styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
-import { CheckBox } from 'react-native-elements'
 import HITSAPI from '../../../HISAPI'
 import { Button } from 'react-native-elements'
 import ActionSheet from 'react-native-actionsheet'
 
 export default function CheckoutScreen(props) {
     const hitsAPI = new HITSAPI();
-    const [checked2, setChecked2] = useState(false);
+    // const [checked2, setChecked2] = useState(false);
     const showActionSheet = () => actionSheet.show();
     const getActionSheetRef = ref => (actionSheet = ref);
     const [filePath, setFilePath] = useState({});
     const [upload, setUpload] = useState(false);
     const [modelCheck, setModelCheck] = useState({
-        status: "C",
+        status: "",
         comment: ""
     });
-
+    const [state, setstate] = useState("")
     const chooseFile = () => {
         var options = {
             title: 'เลือกรูป',
@@ -66,31 +65,23 @@ export default function CheckoutScreen(props) {
     //     axios.post('gs://customer-268903.appspot.com/customer');
     // }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (index) => {
         await hitsAPI.axios
             .put(`/crud/task/${props.navigation.state.params.task_id}`, modelCheck)
             .then(function (response) {
-                setModelCheck({
-                    ...modelCheck,
-                    status: !checked2 ? "I" : "C"
-                });
+                alert(title = 'บันทึกงานเรียบร้อย')
+                props.navigation.goBack()
+                console.log(modelCheck)
             });
-        if (modelCheck.status === "C") {
-            alert(title = 'บันทึกงานเรียบร้อย')
-            props.navigation.goBack()
-        } else if (modelCheck.status === "I") {
-            alert(title = 'บันทึกงานเรียบร้อยโปรดกลับมาทำใหม่วันพรุ่งนี้')
-            props.navigation.goBack()
-        }
-        console.log(modelCheck)
     }
 
-    // useEffect(() => {
-    //     handleSubmit();
-    // }, [])
-    const onChecked2 = () => {
-        setChecked2(!checked2);
-        setModelCheck({ ...modelCheck, status: !checked2 ? "I" : "C" });
+    const handlePass = (index) => {
+        if (index === 0) {
+            setModelCheck({ status: "C" });
+        } else if (index === 1) {
+            setModelCheck({ status: "I" });
+        }
+        console.log(modelCheck.status)
     }
     return (
         <SafeAreaView style={{ backgroundColor: colors.bluish, height: '100%' }}>
@@ -198,21 +189,31 @@ export default function CheckoutScreen(props) {
                                 paddingLeft: 10
                             }}
                             >เพิ่มสถานะ</Text>
-                            <Text style={{
-                                fontFamily: fonts.primarySemiBold,
-                                fontSize: 16,
-                                color: colors.lightGray,
-                                paddingLeft: 10}}
-                                >dd</Text>
+                            <Text
+                                style={{
+                                    fontFamily: fonts.primarySemiBold,
+                                    fontSize: 16,
+                                    color: colors.lightGray,
+                                    paddingLeft: 10
+                                }}
+
+                            >
+                                {modelCheck.status === "I" && (
+                                    "งานไม่เสร็จ"
+                                )}
+                                {modelCheck.status === "C" && (
+                                    "งานเสร็จ"
+                                )}
+                            </Text>
                         </TouchableOpacity>
 
                         <ActionSheet
                             ref={getActionSheetRef}
                             title={'โปรดเลือกสถานะ'}
-                            options={['งานเสร็จ', 'งานไม่เสร็จ', 'Confirm']}
+                            options={['งานเสร็จ', 'งานไม่เสร็จ', 'Cancel']}
                             cancelButtonIndex={2}
                             destructiveButtonIndex={1}
-                            onPress={() => { }}
+                            onPress={handlePass}
                         />
                     </Card>
                 </View>

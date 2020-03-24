@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
-  Image,
+  // Card,
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { Appbar } from 'react-native-paper';
+import { Appbar, Card } from 'react-native-paper';
 import { fonts, colors } from '../../styles';
 import { Button } from 'react-native-elements'
 import HITSAPI from '../../../HISAPI'
@@ -58,9 +58,9 @@ export default function DetailListScreen(props, params) {
           status: "I"
         });
       });
-      if (save.status === "I"){
-        props.navigation.goBack()
-      }
+    if (save.status === "I") {
+      props.navigation.goBack()
+    }
   }
 
   useEffect(() => {
@@ -106,125 +106,128 @@ export default function DetailListScreen(props, params) {
           </View>
 
           <View style={{ flexDirection: 'column', marginTop: Dimensions.get('window').width / 2 + 100 }}>
-            <View style={{ flexDirection: 'row', paddingTop: 10 }}>
-              <Icon name="user" style={styles.layoutIcon} />
-              <Text style={styles.availableText}>ลูกค้าชื่อ-สกุล: </Text>
-              <Text style={{
-                fontFamily: fonts.primarySemiBold,
-                fontSize: 16,
-                marginVertical: 3,
-                paddingLeft: 12,
-              }}
-              >
-                {props.navigation.state.params.customer_name}
-              </Text>
-
+            <Card style={{ width: '100%', flexDirection: 'row' }}>
+              <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+                <Icon name="user" style={styles.layoutIcon} />
+                <Text style={styles.availableText}>ลูกค้าชื่อ-สกุล </Text>
+                <Text style={{
+                  fontFamily: fonts.primarySemiBold,
+                  fontSize: 16,
+                  marginVertical: 3,
+                  paddingLeft: 12,
+                }}
+                >
+                  {props.navigation.state.params.customer_name}
+                </Text>
+              </View>
+            </Card>
+            <View style={{ flexDirection: 'row', paddingTop: 1 }}>
+              <Card style={{ width: '100%', flexDirection: 'row', paddingTop: 5 }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Icon name="phone" style={styles.layoutIcon} />
+                  <Text style={styles.availableText}>เบอร์: </Text>
+                  <Text style={{
+                    fontFamily: fonts.primarySemiBold,
+                    fontSize: 16,
+                    marginVertical: 3,
+                    paddingLeft: 80,
+                  }}
+                  > {props.navigation.state.params.tel}</Text>
+                </View>
+              </Card>
             </View>
-            <View >
-              <View style={styles.layout}></View>
+            <View style={{ flexDirection: 'row', paddingTop: 1 }}>
+              <Card style={{ width: '100%', flexDirection: 'row', paddingTop: 5 }}>
+                <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+                  <Icon name="calendar" style={styles.layoutIcon} />
+                  <Text style={styles.availableText}>วันที่: </Text>
+                  <Text style={{
+                    fontFamily: fonts.primarySemiBold,
+                    fontSize: 16,
+                    marginVertical: 3,
+                    paddingLeft: 83,
+                  }}
+                  >{props.navigation.state.params.task_date
+                    ? moment(
+                      props.navigation.state.params.task_date
+                    ).format("DD/MM/YYYY HH:mm")
+                    : ""}
+                  </Text>
+                </View>
+              </Card>
             </View>
-            <View style={{ flexDirection: 'row', paddingTop: 10 }}>
-              <Icon name="phone" style={styles.layoutIcon} />
-              <Text style={styles.availableText}>เบอร์: </Text>
-              <Text style={{
-                fontFamily: fonts.primarySemiBold,
-                fontSize: 16,
-                marginVertical: 3,
-                paddingLeft: 80,
-              }}
-              > {props.navigation.state.params.tel}</Text>
+            <View style={{ flexDirection: 'row', paddingTop: 1 }}>
+              <Card style={{ width: '100%', flexDirection: 'row', paddingTop: 5 }}>
+                <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+                  <Icon name="wrench" style={styles.layoutIcon} />
+                  <Text style={styles.availableText}>ประเภท: </Text>
+                  <Text style={{
+                    fontFamily: fonts.primarySemiBold,
+                    fontSize: 16,
+                    marginVertical: 3,
+                    paddingLeft: 54,
+                  }}
+                  >
+                    {props.navigation.state.params.type === "1" && (
+                      "ระบบน้ำ"
+                    )}
+                    {props.navigation.state.params.type === "2" && (
+                      "ระบบไฟ"
+                    )}
+                    {props.navigation.state.params.type === "3" && (
+                      "เครื่องใช้ไฟฟ้า"
+                    )}
+                    {props.navigation.state.params.type === "4" && (
+                      "โครงสร้าง"
+                    )}
+                    {props.navigation.state.params.type === "5" && (
+                      "บริการ"
+                    )}
+                    {props.navigation.state.params.type === "6" && (
+                      "เบ็ดเตล็ด"
+                    )}
+                  </Text>
+                </View>
+              </Card>
             </View>
-            <View >
-              <View style={styles.layout}></View>
+            <View style={{ flexDirection: 'row', paddingTop: 1 }}>
+              <Card style={{ width: '100%', flexDirection: 'row', paddingTop: 5 }}>
+                <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+                  <Icon name="table" style={styles.layoutIcon} />
+                  <Text style={styles.availableText}>รายละเอียด: </Text>
+                  <Text style={{
+                    fontFamily: fonts.primarySemiBold,
+                    fontSize: 16,
+                    marginVertical: 3,
+                    paddingLeft: 20,
+                  }}
+                  >{props.navigation.state.params.detail_type}</Text>
+                </View>
+              </Card>
             </View>
-            <View style={{ flexDirection: 'row', paddingTop: 10 }}>
-              <Icon name="calendar" style={styles.layoutIcon} />
-              <Text style={styles.availableText}>วันที่: </Text>
-              <Text style={{
-                fontFamily: fonts.primarySemiBold,
-                fontSize: 16,
-                marginVertical: 3,
-                paddingLeft: 83,
-              }}
-              >{props.navigation.state.params.task_date
-                ? moment(
-                  props.navigation.state.params.task_date
-                ).format("DD/MM/YYYY HH:mm")
-                : ""}
-              </Text>
+            <View style={{ flexDirection: 'row', paddingTop: 1 }}>
+              <Card style={{ width: '100%', flexDirection: 'row', paddingTop: 5 }}>
+                <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+                  <Icon name="map-marker" style={styles.layoutIcon} />
+                  <Text style={styles.availableText}>ที่อยู่: </Text>
+                  <Text style={{
+                    fontFamily: fonts.primarySemiBold,
+                    fontSize: 16,
+                    marginVertical: 3,
+                    paddingLeft: 90,
+                    width: "70%"
+                  }}
+                  >{props.navigation.state.params.location}</Text>
+                </View>
+              </Card>
             </View>
-            <View >
-              <View style={styles.layout}></View>
-            </View>
-            <View style={{ flexDirection: 'row', paddingTop: 10 }}>
-              <Icon name="wrench" style={styles.layoutIcon} />
-              <Text style={styles.availableText}>ประเภท: </Text>
-              <Text style={{
-                fontFamily: fonts.primarySemiBold,
-                fontSize: 16,
-                marginVertical: 3,
-                paddingLeft: 54,
-              }}
-              >
-                {props.navigation.state.params.type === "1" && (
-                  "ระบบน้ำ"
-                )}
-                {props.navigation.state.params.type === "2" && (
-                  "ระบบไฟ"
-                )}
-                {props.navigation.state.params.type === "3" && (
-                  "เครื่องใช้ไฟฟ้า"
-                )}
-                {props.navigation.state.params.type === "4" && (
-                  "โครงสร้าง"
-                )}
-                {props.navigation.state.params.type === "5" && (
-                  "บริการ"
-                )}
-                {props.navigation.state.params.type === "6" && (
-                  "เบ็ดเตล็ด"
-                )}
-              </Text>
-            </View>
-            <View >
-              <View style={styles.layout}></View>
-            </View>
-            <View style={{ flexDirection: 'row', paddingTop: 10 }}>
-              <Icon name="table" style={styles.layoutIcon} />
-              <Text style={styles.availableText}>รายละเอียด: </Text>
-              <Text style={{
-                fontFamily: fonts.primarySemiBold,
-                fontSize: 16,
-                marginVertical: 3,
-                paddingLeft: 20,
-              }}
-              >{props.navigation.state.params.detail_type}</Text>
-            </View>
-            <View >
-              <View style={styles.layout}></View>
-            </View>
-            <View style={{ flexDirection: 'row', paddingTop: 10 }}>
-              <Icon name="map-marker" style={styles.layoutIcon} />
-              <Text style={styles.availableText}>ที่อยู่: </Text>
-              <Text style={{
-                fontFamily: fonts.primarySemiBold,
-                fontSize: 16,
-                marginVertical: 3,
-                paddingLeft: 90,
-                width: "70%"
-              }}
-              >{props.navigation.state.params.location}</Text>
-            </View>
-            {/* <View >
-              <View style={styles.layout}></View>
-            </View> */}
             <View style={styles.btn}>
               <Button
                 title="Check In"
                 onPress={() => checkIn()}
               />
               <Button
-                type="outline"  
+                type="outline"
                 title="cancel"
                 onPress={() => props.navigation.goBack()}
               />
@@ -233,7 +236,7 @@ export default function DetailListScreen(props, params) {
           </View>
         </View>
 
-      </ScrollView>
+      </ScrollView >
     </SafeAreaView >
 
 
@@ -262,8 +265,8 @@ const styles = StyleSheet.create({
   },
   availableText: {
     paddingLeft: 40,
-    fontFamily: fonts.primarySemiBold,
-    fontSize: 20,
+    fontFamily: fonts.primaryLight,
+    fontSize: 18,
     marginVertical: 3,
   },
   textContainer: {

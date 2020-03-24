@@ -5,15 +5,14 @@ import { createAppContainer, createStackNavigator } from 'react-navigation';
 // import moduleName from 'module'
 
 import MainTabNavigator from './MainTabNavigator';
-
-import GalleryScreen from '../gallery/GalleryViewContainer';
-
 // To use this screens please see the full version at https://reactnativestarter.com
 import ProfileScreen from '../Profile/ProfileView';
 import LoginScreen from '../Login/LoginView';
 import DetailStoreScreen from '../Detail/DetailStore';
 import CheckoutScreen from '../Checkout/CheckoutView';
 import DetailListScreen from '../Detail/DetailList';
+import HelpScreen from '../Profile/help';
+import AgreementScreen from '../Profile/Agreement';
 
 import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVersionViewContainer';
 
@@ -55,14 +54,14 @@ const stackNavigator = createStackNavigator(
         header: null,
       },
     },
-    Gallery: {
-      screen: GalleryScreen,
+    help: {
+      screen: HelpScreen,
       navigationOptions: {
-        title: 'Gallery',
+        title: 'Help Service',
       },
     },
-    Article: {
-      screen: AvailableInFullVersion,
+    Agreement: {
+      screen: AgreementScreen,
       navigationOptions: {
         header: null,
       },
