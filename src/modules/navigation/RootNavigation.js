@@ -13,6 +13,7 @@ import CheckoutScreen from '../Checkout/CheckoutView';
 import DetailListScreen from '../Detail/DetailList';
 import HelpScreen from '../Profile/help';
 import AgreementScreen from '../Profile/Agreement';
+import ForGotScreen from '../Login/forgot';
 
 import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVersionViewContainer';
 
@@ -27,6 +28,12 @@ const stackNavigator = createStackNavigator(
   {
     Login: {
       screen: LoginScreen,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Forgot: {
+      screen: ForGotScreen,
       navigationOptions: {
         header: null,
       },

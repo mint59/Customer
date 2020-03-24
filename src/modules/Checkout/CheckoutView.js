@@ -18,16 +18,16 @@ import ActionSheet from 'react-native-actionsheet'
 
 export default function CheckoutScreen(props) {
     const hitsAPI = new HITSAPI();
-    // const [checked2, setChecked2] = useState(false);
     const showActionSheet = () => actionSheet.show();
     const getActionSheetRef = ref => (actionSheet = ref);
-    const [filePath, setFilePath] = useState({});
+    const [filePath, setFilePath] = useState({
+        data: []
+    });
     const [upload, setUpload] = useState(false);
     const [modelCheck, setModelCheck] = useState({
         status: "",
         comment: ""
     });
-    const [state, setstate] = useState("")
     const chooseFile = () => {
         var options = {
             title: 'เลือกรูป',
@@ -49,9 +49,25 @@ export default function CheckoutScreen(props) {
                 alert(response.customButton);
             } else {
                 let source = response;
-                setFilePath(source);
-                console.log("Image: " + response.uri)
-            }
+                // setFilePath(source);
+                // console.log("Image: " + response.uri)
+                let tempArray = []
+                console.log("responseimage-------" + source)
+                setFilePath({ data: source })
+                console.log("responseimagearray" + filePath.data)
+                source.forEach((item) => {
+                    let image = {
+                        uri: item.path,
+                        // width: item.width,
+                        // height: item.height,
+                    }
+                    console.log("imagpath==========" + image)
+                    tempArray.push(image)
+                    setFilePath({ data: tempArray })
+                    // console.log('savedimageuri====='+item.path);
+
+                    console.log("imagpath==========" + image)
+                })
             // uploadImage = async (uri, imageName) => {
             //     const response = await fetch(uri);
             //     const blob = await response.blob();
@@ -59,6 +75,7 @@ export default function CheckoutScreen(props) {
             //     var ref = firebase.storage().ref().child("images/" + imageName);
             //     return ref.put(blob);
             // }
+            }     
         });
     };
     // const fileUpload = () => {
@@ -95,62 +112,78 @@ export default function CheckoutScreen(props) {
                 />
             </Appbar.Header>
             <ScrollView>
-                {/* <CheckBox
-                            checked={checked2}
-                            onPress={onChecked2}
-                        /> */}
                 <View style={styles.images}>
                     <Card>
                         <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
-                                {/* {filePath.length > 1 ? */}
-                                <Image
-                                    source={{
-                                        uri: 'data:image/jpeg;base64,' + filePath.data,
-                                    }}
-                                    style={{ width: "100%", height: '100%' }}
-                                />
-                                {/* :
-                            <Icon
-                                name="plus"
-                                size={15}
-                                color={colors.blue}
-                            />
-                        } */}
+                                {filePath.data.length === 0 ?
+                                    <Icon
+                                        name="plus"
+                                        size={15}
+                                        color={colors.lightGray}
+                                        style={{ paddingTop: 70 }}
+                                    />
+                                    :
+                                    <Image
+                                        source={{
+                                            uri: 'data:image/jpeg;base64,' + filePath.data,
+                                        }}
+                                        style={{ width: "100%", height: '100%' }}
+                                    />
+                                }
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
-                                {/* <Image
-                                source={{
-                                    uri: 'data:image/jpeg;base64,' + filePath.data,
-                                }}
-                                style={{ width: "100%", height: '100%' }}
-                            /> */}
+                                {filePath.data.length === 0 ?
+                                    <Icon
+                                        name="plus"
+                                        size={15}
+                                        color={colors.lightGray}
+                                        style={{ paddingTop: 70 }}
+                                    />
+                                    :
+                                    <Image
+                                        source={{
+                                            uri: 'data:image/jpeg;base64,' + filePath.data,
+                                        }}
+                                        style={{ width: "100%", height: '100%' }}
+                                    />
+                                }
                             </TouchableOpacity>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
-                                {/* {filePath.length > 1 ? */}
-                                <Image
-                                    source={{
-                                        uri: 'data:image/jpeg;base64,' + filePath.data,
-                                    }}
-                                    style={{ width: "100%", height: '100%' }}
-                                />
-                                {/* :
-                            <Icon
-                                name="plus"
-                                size={15}
-                                color={colors.blue}
-                            />
-                        } */}
+                                {filePath.data === null ?
+                                    <Icon
+                                        name="plus"
+                                        size={15}
+                                        color={colors.lightGray}
+                                        style={{ paddingTop: 70 }}
+                                    />
+                                    :
+                                    <Image
+                                        source={{
+                                            uri: 'data:image/jpeg;base64,' + filePath.data,
+                                        }}
+                                        style={{ width: "100%", height: '100%' }}
+                                    />
+                                }
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
-                                {/* <Image
-                                source={{
-                                    uri: 'data:image/jpeg;base64,' + filePath.data,
-                                }}
-                                style={{ width: "100%", height: '100%' }}
-                            /> */}
+                                {filePath.data === null ?
+                                    <Icon
+                                        name="plus"
+                                        size={15}
+                                        color={colors.lightGray}
+                                        style={{ paddingTop: 70 }}
+                                    />
+                                    :
+                                    <Image
+                                        source={{
+                                            uri: 'data:image/jpeg;base64,' + filePath.data,
+                                        }}
+                                        style={{ width: "100%", height: '100%' }}
+                                    />
+                                }
                             </TouchableOpacity>
                         </View>
                         <View style={styles.demoButton}>
