@@ -57,14 +57,16 @@ export default function DetailListScreen(props, params) {
         setSave({
           status: "I"
         });
+        if (save.status === "I") {
+          alert(title = 'CheckIn เรียบร้อย')
+          props.navigation.goBack()
+        }
       });
-    if (save.status === "I") {
-      props.navigation.goBack()
-    }
+
   }
 
   useEffect(() => {
-    // checkIn();
+    checkIn();
     handleChangeMapInit(props.navigation.state.params);
   }, [])
 

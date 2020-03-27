@@ -4,10 +4,6 @@ import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import { colors, fonts } from '../../styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const chatIcon = require('../../../assets/images/pages/chat.png');
-const galleryIcon = require('../../../assets/images/pages/gallery.png');
-const profileIcon = require('../../../assets/images/pages/profile.png');
-
 export default function PagesScreen(props) {
   return (
     <View style={styles.container}>

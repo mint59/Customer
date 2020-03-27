@@ -21,76 +21,163 @@ export default function CheckoutScreen(props) {
     const showActionSheet = () => actionSheet.show();
     const getActionSheetRef = ref => (actionSheet = ref);
     const [filePath, setFilePath] = useState({
-        data: []
+        photo: null
     });
-    const [upload, setUpload] = useState(false);
     const [modelCheck, setModelCheck] = useState({
         status: "",
-        comment: ""
+        comment: "",
+        image: ""
     });
+    const [imgSrc, setImgSrc] = useState({});
+
     const chooseFile = () => {
         var options = {
             title: 'เลือกรูป',
+            noData: true,
             storageOptions: {
                 skipBackup: true,
                 path: 'images',
             },
         };
-
         ImagePicker.showImagePicker(options, response => {
             // let result = await ImagePicker.launchCameraAsync();
-            // if (response.didCancel) {
-            //     console.log('User cancelled image picker');
-            // } else if (response.error) {
-            //     console.log('ImagePicker Error: ', response.error);
-            // } else 
-            if (response.customButton) {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+                alert('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+                alert('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton);
                 alert(response.customButton);
             } else {
                 let source = response;
-                // setFilePath(source);
-                // console.log("Image: " + response.uri)
-                let tempArray = []
-                console.log("responseimage-------" + source)
-                setFilePath({ data: source })
-                console.log("responseimagearray" + filePath.data)
-                source.forEach((item) => {
-                    let image = {
-                        uri: item.path,
-                        // width: item.width,
-                        // height: item.height,
-                    }
-                    console.log("imagpath==========" + image)
-                    tempArray.push(image)
-                    setFilePath({ data: tempArray })
-                    // console.log('savedimageuri====='+item.path);
-
-                    console.log("imagpath==========" + image)
-                })
-            // uploadImage = async (uri, imageName) => {
-            //     const response = await fetch(uri);
-            //     const blob = await response.blob();
-
-            //     var ref = firebase.storage().ref().child("images/" + imageName);
-            //     return ref.put(blob);
-            // }
-            }     
+                setFilePath({ photo: source });
+                setModelCheck({ ...modelCheck, image: response.fileName })
+                console.log("Image.........." + response.fileName)
+                // const file = {
+                //     uri: response.uri,
+                //     name: response.fileName,
+                //     type: 'image/png'
+                // }
+                // setImgSrc(file)
+                // console.log(file)
+                // const config ={
+                    
+                // }
+            }
         });
     };
-    // const fileUpload = () => {
-    //     axios.post('gs://customer-268903.appspot.com/customer');
-    // }
-
     const handleSubmit = async (index) => {
         await hitsAPI.axios
             .put(`/crud/task/${props.navigation.state.params.task_id}`, modelCheck)
             .then(function (response) {
                 alert(title = 'บันทึกงานเรียบร้อย')
                 props.navigation.goBack()
-                console.log(modelCheck)
+                console.log(modelCheck.image)
             });
     }
+
+    // const createFormData = (photo, body) => {
+    //     const data = new FormData();
+
+    //     data.append('file', {
+    //         name: photo.fileName,
+    //         type: photo.type,
+    //         uri:
+    //             Platform.OS === 'android' ? photo.uri : photo.uri.replace('file://', ''),
+    //     });
+
+    //     Object.keys(body).forEach(key => {
+    //         data.append(key, body[key]);
+    //     });
+
+    //     return data;
+    // };
+    // const [imgSrc, setImgSrc] = useState("");
+    // const [fileObj, setFileObj] = useState();
+    // const dataURLtoFile = (dataurl, fileName) => {
+    //     // let filename = getFileName(dataurl);
+    //     var arr = dataurl.split(","),
+    //         mime = arr[0].match(/:(.*?);/)[1],
+    //         bstr = atob(arr[1]),
+    //         n = bstr.length,
+    //         u8arr = new Uint8Array(n);
+    //     while (n--) {
+    //         u8arr[n] = bstr.charCodeAt(n);
+    //     }
+    //     return new File([u8arr], fileName, { type: mime });
+    // };
+    // const onSaveImage = (image, fileName) => {
+    //     let objFile = dataURLtoFile(image, fileName);
+    //     // console.log(objFile);
+    //     setFileObj(objFile);
+    //     setImgSrc(image);
+    //     // dialogRef.current.closeDialog();
+    // };
+    const handleUploadPhoto = async () => {
+        let uploaddata = new FormData();
+        uploaddata.append('file', {type: 'image/jpg', uri: filePath.photo.uri , name: filePath.photo.fileName})
+        console.log("ddddd",filePath.photo)
+        await hitsAPI.axios
+            // fetch('/api/upload', {
+            //     method: 'POST',
+            //     body: createFormData(filePath.photo),
+            // })
+            .post(`/upload/api`, uploaddata)
+            .then(response => {
+                console.log('upload succes', response);
+                alert('Upload success!');
+                // setFilePath({ photo: null });
+            })
+            .catch(error => {
+                console.log('upload error', error);
+                alert('Upload failed!');
+            });
+        }
+
+    // const handleUploadPhoto = async () => {
+       
+    //     await hitsAPI.axios
+    //         // fetch('/api/upload', {
+    //         //     method: 'POST',
+    //         //     body: createFormData(filePath.photo),
+    //         // })
+    //         // .post(`/upload/api`, 'file',createFormData(filePath))
+    //         // .then(response => {
+    //         //     console.log('upload succes', response);
+    //         //     alert('Upload success!');
+    //         //     setFilePath({ photo: null });
+    //         // })
+    //         // .catch(error => {
+    //         //     console.log('upload error', error);
+    //         //     alert('Upload failed!');
+    //         // });
+    //         // if (fileObj) {
+    //             const formData = new FormData();
+    //             formData.append("file", fileObj);
+    //             const config = {
+    //                 headers: {
+    //                     "content-type": "multipart/form-data"
+    //                 }
+    //             };
+    //             hitsAPI.axios
+    //                 .post(
+    //                     `/upload/api`,
+    //                     formData,
+    //                     config
+    //                 )
+    //                 .then(function(response) {
+    //                     console.log('upload succes', response);
+    //                     alert('Upload success!');
+    //                 })
+    //                 .catch(error => {
+    //                         console.log('upload error', error);
+    //                         alert('Upload failed!');
+    //                     });
+    //         // }
+    // };
+
 
     const handlePass = (index) => {
         if (index === 0) {
@@ -115,7 +202,7 @@ export default function CheckoutScreen(props) {
                 <View style={styles.images}>
                     <Card>
                         <View style={{ flexDirection: 'row' }}>
-                            <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
+                            {/* <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
                                 {filePath.data.length === 0 ?
                                     <Icon
                                         name="plus"
@@ -124,15 +211,26 @@ export default function CheckoutScreen(props) {
                                         style={{ paddingTop: 70 }}
                                     />
                                     :
-                                    <Image
-                                        source={{
-                                            uri: 'data:image/jpeg;base64,' + filePath.data,
-                                        }}
-                                        style={{ width: "100%", height: '100%' }}
-                                    />
+                                    <>
+                                        {filePath.data.length === 1 ?
+                                            <Image
+                                                source={{
+                                                    uri: 'data:image/jpeg;base64,' + filePath.data,
+                                                }}
+                                                style={{ width: "100%", height: '100%' }}
+                                            />
+                                            :
+                                            <Icon
+                                                name="user"
+                                                size={15}
+                                                color={colors.lightGray}
+                                                style={{ paddingTop: 70 }}
+                                            />
+                                        }
+                                    </>
                                 }
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
+                            </TouchableOpacity> */}
+                            {/* <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
                                 {filePath.data.length === 0 ?
                                     <Icon
                                         name="plus"
@@ -152,7 +250,7 @@ export default function CheckoutScreen(props) {
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
-                                {filePath.data === null ?
+                                {filePath.data.length === 0 ?
                                     <Icon
                                         name="plus"
                                         size={15}
@@ -167,9 +265,9 @@ export default function CheckoutScreen(props) {
                                         style={{ width: "100%", height: '100%' }}
                                     />
                                 }
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
-                                {filePath.data === null ?
+                            </TouchableOpacity> */}
+                            {/* <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}> */}
+                            {/* {filePath.data === null ?
                                     <Icon
                                         name="plus"
                                         size={15}
@@ -183,8 +281,15 @@ export default function CheckoutScreen(props) {
                                         }}
                                         style={{ width: "100%", height: '100%' }}
                                     />
-                                }
-                            </TouchableOpacity>
+                                } */}
+                            {filePath.photo && (
+                                <Image
+                                    source={{ uri: filePath.photo.uri }}
+                                    style={{ width: 300, height: 300 }}
+                                />
+                            )}
+                            {/* </TouchableOpacity> */}
+                            <Text>{modelCheck.image}</Text>
                         </View>
                         <View style={styles.demoButton}>
                             <Button title="Add" onPress={chooseFile} type="outline" style={{ color: colors.lightGray }}
@@ -267,7 +372,7 @@ export default function CheckoutScreen(props) {
                     <Button
                         title="OK"
                         // onPress={() => onEditActivity(props.navigation.state.params)}
-                        onPress={handleSubmit}
+                        onPress={handleUploadPhoto}
                     />
                 </View>
             </ScrollView>
