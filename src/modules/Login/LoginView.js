@@ -32,15 +32,14 @@ export default function LoginScreen(props) {
                 .post("/auth/", model)
                 .then(function (response) {
                     AsyncStorage.setItem('token', response.data.token)
-                    // Cookie.set("token", response.data.token);
                     var decode = jwtDecode( response.data.token);
-                    console.log("decodejaa", decode)
+                    // console.log("decodejaa", decode)
 
                     if(decode.la == null){
-                        console.log("First Time")
+                        // console.log("First Time")
                         props.navigation.navigate({ routeName: 'Forgot' })
                     }else {
-                        console.log("Two Time")
+                        // console.log("Two Time")
                         props.navigation.navigate({ routeName: 'Main' })
                     }
                     // localStorage.clear();

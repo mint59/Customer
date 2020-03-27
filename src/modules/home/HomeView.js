@@ -13,7 +13,7 @@ import {
 import HITSAPI from '../../../HISAPI'
 import { fonts, colors } from '../../styles';
 import { Text } from '../../components/StyledText';
-import { Button, Dialog, Paragraph } from 'react-native-paper';
+import { Button, Dialog, Paragraph, Card } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const jwtDecode = require("jwt-decode");
@@ -132,25 +132,40 @@ export default function HomeScreen(props) {
           <Dialog
             visible={dialog.visible}
             onDismiss={() => hideDialog()}
-            style={{ width: '90%', height: '45%' }}
+            style={{ width: '90%', height: '60%' }}
           >
             <Dialog.Title>Covid-19   {covid.country}</Dialog.Title>
             <Dialog.Content>
               <View style={styles.rowparagraph}>
-                <Paragraph>ผู้ติดเชื้อทั้งหมด</Paragraph>
-                <Paragraph style={{ paddingLeft: 90, fontSize: 18 }}>{covid.confirmed}</Paragraph>
+                <Card style={{backgroundColor: '#070937' }}>
+                  <View style={{  paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10}}>
+                    <Paragraph style={{ color: colors.white}}>ผู้ติดเชื้อทั้งหมด</Paragraph>
+                    <Paragraph style={{ paddingLeft: 30, fontSize: 18,color: colors.white }}>{covid.confirmed}</Paragraph>
+                  </View>
+                </Card>
+
+                <Card style={{backgroundColor: '#F2DA10' }}>
+                  <View style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10}}>
+                    <Paragraph style={{ color: colors.white}}>ผู้ติดเชื้อเพิ่มวันนี้</Paragraph>
+                    <Paragraph style={{ paddingLeft: 40, fontSize: 18,color: colors.white}}>{covid.today}</Paragraph>
+                  </View>
+                </Card>
               </View>
+              
               <View style={styles.rowparagraph}>
-                <Paragraph>ผู้ติดเชื้อเพิ่มวันนี้</Paragraph>
-                <Paragraph style={{ paddingLeft: 85, fontSize: 18 }}>{covid.today}</Paragraph>
-              </View>
-              <View style={styles.rowparagraph}>
-                <Paragraph>ผู้ติดเชื้อที่เสียชีวิต</Paragraph>
-                <Paragraph style={{ paddingLeft: 75, fontSize: 18 }}>{covid.deaths}</Paragraph>
-              </View>
-              <View style={styles.rowparagraph}>
-                <Paragraph>ผู้ติดเชื้อที่หายแล้ว</Paragraph>
-                <Paragraph style={{ paddingLeft: 74, fontSize: 18 }}>{covid.recovered}</Paragraph>
+                <Card style={{backgroundColor: '#BB0011' }}>
+                  <View style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10}}>
+                    <Paragraph style={{ color: colors.white}}>ผู้ติดเชื้อที่เสียชีวิต</Paragraph>
+                    <Paragraph style={{ paddingLeft: 50, fontSize: 18 ,color: colors.white}}>{covid.deaths}</Paragraph>
+                  </View>
+                </Card>
+
+                <Card style={{backgroundColor: '#00BB02' }}>
+                  <View style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10}}>
+                    <Paragraph style={{ color: colors.white}}>ผู้ติดเชื้อที่หายแล้ว</Paragraph>
+                    <Paragraph style={{ paddingLeft: 45, fontSize: 18,color: colors.white }}>{covid.recovered}</Paragraph>
+                  </View>
+                </Card>
               </View>
             </Dialog.Content>
             <Dialog.Actions>
@@ -256,6 +271,8 @@ const styles = StyleSheet.create({
   rowparagraph: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    justifyContent: 'space-around',
+    paddingTop:10
   },
   scrollView: {
     flex: 1,

@@ -36,10 +36,9 @@ export default class HITSAPI {
               // Error retrieving data
             }
           };
-        // const token = AsyncStorage.getItem("token") ? AsyncStorage.getItem("token") : "";
         // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-        let baseURL = "http://192.168.20.47:5000";  //หอ
+        let baseURL = "http://192.168.1.37:5000";
         // if (report) {
         //     baseURL += "/report";
         // } else {

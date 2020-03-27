@@ -1,8 +1,6 @@
 import React, {useEffect} from 'react';
 import { Image, TouchableOpacity, Dimensions } from 'react-native';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
-// import Icons from 'react-native-vector-icons'
-// import moduleName from 'module'
 
 import MainTabNavigator from './MainTabNavigator';
 // To use this screens please see the full version at https://reactnativestarter.com
@@ -15,14 +13,13 @@ import HelpScreen from '../Profile/help';
 import AgreementScreen from '../Profile/Agreement';
 import ForGotScreen from '../Login/forgot';
 
-import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVersionViewContainer';
+// import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVersionViewContainer';
 
 import { colors, fonts } from '../../styles';
 
 const { width } = Dimensions.get('window');
 
 const headerBackground = require('../../../assets/images/topBarBg.png');
-// const back = require('../../../assets/images/icons/arrow-back.png');
 
 const stackNavigator = createStackNavigator(
   {
@@ -81,21 +78,6 @@ const stackNavigator = createStackNavigator(
     },
     DetailList: {
       screen: DetailListScreen,
-      // navigationOptions: {
-      //   headerLeft: null,
-      //   title: 'รายละเอียด',
-      //   headerBackground: (
-      //     <Image
-      //       style={{
-      //         flex: 1,
-      //         width,
-      //       }}
-      //       bac
-      //       source={headerBackground}
-      //       resizeMode="cover"
-      //     />
-      //   ),
-      // },
       navigationOptions: {
         header: null,
       },
