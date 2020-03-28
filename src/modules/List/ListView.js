@@ -27,7 +27,7 @@ function wait(timeout) {
 
 export default function Listview(props) {
   const hitsAPI = new HITSAPI();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
   const [model, setModel] = useState({
     data: [],
@@ -85,7 +85,7 @@ export default function Listview(props) {
           setModel({
             data: response.data.rows,
           });
-          setLoading(false);
+          // setLoading(false);
         });
     } catch (error) {
       console.log(error)
@@ -219,11 +219,6 @@ export default function Listview(props) {
                         : " "}
                     </Text>
                   </View>
-                  {/* <View style={{ paddingLeft: 50 }}>
-                    <Text style={styles.itemThreePrice}>
-                          Check In
-                    </Text>
-                  </View> */}
                 </View>
 
               </View>
@@ -270,13 +265,6 @@ export default function Listview(props) {
           data={model.data}
           keyExtractor={kkkk}
           renderItem={getRenderItemFunction()}
-        //  ListFooterComponent={
-        //    loading ? (
-        //      <ActivityIndicator />
-        //    ) : (
-        //        <Button title="Load More" onPress={loadMore} />
-        //      )
-        //  }
         />
       </ScrollView>
     </SafeAreaView>

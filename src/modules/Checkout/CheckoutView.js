@@ -26,10 +26,8 @@ export default function CheckoutScreen(props) {
     const [modelCheck, setModelCheck] = useState({
         status: "",
         comment: "",
-        image: ""
+        image: null
     });
-    const [imgSrc, setImgSrc] = useState({});
-
     const chooseFile = () => {
         var options = {
             title: 'เลือกรูป',
@@ -53,18 +51,6 @@ export default function CheckoutScreen(props) {
             } else {
                 let source = response;
                 setFilePath({ photo: source });
-                setModelCheck({ ...modelCheck, image: response.fileName })
-                console.log("Image.........." + response.fileName)
-                // const file = {
-                //     uri: response.uri,
-                //     name: response.fileName,
-                //     type: 'image/png'
-                // }
-                // setImgSrc(file)
-                // console.log(file)
-                // const config ={
-                    
-                // }
             }
         });
     };
@@ -74,118 +60,31 @@ export default function CheckoutScreen(props) {
             .then(function (response) {
                 alert(title = 'บันทึกงานเรียบร้อย')
                 props.navigation.goBack()
-                console.log(modelCheck.image)
+
             });
     }
-
-    // const createFormData = (photo, body) => {
-    //     const data = new FormData();
-
-    //     data.append('file', {
-    //         name: photo.fileName,
-    //         type: photo.type,
-    //         uri:
-    //             Platform.OS === 'android' ? photo.uri : photo.uri.replace('file://', ''),
-    //     });
-
-    //     Object.keys(body).forEach(key => {
-    //         data.append(key, body[key]);
-    //     });
-
-    //     return data;
-    // };
-    // const [imgSrc, setImgSrc] = useState("");
-    // const [fileObj, setFileObj] = useState();
-    // const dataURLtoFile = (dataurl, fileName) => {
-    //     // let filename = getFileName(dataurl);
-    //     var arr = dataurl.split(","),
-    //         mime = arr[0].match(/:(.*?);/)[1],
-    //         bstr = atob(arr[1]),
-    //         n = bstr.length,
-    //         u8arr = new Uint8Array(n);
-    //     while (n--) {
-    //         u8arr[n] = bstr.charCodeAt(n);
-    //     }
-    //     return new File([u8arr], fileName, { type: mime });
-    // };
-    // const onSaveImage = (image, fileName) => {
-    //     let objFile = dataURLtoFile(image, fileName);
-    //     // console.log(objFile);
-    //     setFileObj(objFile);
-    //     setImgSrc(image);
-    //     // dialogRef.current.closeDialog();
-    // };
     const handleUploadPhoto = async () => {
         let uploaddata = new FormData();
-        uploaddata.append('file', {type: 'image/jpg', uri: filePath.photo.uri , name: filePath.photo.fileName})
-        console.log("ddddd",filePath.photo)
+        uploaddata.append('file', { type: 'image/jpg', uri: filePath.photo.uri, name: filePath.photo.fileName })
         await hitsAPI.axios
-            // fetch('/api/upload', {
-            //     method: 'POST',
-            //     body: createFormData(filePath.photo),
-            // })
             .post(`/upload/api`, uploaddata)
             .then(response => {
-                console.log('upload succes', response);
-                alert('Upload success!');
-                // setFilePath({ photo: null });
+                handleSubmit();
+                
             })
             .catch(error => {
                 console.log('upload error', error);
                 alert('Upload failed!');
             });
-        }
-
-    // const handleUploadPhoto = async () => {
-       
-    //     await hitsAPI.axios
-    //         // fetch('/api/upload', {
-    //         //     method: 'POST',
-    //         //     body: createFormData(filePath.photo),
-    //         // })
-    //         // .post(`/upload/api`, 'file',createFormData(filePath))
-    //         // .then(response => {
-    //         //     console.log('upload succes', response);
-    //         //     alert('Upload success!');
-    //         //     setFilePath({ photo: null });
-    //         // })
-    //         // .catch(error => {
-    //         //     console.log('upload error', error);
-    //         //     alert('Upload failed!');
-    //         // });
-    //         // if (fileObj) {
-    //             const formData = new FormData();
-    //             formData.append("file", fileObj);
-    //             const config = {
-    //                 headers: {
-    //                     "content-type": "multipart/form-data"
-    //                 }
-    //             };
-    //             hitsAPI.axios
-    //                 .post(
-    //                     `/upload/api`,
-    //                     formData,
-    //                     config
-    //                 )
-    //                 .then(function(response) {
-    //                     console.log('upload succes', response);
-    //                     alert('Upload success!');
-    //                 })
-    //                 .catch(error => {
-    //                         console.log('upload error', error);
-    //                         alert('Upload failed!');
-    //                     });
-    //         // }
-    // };
-
+    }
 
     const handlePass = (index) => {
         if (index === 0) {
-            setModelCheck({ status: "C" });
+            setModelCheck({ status: "C", image: filePath.photo.fileName });
+
         } else if (index === 1) {
-            setModelCheck({ status: "I" });
+            setModelCheck({ status: "I", image: filePath.photo.fileName });
         }
-        console.log(modelCheck.status)
     }
     return (
         <SafeAreaView style={{ backgroundColor: colors.bluish, height: '100%' }}>
@@ -266,30 +165,21 @@ export default function CheckoutScreen(props) {
                                     />
                                 }
                             </TouchableOpacity> */}
-                            {/* <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}> */}
-                            {/* {filePath.data === null ?
+                            <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
+                                {filePath.photo === null ?
                                     <Icon
                                         name="plus"
                                         size={15}
                                         color={colors.lightGray}
-                                        style={{ paddingTop: 70 }}
+                                        style={{ paddingTop: 100 }}
                                     />
                                     :
                                     <Image
-                                        source={{
-                                            uri: 'data:image/jpeg;base64,' + filePath.data,
-                                        }}
+                                        source={{ uri: filePath.photo.uri }}
                                         style={{ width: "100%", height: '100%' }}
                                     />
-                                } */}
-                            {filePath.photo && (
-                                <Image
-                                    source={{ uri: filePath.photo.uri }}
-                                    style={{ width: 300, height: 300 }}
-                                />
-                            )}
-                            {/* </TouchableOpacity> */}
-                            <Text>{modelCheck.image}</Text>
+                                }
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.demoButton}>
                             <Button title="Add" onPress={chooseFile} type="outline" style={{ color: colors.lightGray }}
@@ -439,8 +329,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     demoButton: {
-        marginTop: 1,
-        paddingHorizontal: 12,
+        marginTop: 2,
+        paddingHorizontal: 10,
         marginBottom: 8,
         paddingLeft: "70%"
     },
@@ -458,9 +348,9 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         borderColor: "#E3E3E3",
         backgroundColor: "#F6F6F6",
-        width: '50%',
+        width: '100%',
         alignItems: 'center',
-        height: 150
+        height: 200
     },
     images: {
         paddingTop: 10,

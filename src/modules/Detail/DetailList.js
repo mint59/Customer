@@ -62,11 +62,9 @@ export default function DetailListScreen(props, params) {
           props.navigation.goBack()
         }
       });
-
   }
 
   useEffect(() => {
-    checkIn();
     handleChangeMapInit(props.navigation.state.params);
   }, [])
 
@@ -85,10 +83,6 @@ export default function DetailListScreen(props, params) {
           <View style={styles.map}>
             <MapView
               style={styles.mapStyle}
-              // region={{
-              //   latitude: (model.data.latitude),
-              //   longitude: (model.data.longitude)
-              // }}
               region={defaultCenterOption}
             >
               {markers.map((marker, index) => (
@@ -98,8 +92,8 @@ export default function DetailListScreen(props, params) {
                     latitude: marker.latitude ? marker.latitude : 0,
                     longitude: marker.longitude ? marker.longitude : 0
                   }}
-                  onDragEnd={(e) => alert(JSON.stringify(e.nativeEvent.coordinate))}
-                  // title={'Marker'}
+                  onDragEnd={() => alert(coordinate)}
+                  title={'Marker'}
                   description={props.navigation.state.params.location}
                 />
               ))}
