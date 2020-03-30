@@ -25,29 +25,23 @@ export default function LoginScreen(props) {
 
     const handleSubmit = event => {
         if (model.username !== "" && model.password !== "") {
-
             event.preventDefault();
             hitsAPI.axios
-                // .post("/signon/SignOn/authenticate", model)
                 .post("/auth/", model)
                 .then(function (response) {
                     AsyncStorage.setItem('token', response.data.token)
                     var decode = jwtDecode( response.data.token);
-                    // console.log("decodejaa", decode)
 
                     if(decode.la == null){
-                        // console.log("First Time")
                         props.navigation.navigate({ routeName: 'Forgot' })
                     }else {
-                        // console.log("Two Time")
                         props.navigation.navigate({ routeName: 'Main' })
                     }
                     // localStorage.clear();
                 });
         } else if (model.username === "" && model.password === ""){
-            alert( title='กรุณาใส่ Username และ Password ให้ถูกต้อง')
+            alert( title='กรุณาใส่ Username และ Password')
         }
-
     };
 
     return (

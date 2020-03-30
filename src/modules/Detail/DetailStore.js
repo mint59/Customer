@@ -116,6 +116,18 @@ export default function DetailStoreScreen(props) {
                         </View>
                         <View style={styles.layout}></View>
                         <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+                            <Icon name="comments" style={styles.layoutIcon} />
+                            <Text style={styles.availableText}>หมายเหตุ: </Text>
+                            <Text style={{
+                                fontFamily: fonts.primarySemiBold,
+                                fontSize: 18,
+                                marginVertical: 3,
+                                paddingLeft: 44 ,
+                            }}
+                            >{props.navigation.state.params.comment}</Text>
+                        </View>
+                        <View style={styles.layout}></View>
+                        <View style={{ flexDirection: 'row', paddingTop: 10 }}>
                             <Icon name="map-marker" style={styles.layoutIcon} />
                             <Text style={styles.availableText}>ที่อยู่: </Text>
                             
@@ -129,11 +141,11 @@ export default function DetailStoreScreen(props) {
                                 width: "100%"
                             }}
                             >{props.navigation.state.params.location}</Text>
-                        </View>
+                        </View> 
                     </View>
                     <View style={styles.layout}></View>
                     <View style={styles.imageid}>
-                    <Image source={(props.navigation.state.params.image)} style={styles.itemThreeImage} />
+                        <Image source={(props.navigation.state.params.image)} style={styles.itemThreeImage} />
                         {/* {props.navigation.state.params.image}
                 <Image source={(props.navigation.state.params.image)} style={styles.itemThreeImage} /> */}
                     </View>

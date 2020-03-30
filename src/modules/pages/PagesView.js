@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
-
+import { Button, Dialog, Paragraph, Card } from 'react-native-paper';
 import { colors, fonts } from '../../styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 export default function PagesScreen(props) {
+  const [dialog, setDialog] = useState({ visible: false })
+  const showDialog = () => {
+    setDialog({ visible: true });
+  }
+  const hideDialog = () => {
+    setDialog({ visible: false });
+  }
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -13,7 +20,7 @@ export default function PagesScreen(props) {
           style={styles.item}
         >
           <Icon name='user' style={{ color: colors.primary }} size={40}></Icon>
-          <Text style={styles.itemText}>Profile</Text>
+          <Text style={styles.itemText}>โปรไฟล์</Text>
         </TouchableOpacity>
 
       </View>
@@ -41,15 +48,40 @@ export default function PagesScreen(props) {
       </View>
       <View style={styles.row}>
 
-        <TouchableOpacity onPress={() => props.navigation.navigate({ routeName: 'Login' })} style={styles.item}>
+        <TouchableOpacity onPress={() => showDialog()} style={styles.item}>
           <Icon name='logout' style={{ color: colors.primary }} size={35}></Icon>
-          <Text style={styles.itemText}>Logout</Text>
+          <Text style={styles.itemText}>ออกจากระบบ</Text>
         </TouchableOpacity>
+
       </View>
+      <Dialog
+        visible={dialog.visible}
+        onDismiss={() => hideDialog()}
+        style={{ width: '90%', height: '25%' }}
+      >
+        <Dialog.Content>
+          <Text style={{fontSize: 20, color: colors.darkGray}}>โปรดยืนยันการออกจากระบบ</Text>
+        </Dialog.Content>
+        <Dialog.Actions>
+          <Button onPress={() => hideDialog()} >
+            <Text style={{color: colors.primary }}>Cancel</Text>
+            <Icon
+              color={colors.primary}
+              name={'close'}
+              size={20}
+            /></Button>
+          <Button onPress={() => props.navigation.navigate({ routeName: 'Login' })} >
+            <Text style={{color: colors.darkGray}}>OK</Text>
+            <Icon
+              color={colors.darkGray}
+              name={'logout'}
+              size={20}
+            /></Button>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -14,7 +14,7 @@ import AgreementScreen from '../Profile/Agreement';
 import ForGotScreen from '../Login/forgot';
 
 // import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVersionViewContainer';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { colors, fonts } from '../../styles';
 
 const { width } = Dimensions.get('window');
@@ -54,21 +54,54 @@ const stackNavigator = createStackNavigator(
     },
     Profile: {
       screen: ProfileScreen,
-      navigationOptions: {
-        header: null,
-      },
+      navigationOptions: () => ({
+        title: 'โปรไฟล์',
+        headerLeft: null,
+        headerBackground: (
+          <Image
+            style={{
+              flex: 1,
+              width,
+            }}
+            source={headerBackground}
+            resizeMode="cover"
+          />
+        ),
+      }),
     },
     help: {
       screen: HelpScreen,
-      navigationOptions: {
-        title: 'Help Service',
-      },
+      navigationOptions: () => ({
+        title: 'ช่วยเหลือ',
+        headerLeft: null,
+        headerBackground: (
+          <Image
+            style={{
+              flex: 1,
+              width,
+            }}
+            source={headerBackground}
+            resizeMode="cover"
+          />
+        ),
+      }),
     },
     Agreement: {
       screen: AgreementScreen,
-      navigationOptions: {
-        header: null,
-      },
+      navigationOptions: () => ({
+        title: 'เงื่อนไข / ข้อตกลง',
+        headerLeft: null,
+        headerBackground: (
+          <Image
+            style={{
+              flex: 1,
+              width,
+            }}
+            source={headerBackground}
+            resizeMode="cover"
+          />
+        ),
+      }),
     },
     DetailStore: {
       screen:DetailStoreScreen,

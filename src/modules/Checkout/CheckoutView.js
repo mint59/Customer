@@ -38,15 +38,11 @@ export default function CheckoutScreen(props) {
             },
         };
         ImagePicker.showImagePicker(options, response => {
-            // let result = await ImagePicker.launchCameraAsync();
             if (response.didCancel) {
-                console.log('User cancelled image picker');
-                alert('User cancelled image picker');
+                alert('คุณไม่ได้เลือกรูป');
             } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
                 alert('ImagePicker Error: ', response.error);
             } else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
                 alert(response.customButton);
             } else {
                 let source = response;
@@ -61,31 +57,44 @@ export default function CheckoutScreen(props) {
                 alert(title = 'บันทึกงานเรียบร้อย')
                 props.navigation.goBack()
 
-            });
+            })
     }
+
     const handleUploadPhoto = async () => {
         let uploaddata = new FormData();
+        filePath.photo === null ?
+        alert(title = 'กรุณาใส่รูป')
+        :
         uploaddata.append('file', { type: 'image/jpg', uri: filePath.photo.uri, name: filePath.photo.fileName })
         await hitsAPI.axios
             .post(`/upload/api`, uploaddata)
             .then(response => {
                 handleSubmit();
-                
             })
             .catch(error => {
-                console.log('upload error', error);
-                alert('Upload failed!');
+                alert('กรุณาใส่รูป', error);
             });
     }
 
     const handlePass = (index) => {
         if (index === 0) {
-            setModelCheck({ status: "C", image: filePath.photo.fileName });
+            setModelCheck({
+                status: "C",
+                image: filePath.photo === null ?
+                    alert('กรุณาใส่รูป') :
+                    filePath.photo.fileName
+            });
 
         } else if (index === 1) {
-            setModelCheck({ status: "I", image: filePath.photo.fileName });
+            setModelCheck({
+                status: "I",
+                image: filePath.photo === null ?
+                    alert('กรุณาใส่รูป') :
+                    filePath.photo.fileName
+            });
         }
     }
+
     return (
         <SafeAreaView style={{ backgroundColor: colors.bluish, height: '100%' }}>
             <Appbar.Header >
@@ -101,70 +110,6 @@ export default function CheckoutScreen(props) {
                 <View style={styles.images}>
                     <Card>
                         <View style={{ flexDirection: 'row' }}>
-                            {/* <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
-                                {filePath.data.length === 0 ?
-                                    <Icon
-                                        name="plus"
-                                        size={15}
-                                        color={colors.lightGray}
-                                        style={{ paddingTop: 70 }}
-                                    />
-                                    :
-                                    <>
-                                        {filePath.data.length === 1 ?
-                                            <Image
-                                                source={{
-                                                    uri: 'data:image/jpeg;base64,' + filePath.data,
-                                                }}
-                                                style={{ width: "100%", height: '100%' }}
-                                            />
-                                            :
-                                            <Icon
-                                                name="user"
-                                                size={15}
-                                                color={colors.lightGray}
-                                                style={{ paddingTop: 70 }}
-                                            />
-                                        }
-                                    </>
-                                }
-                            </TouchableOpacity> */}
-                            {/* <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
-                                {filePath.data.length === 0 ?
-                                    <Icon
-                                        name="plus"
-                                        size={15}
-                                        color={colors.lightGray}
-                                        style={{ paddingTop: 70 }}
-                                    />
-                                    :
-                                    <Image
-                                        source={{
-                                            uri: 'data:image/jpeg;base64,' + filePath.data,
-                                        }}
-                                        style={{ width: "100%", height: '100%' }}
-                                    />
-                                }
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
-                                {filePath.data.length === 0 ?
-                                    <Icon
-                                        name="plus"
-                                        size={15}
-                                        color={colors.lightGray}
-                                        style={{ paddingTop: 70 }}
-                                    />
-                                    :
-                                    <Image
-                                        source={{
-                                            uri: 'data:image/jpeg;base64,' + filePath.data,
-                                        }}
-                                        style={{ width: "100%", height: '100%' }}
-                                    />
-                                }
-                            </TouchableOpacity> */}
                             <TouchableOpacity style={styles.imageContainer} onPress={chooseFile}>
                                 {filePath.photo === null ?
                                     <Icon
@@ -209,6 +154,7 @@ export default function CheckoutScreen(props) {
                                 flexDirection: 'row'
                             }}
                         >
+
                             <Icon name="plus" size={15} color={colors.blue} />
                             <Text style={{
                                 fontFamily: fonts.primarySemiBold,
@@ -253,15 +199,12 @@ export default function CheckoutScreen(props) {
                             onChangeText={text => setModelCheck({ ...modelCheck, comment: text })}
                             value={modelCheck.comment}
                             style={{ backgroundColor: colors.white, height: 70, paddingLeft: 10, paddingRight: 10 }}
-                        // value={modelCheck.comment}
-                        // onChange={xx => setModelCheck({...modelCheck, comment : xx})}
                         />
                     </Card>
                 </View>
                 <View style={styles.button}>
                     <Button
                         title="OK"
-                        // onPress={() => onEditActivity(props.navigation.state.params)}
                         onPress={handleUploadPhoto}
                     />
                 </View>

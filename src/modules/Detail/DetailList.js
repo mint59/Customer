@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   },
   layoutIcon: {
     fontSize: 35,
-    color: "#7EBB0F",
+    color: '#F97CA5',
     paddingLeft: 10
   }
 });
