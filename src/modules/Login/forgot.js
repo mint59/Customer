@@ -38,42 +38,7 @@ export default function LoginScreen(props) {
           } catch (error) {
             console.log(error)
           }
-        // await hitsAPI.axios
-        //     .put(`/crud/task/${props.navigation.state.params.task_id}`, model)
-        //     .then(function (response) {
-
-        //         // alert(title = 'บันทึกงานเรียบร้อย')
-        //         // props.navigation.goBack()
-        //         console.log(modelCheck)
-        //     });
     }
-
-    // const handleSubmit = event => {
-    //     if (model.username !== "" && model.password !== "") {
-
-    //         event.preventDefault();
-    //         hitsAPI.axios
-    //             // .post("/signon/SignOn/authenticate", model)
-    //             .post("/auth/", model)
-    //             .then(function (response) {
-    //                 AsyncStorage.setItem('token', response.data.token)
-    //                 // Cookie.set("token", response.data.token);
-    //                 var decode = jwtDecode( response.data.token);
-    //                 console.log("decodejaa", decode)
-
-    //                 if(decode.la == null){
-    //                     console.log("First Time")
-    //                 }else {
-    //                     console.log("Two Time")
-    //                     // props.navigation.navigate({ routeName: 'Main' })
-    //                 }
-    //                 // localStorage.clear();
-    //             });
-    //     } else if (model.username === "" && model.password === ""){
-    //         alert( title='กรุณาใส่ Username และ Password ให้ถูกต้อง')
-    //     }
-
-    // };
 
     return (
         <View style={styles.container}>
@@ -89,12 +54,7 @@ export default function LoginScreen(props) {
                     />
                 </View>
                 <View style={styles.section}>
-                    {/* <Text>Username</Text>
-                    <TextInput
-                        onChangeText={username => setModel({ ...model, username: username })}
-                        name="username"
-                        value={model.username}
-                    /> */}
+
 
                     <Text>Password</Text>
                     <TextInput

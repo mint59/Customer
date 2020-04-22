@@ -27,7 +27,6 @@ export default function StoreScreen(props) {
   const hitsAPI = new HITSAPI();
   const [newSearch, setNewSearch] = useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
-  const [loading, setLoading] = useState(false);
   const [text, setText] = React.useState('');
   const [model, setModel] = useState({
     data: [],
@@ -35,7 +34,7 @@ export default function StoreScreen(props) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
+    wait(1000).then(() => setRefreshing(false));
     fetchModels();
   }, [refreshing]);
 
