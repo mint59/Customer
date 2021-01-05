@@ -16,7 +16,7 @@
     "e2e:test": "detox test --configuration ios.sim.debug"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "axios-extensions": "^3.1.1",
     "filepond-plugin-image-preview": "^4.6.1",
     "firebase": "^7.11.0",
